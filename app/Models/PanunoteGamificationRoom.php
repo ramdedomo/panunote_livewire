@@ -28,7 +28,7 @@ class PanunoteGamificationRoom extends Model
      * 
      * @var string
      */
-    protected $table = 'panunote_gamification_Room';
+    protected $table = 'panunote_gamification_room';
 
     /**
      * The primary key for the model.

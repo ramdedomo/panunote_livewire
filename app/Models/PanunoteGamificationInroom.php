@@ -18,7 +18,7 @@ class PanunoteGamificationInroom extends Model
      * 
      * @var string
      */
-    protected $table = 'panunote_gamification_Inroom';
+    protected $table = 'panunote_gamification_inroom';
 
     /**
      * @var array

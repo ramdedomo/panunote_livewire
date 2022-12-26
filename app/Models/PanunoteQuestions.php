@@ -18,7 +18,7 @@ class PanunoteQuestions extends Model
      * 
      * @var string
      */
-    protected $table = 'panunote_Questions';
+    protected $table = 'panunote_questions';
 
     /**
      * The primary key for the model.
