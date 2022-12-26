@@ -26,9 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        URL::forceScheme('https');
-
+        if(env('APP_ENV') !== 'local')
+        {
+            URL::forceScheme('https');
+        }
+        
         date_default_timezone_set('Asia/Manila');
         Paginator::useBootstrapFive();
         View::composer(['layouts.panunote_master'], 'App\Http\View\Composers\UserDetailsComposer');
