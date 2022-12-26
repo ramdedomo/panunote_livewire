@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $quiz_id
+ * @property integer $note_id
+ * @property integer $user_id
+ * @property boolean $quiz_sharing
+ * @property string $quiz_title
+ * @property string $updated_at
+ * @property string $created_at
+ * @property PanunoteGamificationRoom[] $panunoteGamificationRooms
+ * @property PanunoteQuestion[] $panunoteQuestions
+ * @property PanunoteQuizlike[] $panunoteQuizlikes
+ * @property PanunoteNote $panunoteNote
+ * @property PanunoteUser $panunoteUser
+ */
+class PanunoteQuizzes extends Model
+{
+    /**
+     * The primary key for the model.
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'quiz_id';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['note_id', 'user_id', 'quiz_sharing', 'quiz_title', 'updated_at', 'created_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function panunoteGamificationRooms()
+    {
+        return $this->hasMany('App\Models\PanunoteGamificationRoom', 'quiz_id', 'quiz_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function panunoteQuestions()
+    {
+        return $this->hasMany('App\Models\PanunoteQuestion', 'quiz_id', 'quiz_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function panunoteQuizlikes()
+    {
+        return $this->hasMany('App\Models\PanunoteQuizlike', 'quiz_id', 'quiz_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteNote()
+    {
+        return $this->belongsTo('App\Models\PanunoteNote', 'note_id', 'note_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteUser()
+    {
+        return $this->belongsTo('App\Models\PanunoteUser', 'user_id', 'user_id');
+    }
+}

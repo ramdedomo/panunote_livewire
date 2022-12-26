@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $quiz_id
+ * @property integer $user_id
+ * @property integer $quiz_visits_count
+ * @property string $created_at
+ * @property string $updated_at
+ * @property PanunoteUser $panunoteUser
+ * @property PanunoteQuiz $panunoteQuiz
+ */
+class PanunoteQuizVisits extends Model
+{
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'panunote_quizvisits';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['quiz_id', 'user_id', 'quiz_visits_count', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteUser()
+    {
+        return $this->belongsTo('App\Models\PanunoteUser', 'user_id', 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteQuiz()
+    {
+        return $this->belongsTo('App\Models\PanunoteQuiz', 'quiz_id', 'quiz_id');
+    }
+}

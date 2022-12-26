@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $subject_id
+ * @property integer $user_id
+ * @property string $subject_name
+ * @property boolean $subject_sharing
+ * @property PanunoteNote[] $panunoteNotes
+ * @property PanunoteUser[] $panunoteUsers
+ * @property PanunoteUser $panunoteUser
+ */
+class PanunoteSubjects extends Model
+{
+    /**
+     * The primary key for the model.
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'subject_id';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['user_id', 'subject_name', 'subject_sharing'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function panunoteNotes()
+    {
+        return $this->hasMany('App\Models\PanunoteNote', 'subject_id', 'subject_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function panunoteUsers()
+    {
+        return $this->belongsToMany('App\Models\PanunoteUser', 'panunote_subjectlikes', 'subject_id', 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteUser()
+    {
+        return $this->belongsTo('App\Models\PanunoteUser', 'user_id', 'user_id');
+    }
+
+}

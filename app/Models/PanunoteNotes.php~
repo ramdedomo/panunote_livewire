@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $note_id
+ * @property integer $subject_id
+ * @property integer $user_id
+ * @property string $note_content
+ * @property boolean $note_sharing
+ * @property string $note_tags
+ * @property string $note_title
+ * @property PanunoteUser[] $panunoteUsers
+ * @property PanunoteUser $panunoteUser
+ * @property PanunoteSubject $panunoteSubject
+ * @property PanunoteQuiz[] $panunoteQuizzes
+ */
+class PanunoteNotes extends Model
+{
+    /**
+     * The primary key for the model.
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'note_id';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['subject_id', 'user_id', 'note_content', 'note_sharing', 'note_tags', 'note_title'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function panunoteUsers()
+    {
+        return $this->belongsToMany('App\Models\PanunoteUser', 'panunote_notelikes', 'note_id', 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteUser()
+    {
+        return $this->belongsTo('App\Models\PanunoteUser', 'user_id', 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function panunoteSubject()
+    {
+        return $this->belongsTo('App\Models\PanunoteSubject', 'subject_id', 'subject_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function panunoteQuizzes()
+    {
+        return $this->hasMany('App\Models\PanunoteQuiz', 'note_id', 'note_id');
+    }
+
+}
