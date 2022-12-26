@@ -22,12 +22,14 @@ import Pusher from 'pusher-js';
  
 window.Pusher = Pusher;
  
+
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: '902a2df32c0d203c8da9',
     cluster: 'ap1',
     forceTLS: true
 });
+
 
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
