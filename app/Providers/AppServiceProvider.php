@@ -30,9 +30,9 @@ class AppServiceProvider extends ServiceProvider
         {
             URL::forceScheme('https');
         }
-        
+
         date_default_timezone_set('Asia/Manila');
         Paginator::useBootstrapFive();
-        View::composer(['layouts.panunote_master'], 'App\Http\View\Composers\UserDetailsComposer');
+        View::composer(['layouts.panunote_master'], 'App\Http\VIew\Composers\UserDetailsComposer');
     }
 }
