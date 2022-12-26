@@ -54,8 +54,8 @@ return [
     |
     */
 
-    //'asset_url' => '/panunote_livewire_mysql_websockets_deploy/public',
-    'asset_url' => null,
+    'asset_url' => '/panunote_livewire_mysql_websockets_deploy/public',
+    //'asset_url' => null,
 
     /*
     |--------------------------------------------------------------------------
