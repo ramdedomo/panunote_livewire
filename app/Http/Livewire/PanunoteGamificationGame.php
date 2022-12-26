@@ -95,7 +95,8 @@ class PanunoteGamificationGame extends Component
             PanunoteGamificationRoom::where('game_id', $this->game_id)->update(['status'=>'1', 'game_start'=>Carbon::now('Asia/Manila')->toTimeString(), 'game_ends'=>$start->addSeconds($timePeritem)->toTimeString()]);
             //$a = PanunoteGamificationRoom::where('game_id', '=', $this->game_id)->first();
               
-            event(new RoomStart($this->game_id));
+            event(new App\Events\RoomStart($this->game_id));
+
 
         }else{
             $this->dispatchBrowserEvent('error');
