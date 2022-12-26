@@ -179,6 +179,7 @@
 
             Echo.channel('roomstarted')
                 .listen('RoomStart', (e) => {
+                    alert('start');
                     if(@this.game_id == e.room_id){
                         window.Livewire.emit('roomstarted', e.room_id);
                     }
