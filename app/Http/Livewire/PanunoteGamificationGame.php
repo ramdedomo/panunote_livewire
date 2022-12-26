@@ -69,6 +69,7 @@ class PanunoteGamificationGame extends Component
     public function start(){
 
         if($this->isadmin){
+            event(new RoomStart($this->game_id));
 
             PanunoteGamificationInroom::where('game_id', $this->game_id)->update(['refreshToken' => 0]);
 
@@ -95,8 +96,6 @@ class PanunoteGamificationGame extends Component
             PanunoteGamificationRoom::where('game_id', $this->game_id)->update(['status'=>'1', 'game_start'=>Carbon::now('Asia/Manila')->toTimeString(), 'game_ends'=>$start->addSeconds($timePeritem)->toTimeString()]);
             //$a = PanunoteGamificationRoom::where('game_id', '=', $this->game_id)->first();
               
-            event(new App\Events\RoomStart($this->game_id));
-
 
         }else{
             $this->dispatchBrowserEvent('error');

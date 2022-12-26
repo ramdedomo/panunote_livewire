@@ -37,7 +37,7 @@ return [
             'app_id' => '1506156',
             'options' => [
                 'host' => 'api-ap1.pusher.com',
-                'port' => env('PUSHER_PORT', 443),
+                'port' => env('PUSHER_PORT', 6001),
                 'scheme' => env('PUSHER_SCHEME', 'https'),
                 'encrypted' => true,
                 'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
