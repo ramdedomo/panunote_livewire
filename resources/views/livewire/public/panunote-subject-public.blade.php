@@ -35,11 +35,12 @@
                 <div class="sizebox"></div>
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between">
-                        <div class="rounded p-1">
+                        <div class="rounded">
                             {{-- <a href="{{ url('subjects/') }}" class="btn py-1 text-light bg-primary"><i class="bi bi-journals"></i></a> --}}
 
                             {{-- <span class="mx-2">|</span> --}}
-                            {{-- <span class="mx-2">|</span> --}}
+                            <span class="fw-bold text-primary">{{$user_name}}</span> 
+                            <span class="mx-1">|</span>
                             <a href="{{ url('subjects/'.$subject_details->subject_id ) }}" class="btn py-1 px-2 text-light bg-primary">
                                 <span class="d-none d-md-block">{{ $subject_details->subject_name }}</span>
                                 <span class="d-block d-md-none"><i class="bi bi-journals"></i></span>
@@ -47,7 +48,7 @@
                             {{-- <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn py-1 px-2 bg-primary"><i class="text-light bi bi-plus-square"></i></button> --}}
                         </div>
 
-                        <div class="rounded p-1">
+                        <div class="rounded">
                             <span wire:loading>
                                 <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0" role="status" aria-hidden="true"></div>
                             </span>
@@ -60,22 +61,6 @@
                         <div>
                             <input disabled wire:model="subjectname" type="text" class="subjectcontroller form-control fs-1 mb-2 p-0 px-2 border-1">
                         </div>
-
-                        <div class="d-flex justify-content-between">
-                            
-                            <div>
-                                <span class="badge bg-primary"><i class="bi bi-tag-fill"></i></span>
-                                <span class="badge bg-primary">Programming</span>
-                                <span class="badge bg-primary">Math</span>
-                            </div>
-
-                            <span wire:loading wire:target="submit">
-                                <span id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0" role="status" aria-hidden="true">
-                            </span>
-
-                        </div>
-
-
                     </div>
                 </div>
             </div>

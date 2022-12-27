@@ -24,8 +24,9 @@ class PanunoteNotePublic extends Component
     public $subject_id;
     public $note_id;
     public $notevalues;
+    public $user_name;
     
-    public function mount($subject_id=null, $note_id=null)
+    public function mount($user_name=null,$subject_id=null, $note_id=null)
 	{
 		$this->subject_id = $subject_id;
         $this->note_id = $note_id;

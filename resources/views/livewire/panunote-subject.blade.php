@@ -368,6 +368,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div style="height: 200px"
                                 class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
+                                
                                 <div class="card-header border-bottom border-warning border-2">
                                     <div>
                                         <p class="p-0 m-0 fw-bold" id="title">

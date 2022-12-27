@@ -45,24 +45,20 @@
                                     @foreach ($likeSubjects as $subject)
                                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                                             <div class="card note-card rounded-3 border border-1 border-primary border-opacity-25">
-                                                <div
-                                                    class="card-header border-bottom border-primary border-2 d-flex justify-content-between">
+                                                <div class="card-header border-bottom border-primary border-2">
                                                     <div>
                                                         <p class="p-0 m-0 fw-bold" id="title">
-                                                            {{-- @if (session('USER_ID') == $subject->subject_content[0]->user_id)
-                                                            <span class="fw-bold text-primary">
-                                                                **
-                                                            </span>
-                                                        @endif --}}
-                                                            {{ $subject->subject_content[0]->subject_name }}
+                                                            {{ substr($subject->subject_content[0]->subject_name, 0, 25) }}
                                                         </p>
                                                     </div>
                                                     <div>
                                                         <p class="p-0 m-0" id="title">
-                                                            {{ $subject->subject_content[0]->updated_at->format('m/d/Y') }}
+                                                            {{ date_format($subject->subject_content[0]->updated_at, 'm/d h:i A') }}
                                                         </p>
                                                     </div>
                                                 </div>
+
+                                      
 
                                                 <div class="card-body">
                                                     @php
@@ -129,16 +125,16 @@
                                     @foreach ($likeNotes as $note)
                                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                                             <div class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
-                                                <div
-                                                    class="card-header border-bottom border-warning border-2 d-flex justify-content-between">
+                                                
+                                                <div class="card-header border-bottom border-warning border-2">
                                                     <div>
                                                         <p class="p-0 m-0 fw-bold" id="title">
-                                                            {{ $note->note_content[0]->note_title }}
+                                                            {{ substr($note->note_content[0]->note_title , 0, 25) }}
                                                         </p>
                                                     </div>
                                                     <div>
                                                         <p class="p-0 m-0" id="title">
-                                                            {{ $note->note_content[0]->updated_at->format('m/d/Y') }}
+                                                            {{ date_format($note->note_content[0]->updated_at, 'm/d h:i A') }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -192,18 +188,19 @@
                                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                                             <div class="card note-card rounded-3 border border-1 border-info border-opacity-25">
                                                 <div
-                                                    class="card-header border-bottom border-info border-2 d-flex justify-content-between">
+                                                    class="card-header border-bottom border-info border-2">
                                                     <div>
                                                         <p class="p-0 m-0 fw-bold" id="title">
-                                                            {{ $quiz->quiz_content[0]->quiz_title }}
+                                                            {{ substr($quiz->quiz_content[0]->quiz_title, 0, 25) }}
                                                         </p>
                                                     </div>
                                                     <div>
                                                         <p class="p-0 m-0" id="title">
-                                                            {{ $quiz->quiz_content[0]->updated_at->format('m/d/Y') }}
+                                                            {{ date_format($quiz->quiz_content[0]->updated_at, 'm/d h:i A') }}
                                                         </p>
                                                     </div>
                                                 </div>
+
 
                                                
                                                     <div class="card-body">

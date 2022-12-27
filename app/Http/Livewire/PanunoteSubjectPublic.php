@@ -19,9 +19,11 @@ use URL;
 class PanunoteSubjectPublic extends Component
 {
     public $subject_id;
+    public $user_name;
 
-    public function mount($subject_id=null){
+    public function mount($user_name=null, $subject_id=null){
         $this->subject_id = $subject_id;
+        $this->user_name = $user_name;
 
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
 

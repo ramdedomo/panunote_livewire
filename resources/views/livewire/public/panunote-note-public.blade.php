@@ -9,25 +9,35 @@
             </div>
             <div class="modal-body">
 
-             
-                    @foreach ($generated_quizzes as $quiz)
-                    <div class="card quiz-picker p-2 rounded mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            
-                            <div>
-                                 <strong>Take -</strong> {{$quiz->quiz_title}}
-                            </div>
+                          
+                @if($generated_quizzes->isEmpty())
 
-
-                            <div>
-                                <strong>{{$quiz->items}}</strong> items
-                                <a target="_blank" href="{{route('takequiz', ['quiz_id'=>$quiz->quiz_id])}}" class="stretched-link"></a>
-                            </div>
-                     
-                      
-                        </div>
+                <div class="card p-2 bg-semi-dark rounded mb-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        No Available Quizzes
                     </div>
-                    @endforeach
+                </div>
+                @else
+                @foreach ($generated_quizzes as $quiz)
+                <div class="card quiz-picker p-2 rounded mb-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        
+                        <div>
+                             <strong>Take -</strong> {{$quiz->quiz_title}}
+                        </div>
+
+
+                        <div>
+                            <strong>{{$quiz->items}}</strong> items
+                            <a target="_blank" href="{{route('takequiz', ['quiz_id'=>$quiz->quiz_id])}}" class="stretched-link"></a>
+                        </div>
+                 
+                  
+                    </div>
+                </div>
+                @endforeach
+                @endif
+      
        
 
                 
@@ -74,10 +84,11 @@
                 <div class="sizebox"></div>
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between">
-                        <div class="rounded p-1">
+                        <div class="rounded">
                             {{-- <a href="{{ url('subjects/') }}" class="btn py-1 text-light bg-primary"><i class="bi bi-journals"></i></a> --}}
 
-                            {{-- <span class="">|</span> --}}
+                            <span class="fw-bold text-primary">{{$user_name}}</span> 
+                            <span class="mx-1">|</span>
                             <a href="{{ url('subjects/'.$subject_details->subject_id ) }}" class="btn py-1 px-2 text-light bg-primary">
                                 <span class="d-none d-md-block">{{ $subject_details->subject_name }}</span>
                                 <span class="d-block d-md-none"><i class="bi bi-journals"></i></span>
@@ -90,7 +101,7 @@
                             {{-- <span class="mx-2">|</span> --}}
                         </div>
 
-                        <div class="rounded p-1">
+                        <div class="rounded">
                             <span wire:loading>
                                 <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0" role="status" aria-hidden="true"></div>
                             </span>

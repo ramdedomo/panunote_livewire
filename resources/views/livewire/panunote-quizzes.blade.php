@@ -206,16 +206,20 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                         <div class="card note-card rounded-3 border border-1 border-info border-opacity-25">
                             <div
-                                class="card-header border-bottom border-info border-2 d-flex justify-content-between">
+                                class="card-header border-bottom border-info border-2">
                                 <div>
                                     <p class="p-0 m-0 fw-bold" id="title">
-                                        {{ $quiz->quiz_title }}
+                                        {{ substr($quiz->quiz_title, 0, 25) }}
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="p-0 m-0" id="title">8/18/2022</p>
+                                    <p class="p-0 m-0" id="title">
+                                        {{ date_format($quiz->updated_at, 'm/d h:i A') }}
+                                    </p>
                                 </div>
                             </div>
+
+                            
 
                             <div class="card-body">
                                 <span class="fw-bold">{{ $quiz->quiz_count }} Items</span>
