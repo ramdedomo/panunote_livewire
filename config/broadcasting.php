@@ -36,7 +36,8 @@ return [
             'secret' => '596698748eab2f5e8e8c',
             'app_id' => '1506156',
             'options' => [
-                'host' => 'sockjs-ap1.pusher.com',
+                'cluster' => 'ap1',
+                'host' => 'api-ap1.pusher.com',
                 'port' => env('PUSHER_PORT', 443),
                 'scheme' => env('PUSHER_SCHEME', 'https'),
                 'encrypted' => true,
