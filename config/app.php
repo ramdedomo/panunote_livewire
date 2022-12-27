@@ -70,7 +70,7 @@ return [
     */
 
     //'timezone' => 'UTC',
-    'timezone' => 'Asia/Manila',
+    'timezone' => 'Asia/Singapore',
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
