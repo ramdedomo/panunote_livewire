@@ -5,7 +5,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Are you sure to Delete
-                        <strong>{{ $subject_details->subject_name }} (Subject) </strong>?</h5>
+                        <strong>{{ $subject_details->subject_name }} (Subject) </strong>?
+                    </h5>
                     <a type="button" class="btn-link" data-bs-dismiss="modal" aria-label="Close">Close</a>
                 </div>
                 <div class="modal-body">
@@ -37,39 +38,45 @@
                         <div>
                             <hr class="m-0">
                         </div>
-                        
+
                         <div class="text-center my-2">
-                            @if($errors->any())
-                            <span>{{$errors->first()}}</h4>
+                            @if ($errors->any())
+                                <span>{{ $errors->first() }}</h4>
                             @endif
                         </div>
 
                         @if (!$notes->isEmpty())
-                            <div x-data="{ not: false, create: true, transfer: false }" >
+                            <div x-data="{ not: false, create: true, transfer: false }">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         Preserve Notes
                                     </div>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input wire:model="preservenote" @click="create = false, transfer = false, not = true" class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            <input wire:model="preservenote"
+                                                @click="create = false, transfer = false, not = true"
+                                                class="form-check-input" type="radio" name="inlineRadioOptions"
                                                 id="inlineRadio1" value="option">
                                             <label class="form-check-label" for="inlineRadio1">Delete</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input wire:model="preservenote"  @click="create = true, transfer = false, not = false" class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            <input wire:model="preservenote"
+                                                @click="create = true, transfer = false, not = false"
+                                                class="form-check-input" type="radio" name="inlineRadioOptions"
                                                 id="inlineRadio1" value="option1">
                                             <label class="form-check-label" for="inlineRadio1">Create</label>
                                         </div>
 
-                                
 
-                                        @if(!$allsubs->isEmpty())
-                                        <div class="form-check form-check-inline">
-                                            <input wire:model="preservenote" @click="create = false, transfer = true, not = false" class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                id="inlineRadio2" value="option2">
-                                            <label class="form-check-label" for="inlineRadio2">Transfer</label>
-                                        </div>
+
+                                        @if (!$allsubs->isEmpty())
+                                            <div class="form-check form-check-inline">
+                                                <input wire:model="preservenote"
+                                                    @click="create = false, transfer = true, not = false"
+                                                    class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                    id="inlineRadio2" value="option2">
+                                                <label class="form-check-label" for="inlineRadio2">Transfer</label>
+                                            </div>
                                         @endif
 
                                     </div>
@@ -78,19 +85,21 @@
 
                                 <div x-show="create" class="input-group mt-2">
                                     <span class="input-group-text" id="basic-addon1">Subject Name</span>
-                                    <input  wire:model="newsubject" type="text" class="form-control" aria-describedby="basic-addon1">
+                                    <input wire:model="newsubject" type="text" class="form-control"
+                                        aria-describedby="basic-addon1">
                                 </div>
 
-                                @if(!$allsubs->isEmpty())
-                                <div x-show="transfer" class="mt-2">
-                                    <select wire:model="selectsubject" class="form-select" aria-label="Default select example">
-                                        @foreach ($allsubs as $sub)
-                                        <option value="{{$sub->subject_id}}">{{$sub->subject_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                @if (!$allsubs->isEmpty())
+                                    <div x-show="transfer" class="mt-2">
+                                        <select wire:model="selectsubject" class="form-select"
+                                            aria-label="Default select example">
+                                            @foreach ($allsubs as $sub)
+                                                <option value="{{ $sub->subject_id }}">{{ $sub->subject_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 @endif
-                 
+
                             </div>
                         @endif
 
@@ -101,8 +110,7 @@
                 <div class="modal-footer">
                     <button data-bs-dismiss="modal" aria-label="Close" type="button"
                         class="btn bg-secondary text-light">Cancel</button>
-                    <button wire:click="delete" type="button"
-                        class="btn bg-warning text-light">Delete</button>
+                    <button wire:click="delete" type="button" class="btn bg-warning text-light">Delete</button>
                 </div>
             </div>
         </div>
@@ -262,13 +270,13 @@
                             <span>|</span>
                             {{-- <span class="mx-2">|</span> --}}
                             <a href="{{ url('subjects/' . $subject_details->subject_id) }}"
-                                class="btn py-1 px-2 text-light bg-primary">
+                                class="btn py-1 px-2 text-light bg-primary disabled">
                                 <span class="d-none d-md-block">{{ $subject_details->subject_name }}</span>
                                 <span class="d-block d-md-none"><i class="bi bi-journals"></i></span>
                             </a>
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                 class="btn py-1 px-2 bg-primary"><i
-                                    class="text-light bi bi-plus-square"></i>&nbsp;<span class="text-light">New
+                                    class="text-light bi bi-plus-square"></i>&nbsp;<span class="text-light"> Create
                                     Note</span></button>
                         </div>
 
@@ -303,12 +311,11 @@
 
                     <div class="mt-3">
                         <div class="d-flex justify-content-between">
-                            <div
-                                class="py-1 rounded-3 d-flex align-items-center justify-content-center">
-                                
+                            <div class="py-1 rounded-3 d-flex align-items-center justify-content-center">
+
                                 <span class="badge bg-warning">{{ count($notes) }} Notes</span>
-                                
-        
+
+
                             </div>
 
                             <div class="d-flex" wire:ignore>
@@ -338,30 +345,48 @@
 
 
             <div id="notecontainer" class="row mt-2 p-3">
-                @foreach ($notes as $note)
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                        <div style="height: 200px" class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
-                            <div class="card-header border-bottom border-warning border-2">
-                                <div>
-                                    <p class="p-0 m-0 fw-bold" id="title">{{substr($note->note_title, 0, 25)}}
+
+                @if ($notes->isEmpty())
+
+                    <div class="p-3 text-center">
+                        <div
+                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                            <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Notes, Click <strong>Create
+                                Note</strong> Above
+                        </div>
+
+                    </div>
+                @else
+                    @foreach ($notes as $note)
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <div style="height: 200px"
+                                class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
+                                <div class="card-header border-bottom border-warning border-2">
+                                    <div>
+                                        <p class="p-0 m-0 fw-bold" id="title">
+                                            {{ substr($note->note_title, 0, 25) }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="p-0 m-0" id="title">
+                                            {{ date_format($note->updated_at, 'm/d h:i A') }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="p-0 m-0" id="description">
+                                        {{ substr(str_replace('&nbsp;', ' ', Strip_tags($note->note_content)), 0, 100) . ' ...' }}
                                     </p>
                                 </div>
-                                <div>
-                                    <p class="p-0 m-0" id="title">{{date_format($note->updated_at,"m/d h:i A")}}</p>
-                                </div>
-                            </div>
 
-                            <div class="card-body">
-                                <p class="p-0 m-0" id="description">
-                                    {{ substr(str_replace('&nbsp;', ' ', Strip_tags($note->note_content)), 0, 100) . ' ...' }}
-                                </p>
+                                <a href="{{ $subject_details->subject_id }}/{{ $note->note_id }}"
+                                    class="stretched-link"></a>
                             </div>
-
-                            <a href="{{ $subject_details->subject_id }}/{{ $note->note_id }}"
-                                class="stretched-link"></a>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
+
+
 
                 <script>
                     $(".subjectcontroller").change(function() {

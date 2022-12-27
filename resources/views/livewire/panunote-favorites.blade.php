@@ -106,6 +106,15 @@
 
                                         </div>
                                     @endforeach
+
+                                @else
+                                <div class="p-3 text-center">
+                                    <div
+                                        class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                                        <i class="bi bi-info-circle-fill"></i> &nbsp; No Favorite Subjects
+                                    </div>
+
+                                </div>
                                 @endif
 
                             </div>
@@ -159,7 +168,15 @@
 
                                         </div>
                                     @endforeach
-                                @endif
+                                    @else
+                                    <div class="p-3 text-center">
+                                        <div
+                                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                                            <i class="bi bi-info-circle-fill"></i> &nbsp; No Favorite Notes
+                                        </div>
+    
+                                    </div>
+                                    @endif
                             </div>
 
 
@@ -216,6 +233,14 @@
 
                                         </div>
                                     @endforeach
+                                    @else
+                                    <div class="p-3 text-center">
+                                        <div
+                                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                                            <i class="bi bi-info-circle-fill"></i> &nbsp; No Favorite Quizzes
+                                        </div>
+    
+                                    </div>
                                 @endif
                             </div>
                         </div>

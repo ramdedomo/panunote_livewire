@@ -182,7 +182,18 @@
 
             <div id="quizcontainer" class="row p-3">
 
-                @foreach ($quizzes as $quiz)
+                @if ($quizzes->isEmpty())
+
+                <div class="p-3 text-center">
+                    <div
+                        class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                        <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Quiz, Click <strong>Create
+                            Quiz</strong> Above
+                    </div>
+
+                </div>
+            @else
+            @foreach ($quizzes as $quiz)
                     <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                         <div class="card note-card rounded-3 border border-1 border-info border-opacity-25">
                             <div
@@ -205,6 +216,9 @@
                         </div>
                     </div>
                 @endforeach
+            @endif
+
+    
 
             </div>
 

@@ -39,50 +39,65 @@
                             aria-labelledby="subjects-tab" tabindex="0">
 
                             <div class="row">
-                                @foreach ($sharedSubjects as $subject)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                        <div class="card note-card rounded-3 border border-1 border-primary border-opacity-25">
-                                            <div
-                                                class="card-header border-bottom border-primary border-2 d-flex justify-content-between">
-                                                <div>
-                                                    <p class="p-0 m-0 fw-bold" id="title">
-                                                        {{ $subject->subject_name }}
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="p-0 m-0" id="title">
-                                                        {{ $subject->updated_at->format('m/d/Y') }}</p>
-                                                </div>
-                                            </div>
 
+                                @if ($sharedSubjects->isEmpty())
 
-                                            <div class="card-body">
-                                                @php
-                                                    $count = 0;
-                                                @endphp
-                                                @foreach ($subject->notes as $notes)
-                                                    @if ($count++ == 2)
-                                                        @if ($count == count($subject->notes))
-                                                            <span
-                                                                class="badge text-bg-primary">{{ $count - 2 }}+</span>
-                                                        @endif
-                                                    @else
-                                                        <span
-                                                            class="badge text-bg-primary">{{ $notes->note_title }}</span>
-                                                    @endif
-                                                @endforeach
-
-                                                @if (count($subject->notes) == 0)
-                                                    <span class="badge text-secondary w-100">Empty</span>
-                                                @endif
-                                            </div>
-
-
-                                            <a href="{{ url('subjects/' . $subject->subject_id) }}"
-                                                class="stretched-link"></a>
+                                    <div class="p-3 text-center">
+                                        <div
+                                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                                            <i class="bi bi-info-circle-fill"></i> &nbsp; No Shared Subjects
                                         </div>
+
                                     </div>
-                                @endforeach
+                                @else
+                                    @foreach ($sharedSubjects as $subject)
+                                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                            <div
+                                                class="card note-card rounded-3 border border-1 border-primary border-opacity-25">
+                                                <div
+                                                    class="card-header border-bottom border-primary border-2 d-flex justify-content-between">
+                                                    <div>
+                                                        <p class="p-0 m-0 fw-bold" id="title">
+                                                            {{ $subject->subject_name }}
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="p-0 m-0" id="title">
+                                                            {{ $subject->updated_at->format('m/d/Y') }}</p>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card-body">
+                                                    @php
+                                                        $count = 0;
+                                                    @endphp
+                                                    @foreach ($subject->notes as $notes)
+                                                        @if ($count++ == 2)
+                                                            @if ($count == count($subject->notes))
+                                                                <span
+                                                                    class="badge text-bg-primary">{{ $count - 2 }}+</span>
+                                                            @endif
+                                                        @else
+                                                            <span
+                                                                class="badge text-bg-primary">{{ $notes->note_title }}</span>
+                                                        @endif
+                                                    @endforeach
+
+                                                    @if (count($subject->notes) == 0)
+                                                        <span class="badge text-secondary w-100">Empty</span>
+                                                    @endif
+                                                </div>
+
+
+                                                <a href="{{ url('subjects/' . $subject->subject_id) }}"
+                                                    class="stretched-link"></a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+
+
                             </div>
 
                         </div>
@@ -91,32 +106,46 @@
                             tabindex="0">
 
                             <div class="row">
-                                @foreach ($sharedNotes as $note)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                        <div class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
-                                            <div
-                                                class="card-header border-bottom border-warning border-2 d-flex justify-content-between">
-                                                <div>
-                                                    <p class="p-0 m-0 fw-bold" id="title">
-                                                        {{ $note->note_title }}
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="p-0 m-0" id="title">
-                                                        {{ $note->updated_at->format('m/d/Y') }}</p>
-                                                </div>
-                                            </div>
+                                @if ($sharedNotes->isEmpty())
 
+                                <div class="p-3 text-center">
+                                    <div
+                                        class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                                        <i class="bi bi-info-circle-fill"></i> &nbsp; No Shared Notes
+                                    </div>
 
-                                            <div class="card-body">
-                                                {{ substr(str_replace('&nbsp;', ' ', Strip_tags($note->note_content)), 0, 100) . '...' }}
-                                            </div>
-
-                                            <a href="subjects/{{ $note->subject_id }}/{{ $note->note_id }}"
-                                                class="stretched-link"></a>
+                                </div>
+                            @else
+                            @foreach ($sharedNotes as $note)
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <div
+                                    class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
+                                    <div
+                                        class="card-header border-bottom border-warning border-2 d-flex justify-content-between">
+                                        <div>
+                                            <p class="p-0 m-0 fw-bold" id="title">
+                                                {{ $note->note_title }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="p-0 m-0" id="title">
+                                                {{ $note->updated_at->format('m/d/Y') }}</p>
                                         </div>
                                     </div>
-                                @endforeach
+
+
+                                    <div class="card-body">
+                                        {{ substr(str_replace('&nbsp;', ' ', Strip_tags($note->note_content)), 0, 100) . '...' }}
+                                    </div>
+
+                                    <a href="subjects/{{ $note->subject_id }}/{{ $note->note_id }}"
+                                        class="stretched-link"></a>
+                                </div>
+                            </div>
+                        @endforeach
+                            @endif
+
+                        
                             </div>
 
                         </div>
@@ -125,33 +154,45 @@
                             tabindex="0">
 
                             <div class="row">
-                          
-                                @foreach ($sharedQuizzes as $quiz)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                        <div class="card note-card rounded-3 border border-1 border-info border-opacity-25">
-                                            <div
-                                                class="card-header border-bottom border-info border-2 d-flex justify-content-between">
-                                                <div>
-                                                    <p class="p-0 m-0 fw-bold" id="title">
-                                                        {{ $quiz->quiz_title }}
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="p-0 m-0" id="title">
-                                                        {{ $quiz->updated_at->format('m/d/Y') }}</p>
-                                                </div>
-                                            </div>
+                                @if ($sharedQuizzes->isEmpty())
 
+                                <div class="p-3 text-center">
+                                    <div
+                                        class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                                        <i class="bi bi-info-circle-fill"></i> &nbsp; No Shared Quizzes
+                                    </div>
 
-                                            <div class="card-body">
-                                                <span class="fw-bold">{{ $quiz->quiz_count }} Items</span>
-                                            </div>
-
-                                              
-                                            <a href="{{ url('quizzes/'.$quiz->quiz_id) }}" class="stretched-link"></a>
+                                </div>
+                            @else
+                            @foreach ($sharedQuizzes as $quiz)
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <div
+                                    class="card note-card rounded-3 border border-1 border-info border-opacity-25">
+                                    <div
+                                        class="card-header border-bottom border-info border-2 d-flex justify-content-between">
+                                        <div>
+                                            <p class="p-0 m-0 fw-bold" id="title">
+                                                {{ $quiz->quiz_title }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="p-0 m-0" id="title">
+                                                {{ $quiz->updated_at->format('m/d/Y') }}</p>
                                         </div>
                                     </div>
-                                @endforeach
+
+
+                                    <div class="card-body">
+                                        <span class="fw-bold">{{ $quiz->quiz_count }} Items</span>
+                                    </div>
+
+
+                                    <a href="{{ url('quizzes/' . $quiz->quiz_id) }}" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        @endforeach
+                            @endif
+                   
                             </div>
 
                         </div>
