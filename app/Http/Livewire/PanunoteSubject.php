@@ -141,6 +141,8 @@ class PanunoteSubject extends Component
             $this->dispatchBrowserEvent('error');
         }
 
+        return redirect('/subjects');
+
     }
 
 	public function mount($subject_id=null)
