@@ -111,7 +111,9 @@ class PanunoteGamificationCreate extends Component
         
         //get all quizzess
         $this->quiz_list = DB::table('panunote_quizzes')
-        ->get()->toArray();
+        ->where('user_id', session('USER_ID'))
+        ->get()
+        ->toArray();
 
         $count = 0;
         foreach($this->quiz_list as $list){
@@ -122,9 +124,7 @@ class PanunoteGamificationCreate extends Component
         }
         
 
-
         if(!empty($this->quiz_list)){
-
             $this->quizSelect = $this->quiz_list[0]->quiz_id;
         }
 
@@ -191,10 +191,6 @@ class PanunoteGamificationCreate extends Component
 
     public function render()
     {
-        //get all quizzess
-        $this->quiz_list = DB::table('panunote_quizzes')
-        ->get()->toArray();
-
         $count = 0;
         foreach($this->quiz_list as $list){
             if(!PanunoteQuestions::where('quiz_id', $list->quiz_id)->exists()){

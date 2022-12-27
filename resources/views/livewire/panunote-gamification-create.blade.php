@@ -67,15 +67,21 @@
                                             </div>
                                         </div>
 
+
                                         <div class="col-3">
                                             Quiz:
-                                            <select wire:model="quizSelect" class="form-select"
-                                                aria-label="Default select example">
-                                                @foreach ($quiz_list as $quiz)
-                                                    <option value="{{ $quiz->quiz_id }}">{{ $quiz->quiz_title }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            @if (!empty($quiz_list))
+                                                <select wire:model="quizSelect" class="form-select"
+                                                    aria-label="Default select example">
+                                                    @foreach ($quiz_list as $quiz)
+                                                        <option value="{{ $quiz->quiz_id }}">{{ $quiz->quiz_title }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                <input type="text" disabled class="form-control" value="No Available Quizzes">
+                                            @endif
+
                                         </div>
 
                                         <div class="col-3">
@@ -137,5 +143,5 @@
         </div>
     </main>
 
- 
+
 </div>

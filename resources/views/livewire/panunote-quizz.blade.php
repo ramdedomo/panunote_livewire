@@ -135,7 +135,7 @@
 
     <main class="" >
         <div class="">
-            <div class="bg-white p-0 m-0">
+            <div class="bg-white p-0 m-0 border-bottom border-2 border-primary">
                 <div class="sizebox"></div>
 
                 {{-- <div class="toast-container position-fixed end-0 p-3">
@@ -170,7 +170,7 @@
 
                             <span>|</span>
                             {{-- <span class="mx-2">|</span> --}}
-                            <a href="" class="btn py-1 px-2 text-light bg-primary">
+                            <a href="" class="disabled btn py-1 px-2 text-light bg-primary">
                                 <span class="d-none d-md-block">{{ $quiz_details->quiz_title }}</span>
                                 <span class="d-block d-md-none"><i class="bi bi-journals"></i></span>
                             </a>
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
 
                 <div class="p-2">
 
@@ -497,7 +497,7 @@
                         <div><button wire:click="create" class="btn rounded btn-primary px-2"><i class="bi bi-plus-circle"></i> Question</button></div>
                     </div>
                 </div>
-            </div>
+         
 
             <script>
                 document.addEventListener('livewire:load', function () {

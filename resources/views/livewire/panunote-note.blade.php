@@ -260,7 +260,7 @@
     <main class="">
         <div class="">
             {{-- <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1> --}}
-            <div class="sticky-top bg-white p-0 m-0">
+            <div class="sticky-top bg-white p-0 m-0 border-bottom border-2 border-primary">
                 <div class="sizebox"></div>
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between">

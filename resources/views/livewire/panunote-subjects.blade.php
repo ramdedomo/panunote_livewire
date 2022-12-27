@@ -52,12 +52,16 @@
     <main class="">
         <div class="">
             {{-- <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1> --}}
-            <div class="bg-white p-0 m-0">
+            <div class="bg-white p-0 m-0 border-bottom border-2 border-primary">
                 <div class="sizebox"></div>
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between mb-2">
 
                         <div>
+                            <a href="{{ url('subjects/') }}" class="disabled btn py-1 text-light bg-primary"><i
+                                class="bi bi-journals"></i> Subjects</a>
+
+                        <span>|</span>
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                 class="btn text-light bg-primary">
 

@@ -288,13 +288,23 @@
 
             </div>
 
-            <div class="p-4">
-                <div class="justify-content-center align-items-center d-flex rounded-3 mb-3"
-                style="background-size: cover; height: 100px; background-image: url({{ asset('img/logos/panugame_banner1.png') }})">
-                <span class="fs-2 fw-bold text-light">
-                    <i class="bi bi-gear"></i>&nbsp; Profile Settings
-                </span>
+            <div class="px-3 my-3">
+                <div class="justify-content-center align-items-center d-flex rounded-3 bg-semi-dark p-3 border border-1 border-primary">
+                    <span class="text-primary px-2 fs-4 fw-bold d-flex justify-content-between w-100">
+                        <div>
+                            <i class="bi bi-gear-fill"></i> 
+                        </div>
+                        <div>
+                            Profile Settings
+                        </div>
+                  
+                    </span>
+                </div>
             </div>
+
+
+
+            <div class="p-4">
                 <div class="row">
 
                     <div class="col-sm-12 col-md-3 mb-3 px-2">
