@@ -66,7 +66,7 @@
     <div class="wrapper">
         <x-panunote_sidebar />
         <div class="main">
-            <x-panunote_topbar username="{{ $name }}" />
+            <x-panunote_topbar image="{{ $name->user_photo }}" username="{{ $name->user_fname . ' ' . $name->user_lname }}" />
             {{-- @yield('content') use this if you don't use livewire --}}
             {{ $slot }}
             {{-- <x-panunote_footer/> --}}
@@ -99,6 +99,13 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <script>
+
+        window.addEventListener('emptyanswer', event => {
+            $(".content-toast").text('No Answers Found. To Generate Question highlight possible answer in the note below.');
+            const toast = new bootstrap.Toast($('#liveToast'));
+            toast.show();
+        });
+
         window.addEventListener('modified', event => {
             $(".content-toast").text('Personal Info Updated!');
             const toast = new bootstrap.Toast($('#liveToast'));

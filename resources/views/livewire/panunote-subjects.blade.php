@@ -68,7 +68,7 @@
                                 </span>
 
                                 <span class="d-none d-lg-block">
-                                    Create Subject
+                                    <i class="bi bi-plus-square"></i>&nbsp; Create Subject
                                 </span>
 
                                 <span class="d-block d-lg-none">

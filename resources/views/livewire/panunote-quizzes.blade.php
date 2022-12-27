@@ -151,7 +151,15 @@
                                         class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
                                         role="status" aria-hidden="true">
                                     </span>
-                                </span> Create Quiz
+                                </span>
+
+                                <span class="d-none d-lg-block text-light">
+                                    <i class="bi bi-plus-square"></i>&nbsp; Create Quiz
+                                </span>
+
+                                <span class="d-block d-lg-none text-light">
+                                    <i class="bi bi-plus-square"></i>
+                                </span>
 
                             </button>
                         </div>
@@ -187,6 +195,7 @@
                 <div class="p-3 text-center">
                     <div
                         class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                        
                         <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Quiz, Click <strong>Create
                             Quiz</strong> Above
                     </div>

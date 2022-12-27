@@ -282,23 +282,16 @@
                     }
                 </style>
 
-                <div class="p-3 m-0">
-                    <div class="d-flex justify-content-between">
-                        <div class="rounded">
-                            <div class="py-1 px-2 fs-4 fw-bold">
-                                Profile Settings
-                            </div>
-                        </div>
-
-                        <div>
-
-                        </div>
-                    </div>
-                </div>
 
             </div>
 
             <div class="p-4">
+                <div class="justify-content-center align-items-center d-flex rounded-3 mb-3"
+                style="background-size: cover; height: 100px; background-image: url({{ asset('img/logos/panugame_banner1.png') }})">
+                <span class="fs-2 fw-bold text-light">
+                    <i class="bi bi-gear"></i>&nbsp; Profile Settings
+                </span>
+            </div>
                 <div class="row">
 
                     <div class="col-sm-12 col-md-3 mb-3 px-2">

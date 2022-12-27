@@ -8,15 +8,17 @@ class panunote_topbar extends Component
 {
 
     public $username;
+    public $image;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($username)
+    public function __construct($username,$image)
     {
         //
         $this->username = $username;
+        $this->image = $image;
     }
 
     /**

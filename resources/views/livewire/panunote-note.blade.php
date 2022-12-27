@@ -73,21 +73,31 @@
             <div class="modal-body">
 
              
-                    @foreach ($generated_quizzes as $quiz)
-                    <div class="card quiz-picker p-2 rounded mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                 <strong>Take -</strong> {{$quiz->quiz_title}}
-                            </div>
+                @if($generated_quizzes->isEmpty())
+
+                <div class="card p-2 bg-semi-dark rounded mb-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        No Available Quizzes
+                    </div>
+                </div>
+                @else
+                @foreach ($generated_quizzes as $quiz)
+                <div class="card quiz-picker p-2 rounded mb-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                             <strong>Take -</strong> {{$quiz->quiz_title}}
+                        </div>
 
 
-                            <div>
-                                <strong>{{$quiz->items}}</strong> items
-                                <a target="_blank" href="{{route('takequiz', ['quiz_id'=>$quiz->quiz_id])}}" class="stretched-link"></a>
-                            </div>
+                        <div>
+                            <strong>{{$quiz->items}}</strong> items
+                            <a target="_blank" href="{{route('takequiz', ['quiz_id'=>$quiz->quiz_id])}}" class="stretched-link"></a>
                         </div>
                     </div>
-                    @endforeach
+                </div>
+                @endforeach
+                @endif
+     
        
 
                 
@@ -279,10 +289,11 @@
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop_generated" class="btn py-1 px-2 mx-1 bg-primary"><i class="text-light bi bi-card-checklist"></i></button>
                             @endif
                             
-                            <button wire:click="generate" class="btn py-1 bg-primary text-light">
+                            <button wire:click="generate" class="btn py-1 bg-primary text-light tooltip-container">
                                 <span class="d-none d-md-block"><i class="bi bi-gear-fill"></i> Generate Questions</span><span class="d-block d-md-none">
                                     <i class="bi bi-lightbulb"></i>
                                 </span>
+                                <span style="right: -10px" class="tooltip">To Generate Question highlight possible answer in the note below. <br><br>Follow this Steps: <br> <strong>Highlight</strong>  -> <strong>Save</strong> -> <strong>Generate</strong></span>
                             </button>
                             
                             <span class="">|</span>

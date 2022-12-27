@@ -161,8 +161,18 @@
                 </a>
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block " href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('img/avatars/default_dp.jpg') }}"
-                        class="border border-2 border-primary avatar img-fluid rounded-5 me-1" alt="" />
+                    
+
+                    <img 
+                    @if(is_null($image) || empty($image))
+                    src="{{ asset('img/avatars/default_dp.jpg') }}"
+                    @else
+                        src="data:image/png;base64,{{$image}}"
+                    @endif
+                    class="avatar img-fluid rounded-5 me-1"
+                    alt="" 
+                    />
+
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end">

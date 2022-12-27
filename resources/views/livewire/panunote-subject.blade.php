@@ -274,10 +274,17 @@
                                 <span class="d-none d-md-block">{{ $subject_details->subject_name }}</span>
                                 <span class="d-block d-md-none"><i class="bi bi-journals"></i></span>
                             </a>
-                            <button data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                class="btn py-1 px-2 bg-primary"><i
-                                    class="text-light bi bi-plus-square"></i>&nbsp;<span class="text-light"> Create
-                                    Note</span></button>
+
+                            
+                            <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn py-1 px-2 bg-primary">
+                                <span class="d-none d-lg-block text-light">
+                                    <i class="bi bi-plus-square"></i>&nbsp; Create Note
+                                </span>
+
+                                <span class="d-block d-lg-none text-light">
+                                    <i class="bi bi-plus-square"></i>
+                                </span>
+                            </button>
                         </div>
 
                         <div>

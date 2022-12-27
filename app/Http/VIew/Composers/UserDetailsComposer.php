@@ -27,6 +27,7 @@ class UserDetailsComposer
         //     return "No session";
         // }
 
-        $view->with('name', $userInfo->user_fname . " " .  $userInfo->user_lname);
+        $view->with('name', $userInfo);
+        
     }
 }
