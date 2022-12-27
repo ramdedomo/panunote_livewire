@@ -163,22 +163,22 @@
         document.addEventListener('livewire:load', function() {
             
             Echo.channel('playerjoined')
-                .listen('PlayerJoin', (e) => {
+                .listen('.PlayerJoin', (e) => {
                     window.Livewire.emit('playerjoined', e.playername);
             });
 
             Echo.channel('playeradminized')
-                .listen('PlayerAdminize', (e) => {
+                .listen('.PlayerAdminize', (e) => {
                     window.Livewire.emit('playeradminized', e.user_id);
             });
 
             Echo.channel('playerkicked')
-                .listen('PlayerKick', (e) => {
+                .listen('.PlayerKick', (e) => {
                     window.Livewire.emit('playerkicked', e.user_id);
             });
 
             Echo.channel('roomstarted')
-                .listen('RoomStart', (e) => {
+                .listen('.RoomStart', (e) => {
                     alert('start');
                     if(@this.game_id == e.room_id){
                         window.Livewire.emit('roomstarted', e.room_id);
