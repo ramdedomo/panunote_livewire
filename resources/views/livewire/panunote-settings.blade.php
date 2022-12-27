@@ -125,18 +125,21 @@
                             </div>
                         @endif
 
-                    <div class="rounded bg-semi-dark p-2 mb-3">
-                        <div class="text-center d-flex justify-content-between px-2">
-                            <span>Remove Photo</span>
-                            <span>
-                                <div class="form-check form-switch">
-                                    <input wire:model="removephoto" @click="remove = !remove" class="form-check-input"
-                                        type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                            @if(!is_null($user_info->user_photo) || !empty($user_info->user_photo))
+                            <div class="rounded bg-semi-dark p-2 mb-3">
+                                <div class="text-center d-flex justify-content-between px-2">
+                                    <span>Remove Photo</span>
+                                    <span>
+                                        <div class="form-check form-switch">
+                                            <input wire:model="removephoto" @click="remove = !remove" class="form-check-input"
+                                                type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                        </div>
+                                    </span>
+        
                                 </div>
-                            </span>
+                            </div>
+                            @endif
 
-                        </div>
-                    </div>
 
                     <form wire:submit.prevent="save">
 

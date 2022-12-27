@@ -492,9 +492,9 @@
                     </div> --}}
 
                     <div class="d-flex justify-content-between m-2">
-                        <div class="bg-semi-dark w-100 rounded"></div>
+                        <div class="bg-semi-dark rounded flex-grow-1"></div>
                         <div class="mx-1"></div>
-                        <div><button wire:click="create" class="btn rounded btn-primary px-2"><i class="bi bi-plus-circle"></i></button></div>
+                        <div><button wire:click="create" class="btn rounded btn-primary px-2"><i class="bi bi-plus-circle"></i> Question</button></div>
                     </div>
                 </div>
             </div>

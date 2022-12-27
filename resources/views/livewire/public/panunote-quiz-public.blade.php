@@ -35,15 +35,16 @@
  
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between">
-                        <div class="rounded p-1">
-                            {{-- <span class="mx-2">|</span> --}}
+                        <div class="rounded">
+                            <span class="fw-bold text-primary">{{$user_name}}</span> 
+                            <span class="mx-1">|</span>
                             <a href="" class="btn py-1 px-2 text-light bg-primary">
                                 <span class="d-none d-md-block">{{ $quiz_details->quiz_title }}</span>
                                 <span class="d-block d-md-none"><i class="bi bi-journals"></i></span>
                             </a>
                         </div>
 
-                        <div class="p-1">
+                        <div class="">
                             <span wire:loading>
                                 <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
                                     role="status" aria-hidden="true"></div>

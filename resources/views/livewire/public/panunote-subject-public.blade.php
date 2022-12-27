@@ -66,25 +66,50 @@
             </div>
 
             <div id="notecontainer" class="row mt-2 p-3">
-                @foreach ($notes as $note)
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                    <div class="note-card rounded-3 p-3 card">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p class="p-0 m-0 mb-2 fw-bold" id="title">{{ $note->note_title }}
-                                </p>
-                            </div>
-                            <div>
-                                <p class="p-0 m-0 mb-2" id="title">8/18/2022</p>
-                            </div>
-                        </div>
-                        <p class="p-0 m-0" id="description">
-                           {{ substr(str_replace("&nbsp;", " ", Strip_tags($note->note_content)), 0, 150) . '...' }}
-                        </p>
-                        <a href="{{$subject_details->subject_id}}/{{$note->note_id}}" class="stretched-link"></a>
+
+                @if ($notes->isEmpty())
+
+                <div class="p-3 text-center">
+                    <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                        Wow such Empty :)
                     </div>
                 </div>
+                @else
+                @foreach ($notes as $note)
+
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <div style="height: 200px"
+                                class="card note-card rounded-3 border border-1 border-warning border-opacity-25">
+                                
+                                <div class="card-header border-bottom border-warning border-2">
+                                    <div>
+                                        <p class="p-0 m-0 fw-bold" id="title">
+                                            {{ substr($note->note_title, 0, 25) }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="p-0 m-0" id="title">
+                                            {{ date_format($note->updated_at, 'm/d h:i A') }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="p-0 m-0" id="description">
+                                        {{ substr(str_replace('&nbsp;', ' ', Strip_tags($note->note_content)), 0, 100) . ' ...' }}
+                                    </p>
+                                </div>
+
+                                <a href="{{ $subject_details->subject_id }}/{{ $note->note_id }}"
+                                    class="stretched-link"></a>
+                            </div>
+                        </div>
+
             @endforeach
+
+                @endif
+
+
+
 
             </div>
         </div>

@@ -42,10 +42,11 @@ class PanunoteQuizPublic extends Component
     public $show = [];
     public $isfavorite = false;
     public $answertype = [];
+    public $user_name;
 
-    public function mount($quiz_id=null){
+    public function mount($user_name=null, $quiz_id=null){
         $this->quiz_id = $quiz_id;
-
+        $this->user_name = $user_name;
         //get quiz details
         $quiz = DB::table('panunote_quizzes')
         ->where('quiz_id', $this->quiz_id)
