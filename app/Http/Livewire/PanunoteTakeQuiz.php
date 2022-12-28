@@ -32,6 +32,7 @@ class PanunoteTakeQuiz extends Component
 
     public function submit(){
 
+
         $qstns = PanunoteQuestions::where('quiz_id', $this->quiz_id)->get();
         $this->total = count($qstns);
 
@@ -69,9 +70,6 @@ class PanunoteTakeQuiz extends Component
         }
 
         //checking
-
-
-
         foreach($this->correctanswer as $ans_key => $ans_value){
 
             if(is_array($ans_value)){
@@ -153,6 +151,8 @@ class PanunoteTakeQuiz extends Component
     }
 
     public function mount($quiz_id=null){
+
+
         $this->quiz_id = $quiz_id;
         $this->quiz_details = PanunoteQuizzes::where('quiz_id', $this->quiz_id)->first();
         //visits count

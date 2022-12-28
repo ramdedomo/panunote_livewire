@@ -196,14 +196,14 @@
                                                     <div class="p-2 bg-semi-dark rounded mb-2">
 
                                                         <div class="form-check">
-
+                                                   
                                                             <input class="form-check-input" type="radio"
                                                                 wire:model="useranswer.{{ $question->question_id }}"
-                                                                value="{{ $ans->answer_text }}" name="flexRadioDefault"
-                                                                id="flexRadioDefault.{{ $count }}">
+                                                                value="{{ $ans->answer_text }}" name="useranswer.{{ $question->question_id }}"
+                                                                id="flexRadioDefault.{{ $count . $question->question_id }}">
 
                                                             <label class="form-check-label"
-                                                                for="flexRadioDefault.{{ $count }}">
+                                                                for="flexRadioDefault.{{ $count . $question->question_id }}">
                                                                 {{ $ans->answer_text }}
                                                             </label>
 

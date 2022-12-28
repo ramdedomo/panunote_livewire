@@ -54,8 +54,8 @@ tinymce.init({
         ed.ui.registry.addButton('customInsertButton', {
             icon: 'checkmark',
             text: 'Mark as Answer',
-            tooltip: 'ctrl+A',
-            shortcut: 'ctrl+A',
+            tooltip: 'ctrl+shift+A',
+            shortcut: 'ctrl+shift+A',
             onAction: () => highlight()
         });
 
