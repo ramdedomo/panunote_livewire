@@ -168,7 +168,7 @@
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New {{ $subject_details->subject_name }} Notes
+                    <h5 class="modal-title" id="staticBackdropLabel">Create Note
                     </h5>
                     <a type="button" class="btn-link" data-bs-dismiss="modal" aria-label="Close">Close</a>
                 </div>
@@ -182,21 +182,30 @@
 
                                 <div class="">
 
+                                    <div class="bg-semi-dark p-2 rounded text-secondary text-center mb-2">
+                                        <i class="bi bi-info-circle"></i> Upload Document Photo Here (Optional)</strong> 
+                                    </div>
+
                                     <div class="progress mb-1 d-none" id="progress_bar">
                                         <div class="progress-bar progress-bar-striped" id="progress-bar-scan"
                                             role="progressbar" aria-label="Basic example" aria-valuenow="100"
                                             aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
 
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">Upload Photo:</span>
-                                        <input accept="image/png, image/jpeg, image/jpg" type="file"
-                                            id="formFile" class="form-control">
+                                    <div class="d-flex">
+                                        <div class="input-group">
+                                            <input accept="image/png, image/jpeg, image/jpg" type="file"
+                                                id="formFile" class="form-control">
+                                        </div>
+
+                                        <span class="mx-1"></span>
+    
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary py-1" id='scanphoto' type="button">Scan</button>
+                                        </div>
                                     </div>
 
-                                    <div class="d-grid mt-2">
-                                        <button class="btn btn-primary" id='scanphoto' type="button">Scan</button>
-                                    </div>
+  
 
                                     <div class="mt-2">
                                         <div class="form-floating">
@@ -218,10 +227,18 @@
                                     </div>
                                 </div>
 
+                                <div>
+                                    <div class="bg-semi-dark p-2 rounded text-secondary text-center">
+                                        <i class="bi bi-info-circle"></i> Seperate Tags using <strong>","</strong> &nbsp;&nbsp; / &nbsp;&nbsp;  <strong>Example: Panunote,Panugame</strong> 
+                                    </div>
+                                    
+                                </div>
+
                                 <div class="col-10">
                                     @error('notetags')
                                         <span class="error">{{ $message }}</span>
                                     @enderror
+                                    
 
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">Tags:</span>
@@ -312,7 +329,7 @@
                     <div class="mt-3">
                         <div>
                             <input wire:model="subjectname" type="text"
-                                class="subjectcontroller form-control fs-1 mb-2 p-0 px-2 border-1">
+                                class="border-3 border-bottom border-primary subjectcontroller form-control fs-1 mb-2 p-0 px-2 border-1">
                         </div>
                     </div>
 
@@ -353,16 +370,20 @@
 
             <div id="notecontainer" class="row mt-2 p-3">
 
-                @if ($notes->isEmpty())
-
+                @if ($notes->isEmpty() && empty($search))
                     <div class="p-3 text-center">
-                        <div
-                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                        <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
                             <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Notes, Click <strong>Create
                                 Note</strong> Above
                         </div>
-
                     </div>
+                @elseif($notes->isEmpty() && !empty($search))
+                <div class="p-3 text-center">
+                    <div
+                        class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100 fw-bold">
+                        <i class="bi bi-search"></i> Not Found
+                    </div>
+                </div>
                 @else
                     @foreach ($notes as $note)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">

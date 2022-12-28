@@ -215,7 +215,7 @@
                         </div>
                     @endif
 
-                    <div class="row">
+                    <div class="row g-2">
                         <div class="col-sm-12 col-md-6 mb-3">
                             <span class="input-group-text mb-1" id="basic-addon1">Old Password</span>
                             <input wire:model='oldpassword' type="password" class="form-control">

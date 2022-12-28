@@ -6,7 +6,7 @@
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New Subject</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Create Subject</h5>
                     <a type="button" class="btn-link" data-bs-dismiss="modal" aria-label="Close">Close</a>
                 </div>
 
@@ -106,18 +106,24 @@
                     </div>
                 </div>
             </div>
+            
 
 
             <div id="subjectcontainer" class="row p-3">
 
-                @if ($subjects->isEmpty())
-                    
+                @if ($subjects->isEmpty() && empty($search))
                     <div class="p-3 text-center">
                         <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
                             <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Subject, Click <strong>Create Subject</strong> Above
                         </div>
-                  
                     </div>
+                @elseif($subjects->isEmpty() && !empty($search))
+                <div class="p-3 text-center">
+                    <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100 fw-bold">
+                        <i class="bi bi-search"></i> Not Found
+                    </div>
+                </div>
+
                 @else
                     @foreach ($subjects as $subject)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">

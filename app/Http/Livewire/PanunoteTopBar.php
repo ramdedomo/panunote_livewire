@@ -15,7 +15,7 @@ class PanunoteTopBar extends Component
     public function render()
     {
 
-        $this->subjects = PanunoteSubjects::search($this->searchglobal)
+        $this->subjects = PanunoteSubjects::searchall($this->searchglobal)
         ->where('user_id', session('USER_ID'))
         ->when(empty($this->searchglobal), function ($query) {
             $query->where('subject_id', 0);
@@ -23,7 +23,7 @@ class PanunoteTopBar extends Component
         ->limit(2)
         ->get();
 
-        $this->notes = PanunoteNotes::search($this->searchglobal)
+        $this->notes = PanunoteNotes::searchall($this->searchglobal)
         ->where('user_id', session('USER_ID'))
         ->when(empty($this->searchglobal), function ($query) {
             $query->where('note_id', 0);
@@ -31,7 +31,7 @@ class PanunoteTopBar extends Component
         ->limit(2)
         ->get();
 
-        $this->quizzes = PanunoteQuizzes::search($this->searchglobal)
+        $this->quizzes = PanunoteQuizzes::searchall($this->searchglobal)
         ->where('user_id', session('USER_ID'))
         ->when(empty($this->searchglobal), function ($query) {
             $query->where('quiz_id', 0);

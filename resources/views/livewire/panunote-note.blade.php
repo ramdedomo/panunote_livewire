@@ -297,7 +297,7 @@
                                 <span class="d-none d-md-block"><i class="bi bi-gear-fill"></i> Generate Questions</span><span class="d-block d-md-none">
                                     <i class="bi bi-lightbulb"></i>
                                 </span>
-                                <span style="right: -10px" class="tooltip">To Generate Question highlight possible answer in the note below. <br><br>Follow this Steps: <br> <strong>Highlight</strong>  -> <strong>Save</strong> -> <strong>Generate</strong></span>
+                                <span style="right: -10px" class="tooltip">To Generate Question highlight possible answer in the note below. <br><br>Follow this Steps: <br> <strong>Mark</strong>  -> <strong>Save</strong> -> <strong>Generate</strong></span>
                             </button>
                             
                             <span class="">|</span>
@@ -316,10 +316,10 @@
 
                     <div class="mt-3">
                         <div>
-                            <input type="text" wire:model="notetitle" class="notecontroller form-control fs-1 mb-2 p-0 px-2 border-1">
+                            <input type="text" wire:model="notetitle" class="border-3 border-bottom border-primary notecontroller form-control fs-1 mb-2 p-0 px-2 border-1">
                         </div>
 
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mt-3">
 
                             <div>
                                 <span class="badge bg-info"><i class="bi bi-tag-fill"></i></span>

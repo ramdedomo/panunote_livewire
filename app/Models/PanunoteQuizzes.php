@@ -94,7 +94,8 @@ class PanunoteQuizzes extends Model
     public static function searchall($search)
     {
         return empty($search) ? static::query()
-            : static::query()->where('quiz_title', 'like', '%'.$search.'%')
+            : static::query()->where('user_id', session('USER_ID'))
+            ->where('quiz_title', 'like', '%'.$search.'%')
                 ->orWhere(function ($query) use ($search) {
                     $query->where('user_id', 'like', '%'.$search.'%')
                         ->where('quiz_id', 'like', '%'.$search.'%')

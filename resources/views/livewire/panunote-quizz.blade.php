@@ -200,10 +200,10 @@
                     <div class="mt-3">
                         <div>
                             <input wire:model="quizname" type="text"
-                                class="quizcontroller form-control fs-1 mb-2 p-0 px-2 border-1">
+                                class="border-3 border-bottom border-primary quizcontroller form-control fs-1 mb-2 p-0 px-2 border-1">
                         </div>
 
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mt-3">
 
                             <div>
                                 <span class="badge bg-info"><i class="bi bi-tag-fill"></i></span>
