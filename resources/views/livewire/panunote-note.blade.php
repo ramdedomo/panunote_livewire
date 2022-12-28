@@ -213,7 +213,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button wire:click="discard" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button wire:click="savegenerated" id="submit" class="btn btn-primary">Save</button>
                 </div>
         
@@ -282,8 +282,12 @@
 
                         <div>
                             <span wire:loading>
-                              <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0" role="status" aria-hidden="true"></div>
+                                <div class="bg-semi-dark rounded-3 py-1 px-2">
+                                    <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0" role="status" aria-hidden="true"></div>
+                                     &nbsp; Please Wait ...
+                                </div>
                             </span>
+
 
                             @if($isgenerated)
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop_generated" class="btn py-1 px-2 mx-1 bg-primary"><i class="text-light bi bi-card-checklist"></i></button>

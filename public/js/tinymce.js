@@ -6,7 +6,7 @@ tinymce.init({
     resize: true,
     plugins: "codesample image link lists",
     contextmenu: 'paraphrase',
-    toolbar: "styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist | insertUsername",
+    toolbar: "insertUsername | customInsertButton | styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist ",
 
     setup:function(ed) {
         
@@ -37,10 +37,27 @@ tinymce.init({
             insertUsername();
         });
 
+        ed.addShortcut('ctrl+shift+A', 'Mark as Answer', () => {
+            highlight();
+        });
+
         const insertUsername = () => {
             window.livewire.emit('set:notevalues', ed.getContent(), ed.getContent({format : 'text'}));
             window.livewire.emit('set:submit');
         };
+
+        const highlight = () =>{
+            ed.execCommand('backColor', false, 'rgb(241, 196, 15)');
+        };
+
+        
+        ed.ui.registry.addButton('customInsertButton', {
+            icon: 'checkmark',
+            text: 'Mark as Answer',
+            tooltip: 'ctrl+A',
+            shortcut: 'ctrl+A',
+            onAction: () => highlight()
+        });
 
         ed.ui.registry.addMenuButton('insertUsername', {
         icon: 'bubbles',

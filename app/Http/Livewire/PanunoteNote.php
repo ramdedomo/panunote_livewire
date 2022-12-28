@@ -470,10 +470,6 @@ class PanunoteNote extends Component
     }
     
 
-    public function discard(){
-        $this->isgenerated = false;
-    }
-
     public function submit(){
 
         $this->dispatchBrowserEvent('notesaved');
