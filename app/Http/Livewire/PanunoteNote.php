@@ -171,7 +171,6 @@ class PanunoteNote extends Component
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
         $this->note_details = PanunoteNotes::where('note_id', $this->note_id)->first();
 
-
         if(!is_null($this->note_details) && !is_null($subject)){
             if(session('USER_ID') != $this->note_details->user_id){
                 if($this->note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(session('USER_ID'))){
@@ -281,6 +280,8 @@ class PanunoteNote extends Component
 
     public function generate(){
 
+        $matches = [];
+
         if(is_null($this->notevalues)){
             //dd($this->notecontent);
             $notefinalvalue = $this->notecontent;
@@ -298,6 +299,12 @@ class PanunoteNote extends Component
          $re = '/<\s*span.+?style\s*=\s*"\s*background-color: rgb\(241, 196, 15\);\s*".*?>\s*([A-Za-z0-9_@ .\/{}()\],*+!~"\'#$%&:;?=[-]+)\s*<\/span>/';
          
          preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
+
+        //  $check = [];
+        // foreach($matches as $match){
+        //     $check[] = $match[1];
+        // }
+         //dd(str_replace(' ', '', trim(implode('', $check))), str_replace(' ', '', preg_replace("/[\n\r]/", "", trim(str_replace("&nbsp;", " ", Strip_tags($notefinalvalue))))));
 
          if(count($matches) > 5){
             $this->dispatchBrowserEvent('limiterror');
