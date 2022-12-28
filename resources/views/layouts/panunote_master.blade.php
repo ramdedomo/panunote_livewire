@@ -106,6 +106,20 @@
             toast.show();
         });
 
+        window.addEventListener('limitparaerror', event => {
+            $(".content-toast").text('You can only Paraphrase 100 Characters (for now)');
+            const toast = new bootstrap.Toast($('#liveToast'));
+            toast.show();
+        });
+        
+
+        window.addEventListener('limiterror', event => {
+            $(".content-toast").text('You can only Generate 5 Questions (for now), Reduce your highlighted answers');
+            const toast = new bootstrap.Toast($('#liveToast'));
+            toast.show();
+        });
+        
+
         window.addEventListener('modified', event => {
             $(".content-toast").text('Personal Info Updated!');
             const toast = new bootstrap.Toast($('#liveToast'));

@@ -13742,3 +13742,101 @@ a:hover .tooltip {
 .searchglobal-item:hover{
     background-color: var(--bs-gray-200);
 }
+
+.alert {
+    --bs-alert-bg: transparent;
+    --bs-alert-padding-x: 0.95rem;
+    --bs-alert-padding-y: 0.95rem;
+    --bs-alert-margin-bottom: 1rem;
+    --bs-alert-color: inherit;
+    --bs-alert-border-color: transparent;
+    --bs-alert-border: 0 solid var(--bs-alert-border-color);
+    --bs-alert-border-radius: 0.2rem;
+    background-color: var(--bs-alert-bg);
+    border: var(--bs-alert-border);
+    border-radius: var(--bs-alert-border-radius);
+    color: var(--bs-alert-color);
+    margin-bottom: var(--bs-alert-margin-bottom);
+    padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
+    position: relative;
+}
+.alert-heading {
+    color: inherit;
+}
+.alert-link {
+    font-weight: 600;
+}
+.alert-dismissible {
+    padding-right: 2.85rem;
+}
+.alert-dismissible .btn-close {
+    padding: 1.1875rem 0.95rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+.alert-primary {
+    --bs-alert-color: #234b85;
+    --bs-alert-bg: #d8e5f8;
+    --bs-alert-border-color: #c4d8f5;
+}
+.alert-primary .alert-link {
+    color: #1c3c6a;
+}
+.alert-secondary {
+    --bs-alert-color: #41464b;
+    --bs-alert-bg: #e2e3e5;
+    --bs-alert-border-color: #d3d6d8;
+}
+.alert-secondary .alert-link {
+    color: #34383c;
+}
+.alert-success {
+    --bs-alert-color: #117054;
+    --bs-alert-bg: #d2f1e8;
+    --bs-alert-border-color: #bbebdd;
+}
+.alert-success .alert-link {
+    color: #0e5a43;
+}
+.alert-info {
+    --bs-alert-color: #0e616e;
+    --bs-alert-bg: #d1ecf1;
+    --bs-alert-border-color: #b9e3ea;
+}
+.alert-info .alert-link {
+    color: #0b4e58;
+}
+.alert-warning {
+    --bs-alert-color: #976f1a;
+    --bs-alert-bg: #fef1d5;
+    --bs-alert-border-color: #feeac0;
+}
+.alert-warning .alert-link {
+    color: #795915;
+}
+.alert-danger {
+    --bs-alert-color: #842029;
+    --bs-alert-bg: #f8d7da;
+    --bs-alert-border-color: #f5c2c7;
+}
+.alert-danger .alert-link {
+    color: #6a1a21;
+}
+.alert-light {
+    --bs-alert-color: #626364;
+    --bs-alert-bg: #fdfdfe;
+    --bs-alert-border-color: #fcfdfe;
+}
+.alert-light .alert-link {
+    color: #4e4f50;
+}
+.alert-dark {
+    --bs-alert-color: #141619;
+    --bs-alert-bg: #d3d3d4;
+    --bs-alert-border-color: #bcbebf;
+}
+.alert-dark .alert-link {
+    color: #101214;
+}

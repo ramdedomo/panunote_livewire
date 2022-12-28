@@ -109,24 +109,7 @@ class PanunoteGamificationCreate extends Component
         //     $this->alreadyjoinedid = $getexist->game_id;
         // }
         
-        //get all quizzess
-        $this->quiz_list = DB::table('panunote_quizzes')
-        ->where('user_id', session('USER_ID'))
-        ->get()
-        ->toArray();
 
-        $count = 0;
-        foreach($this->quiz_list as $list){
-            if(!PanunoteQuestions::where('quiz_id', $list->quiz_id)->exists()){
-                unset($this->quiz_list[$count]);
-            }
-            $count++;
-        }
-        
-
-        if(!empty($this->quiz_list)){
-            $this->quizSelect = $this->quiz_list[0]->quiz_id;
-        }
 
 
         $this->timeSelect = 0;
@@ -191,12 +174,25 @@ class PanunoteGamificationCreate extends Component
 
     public function render()
     {
+
+        
+        //get all quizzess
+        $this->quiz_list = DB::table('panunote_quizzes')
+        ->where('user_id', session('USER_ID'))
+        ->get()
+        ->toArray();
+
         $count = 0;
         foreach($this->quiz_list as $list){
             if(!PanunoteQuestions::where('quiz_id', $list->quiz_id)->exists()){
                 unset($this->quiz_list[$count]);
             }
             $count++;
+        }
+        
+
+        if(!empty($this->quiz_list)){
+            $this->quizSelect = $this->quiz_list[0]->quiz_id;
         }
 
         return view('livewire.panunote-gamification-create', ["quiz_list" => $this->quiz_list])->layout('layouts.gamebase');

@@ -350,7 +350,17 @@
             {{-- <button id="getvalue" class="m-3">get value</button> --}}
             {{-- <button id="getautosave">get saved</button> --}}
 
+    
+
             <div class="p-3" wire:ignore>
+                
+                <div class="alert alert-secondary alert-dismissible fade show m-0 mb-2" role="alert">
+                    <div class="alert-message">
+                        <strong>To Paraphrase</strong> highlight the sentence and right click, choose  <strong>Paraphrase</strong> 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+
                 <textarea wire:model.defer="notecontent" id="noteareaID"></textarea>
             </div>
 

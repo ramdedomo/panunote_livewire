@@ -117,29 +117,34 @@ class PanunoteNote extends Component
     
 
     public function paraphrase($paraphrasetext){
-        
-        $client = new \GuzzleHttp\Client();
-        $bearer = 'Bearer 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';
-        
-        $response = $client->post('https://burubugyot-notesparaphrase.hf.space/api/predict/',
-            [
-                'headers' => [  
-                    'Authorization' => $bearer
-                ],
 
-                'body' => json_encode(
+        if(strlen($paraphrasetext) > 100){
+            $this->dispatchBrowserEvent('limitparaerror');
+        }else{
+            $client = new \GuzzleHttp\Client();
+            $bearer = 'Bearer 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';
+            
+            $response = $client->post('https://burubugyot-notesparaphrase.hf.space/api/predict/',
                 [
-                    'data' => [$paraphrasetext]
-                ])
-
-            ]
-        );
-
-        $this->defaulttext = $paraphrasetext;
-        $this->paraphrasedtext = str_replace('paraphrasedoutput: ', '', json_decode($response->getBody()->getContents())->data);
-        //dd(json_decode($response->getBody()->getContents())->data);
-
-        $this->dispatchBrowserEvent('paraphrased');
+                    'headers' => [  
+                        'Authorization' => $bearer
+                    ],
+    
+                    'body' => json_encode(
+                    [
+                        'data' => [$paraphrasetext]
+                    ])
+    
+                ]
+            );
+    
+            $this->defaulttext = $paraphrasetext;
+            $this->paraphrasedtext = str_replace('paraphrasedoutput: ', '', json_decode($response->getBody()->getContents())->data);
+            //dd(json_decode($response->getBody()->getContents())->data);
+    
+            $this->dispatchBrowserEvent('paraphrased');
+        }
+        
 
     }
 
@@ -276,7 +281,6 @@ class PanunoteNote extends Component
 
     public function generate(){
 
-  
         if(is_null($this->notevalues)){
             //dd($this->notecontent);
             $notefinalvalue = $this->notecontent;
@@ -295,176 +299,182 @@ class PanunoteNote extends Component
          
          preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
 
-         if(empty($matches)){
-            $this->dispatchBrowserEvent('emptyanswer');
+         if(count($matches) > 5){
+            $this->dispatchBrowserEvent('limiterror');
          }else{
-            // Print the entire match result
-            //dd($matches[0]);
-
-            $count = 0;
+            if(empty($matches)){
+                $this->dispatchBrowserEvent('emptyanswer');
+             }else{
+                // Print the entire match result
+                //dd($matches[0]);
     
-            $client = new \GuzzleHttp\Client();
-            $bearer = 'Bearer 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';
-            $sanitizehtml = str_replace("&nbsp;", " ", Strip_tags($notefinalvalue));
-
-            //better 14secs on 5 questions
-
-                $promises = [];
-
-                foreach($matches as $answer){
-                    
-                    $promise = $client->postAsync('https://burubugyot-question-generation-two.hf.space/api/predict/',
-                                    [
-                                        'headers' => [  
-                                            'Authorization' => $bearer
-                                        ],
-
-                                        'body' => json_encode(
-                                        [  
-                                            'data' => [
-                                                $sanitizehtml, 
-                                                str_replace("&nbsp;", " ", $answer[1])
-                                            ]
-                                        ]
-
-                                    )]
-                                );
-                    
-                    array_push($promises, $promise);
-
-                    $this->finalanswers[$count] = str_replace("&nbsp;", " ", $answer[1]);
-                    $count++;
-                }
-
-                $results = Promise\Utils::all($promises)->wait();
-
                 $count = 0;
-
-                foreach ($results as $result) {
-                    $this->finalquestions[$count] = json_decode($result->getBody()->getContents())->data;
+        
+                $client = new \GuzzleHttp\Client();
+                $bearer = 'Bearer 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';
+                $sanitizehtml = str_replace("&nbsp;", " ", Strip_tags($notefinalvalue));
+    
+                //better 14secs on 5 questions
+    
+                    $promises = [];
+    
+                    foreach($matches as $answer){
+                        
+                        $promise = $client->postAsync('https://burubugyot-question-generation-two.hf.space/api/predict/',
+                                        [
+                                            'headers' => [  
+                                                'Authorization' => $bearer
+                                            ],
+    
+                                            'body' => json_encode(
+                                            [  
+                                                'data' => [
+                                                    $sanitizehtml, 
+                                                    str_replace("&nbsp;", " ", $answer[1])
+                                                ]
+                                            ]
+    
+                                        )]
+                                    );
+                        
+                        array_push($promises, $promise);
+    
+                        $this->finalanswers[$count] = str_replace("&nbsp;", " ", $answer[1]);
+                        $count++;
+                    }
+    
+                    $results = Promise\Utils::all($promises)->wait();
+    
+                    $count = 0;
+    
+                    foreach ($results as $result) {
+                        $this->finalquestions[$count] = json_decode($result->getBody()->getContents())->data;
+                        $count++;
+                    }
+                
+                    // dd($this->finalquestions);
+                
+                
+                    //longer 22secs on 5 questions
+    
+                    //  foreach($matches as $answer){
+                    
+                    //     $response = $client->post('https://burubugyot-question-generation.hf.space/api/predict/',
+                    //         [
+                    //             'headers' => [  
+                    //                 'Authorization' => $bearer
+                    //             ],
+    
+                    //             'body' => json_encode(
+                    //             [  
+                    //                 'data' => [$sanitizehtml.'\n', str_replace("&nbsp;", " ", $answer[1])]
+                    //             ]
+    
+                    //         )]
+                    //     );
+                        
+                    //     $this->finalquestions[$count] = json_decode($response->getBody()->getContents())->data;
+                    //     $this->finalanswers[$count] = str_replace("&nbsp;", " ", $answer[1]);
+    
+                    //     $count++;
+                    //  }
+    
+    
+                    //  dd($this->finalquestions);
+    
+    
+                
+    
+                $count = 0;
+                $frequency = [];
+    
+                foreach(array_column($this->finalquestions, 0) as $difficulty){
+                
+                    if($count == count($this->finalquestions)){
+                        $difficulty = str_replace('?', '', $difficulty);
+                    }
+    
+                    $frequency[$count]['total'] = 0;
+                    $frequency[$count]['noofword'] = count(explode(' ', $difficulty));
+    
+                    foreach(explode(' ', $difficulty) as $diff){
+                
+                        $response = $client->get('https://api.datamuse.com/words?sp='.$diff.'&md=f&max=1');
+                        $response_body = (string)$response->getBody();
+                        
+                        if(!empty(json_decode($response_body, true))){
+                            //$frequency[$count]['total'] += str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]);
+    
+                            if(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 100){
+                                $frequency[$count]['total'] += 2;
+                            }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 100 && str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 50){
+                                $frequency[$count]['total'] += 4;
+                            }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 50){
+                                $frequency[$count]['total'] += 6;
+                            }
+    
+                        }
+                        
+                    }
+    
                     $count++;
                 }
+    
             
-                // dd($this->finalquestions);
-            
-            
-                //longer 22secs on 5 questions
-
-                //  foreach($matches as $answer){
-                
-                //     $response = $client->post('https://burubugyot-question-generation.hf.space/api/predict/',
-                //         [
-                //             'headers' => [  
-                //                 'Authorization' => $bearer
-                //             ],
-
-                //             'body' => json_encode(
-                //             [  
-                //                 'data' => [$sanitizehtml.'\n', str_replace("&nbsp;", " ", $answer[1])]
-                //             ]
-
-                //         )]
-                //     );
-                    
-                //     $this->finalquestions[$count] = json_decode($response->getBody()->getContents())->data;
-                //     $this->finalanswers[$count] = str_replace("&nbsp;", " ", $answer[1]);
-
+                // $test = [];
+    
+                // foreach($frequency as $fqncy){
+                //     $test[] = $fqncy['total'] / $fqncy['noofword'] / $fqncy['noofword'];
+                // }
+    
+                // dd($frequency, $test);
+    
+                //method 1
+    
+                // $count = 0;
+                // foreach($frequency as $fqncy){
+                //     if($fqncy['total'] <= 20){
+                //         $this->finaldifficulty[$count] = "1";
+                //     }elseif($fqncy['total'] > 20 && $fqncy['total'] <= 30){
+                //         $this->finaldifficulty[$count] = "2";
+                //     }elseif($fqncy['total'] > 30){
+                //         $this->finaldifficulty[$count] = "3";
+                //     }
+    
                 //     $count++;
-                //  }
-
-
-                //  dd($this->finalquestions);
-
-
-            
-
-            $count = 0;
-            $frequency = [];
-
-            foreach(array_column($this->finalquestions, 0) as $difficulty){
-            
-                if($count == count($this->finalquestions)){
-                    $difficulty = str_replace('?', '', $difficulty);
-                }
-
-                $frequency[$count]['total'] = 0;
-                $frequency[$count]['noofword'] = count(explode(' ', $difficulty));
-
-                foreach(explode(' ', $difficulty) as $diff){
-            
-                    $response = $client->get('https://api.datamuse.com/words?sp='.$diff.'&md=f&max=1');
-                    $response_body = (string)$response->getBody();
-                    
-                    if(!empty(json_decode($response_body, true))){
-                        //$frequency[$count]['total'] += str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]);
-
-                        if(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 100){
-                            $frequency[$count]['total'] += 2;
-                        }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 100 && str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 50){
-                            $frequency[$count]['total'] += 4;
-                        }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 50){
-                            $frequency[$count]['total'] += 6;
-                        }
-
+                // }
+    
+    
+                //method 2
+    
+    
+    
+                $count = 0;
+                foreach($frequency as $fqncy){
+                    if($fqncy['total'] / $fqncy['noofword'] < 2.5){
+                        $this->finaldifficulty[$count] = "1";
+                    }elseif($fqncy['total'] / $fqncy['noofword'] >= 2.5 && $fqncy['total'] / $fqncy['noofword'] < 3.5){
+                        $this->finaldifficulty[$count] = "2";
+                    }elseif($fqncy['total'] / $fqncy['noofword'] >= 3.5){
+                        $this->finaldifficulty[$count] = "3";
                     }
-                    
+    
+                    $count++;
                 }
-
-                $count++;
-            }
-
-        
-            // $test = [];
-
-            // foreach($frequency as $fqncy){
-            //     $test[] = $fqncy['total'] / $fqncy['noofword'] / $fqncy['noofword'];
-            // }
-
-            // dd($frequency, $test);
-
-            //method 1
-
-            // $count = 0;
-            // foreach($frequency as $fqncy){
-            //     if($fqncy['total'] <= 20){
-            //         $this->finaldifficulty[$count] = "1";
-            //     }elseif($fqncy['total'] > 20 && $fqncy['total'] <= 30){
-            //         $this->finaldifficulty[$count] = "2";
-            //     }elseif($fqncy['total'] > 30){
-            //         $this->finaldifficulty[$count] = "3";
-            //     }
-
-            //     $count++;
-            // }
-
-
-            //method 2
-
-
-
-            $count = 0;
-            foreach($frequency as $fqncy){
-                if($fqncy['total'] / $fqncy['noofword'] < 2.5){
-                    $this->finaldifficulty[$count] = "1";
-                }elseif($fqncy['total'] / $fqncy['noofword'] >= 2.5 && $fqncy['total'] / $fqncy['noofword'] < 3.5){
-                    $this->finaldifficulty[$count] = "2";
-                }elseif($fqncy['total'] / $fqncy['noofword'] >= 3.5){
-                    $this->finaldifficulty[$count] = "3";
-                }
-
-                $count++;
-            }
-
-
-
-            //dd($this->finalquestions, $this->finalanswers, $this->finaldifficulty);
-
-
-
-            $this->dispatchBrowserEvent('generated');
-            $this->isgenerated = true;
-            //dd($questions, $answers);
+    
+    
+    
+                //dd($this->finalquestions, $this->finalanswers, $this->finaldifficulty);
+    
+    
+    
+                $this->dispatchBrowserEvent('generated');
+                $this->isgenerated = true;
+                //dd($questions, $answers);
+             }
          }
+
+
 
  
     }
