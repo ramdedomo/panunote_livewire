@@ -7,7 +7,13 @@ tinymce.init({
     plugins: "codesample image link lists",
     contextmenu: 'paraphrase',
     toolbar: "insertUsername | customInsertButton | styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist ",
-
+    mobile: {
+        resize: true,
+        menubar: false,
+        branding: false,
+        plugins: "codesample image link lists",
+        toolbar: "insertUsername | customInsertButton | styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist ",
+    },
     setup:function(ed) {
         
         ed.ui.registry.addMenuItem('paraphrase', {
