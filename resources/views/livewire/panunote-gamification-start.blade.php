@@ -129,7 +129,7 @@
                             $count = 1;
                         @endphp
                         @foreach ($playerdetails as $players)
-                            @if($players['role'] == 0)
+                            @if ($players['role'] == 0)
                                 <tr>
                                     <th scope="row">{{ $count++ }}</th>
                                     <td>{{ $players['score'] }}</td>
@@ -153,10 +153,10 @@
                             @endif
                         @endforeach
 
-                        @if($count == 1)
-                        <tr>
-                            <td colspan="4" class="text-center">No Player Left :(, You may leave the game</td>
-                        </tr>
+                        @if ($count == 1)
+                            <tr>
+                                <td colspan="4" class="text-center">No Player Left :(, You may leave the game</td>
+                            </tr>
                         @endif
 
                     </tbody>
@@ -170,15 +170,15 @@
 
                             @foreach ($playerdetails as $players)
                                 @if ($players['user_id'] == session('USER_ID'))
-                                        @if ($players['user_status'] == 1 && $players['refreshToken'] == 1)
-                                            <span class="badge text-bg-success text-light">Done</span>
-                                        @elseif($players['user_status'] == 0 && $players['refreshToken'] == 1)
-                                            <span class="badge text-bg-info text-light">Answering</span>
-                                        @elseif($players['refreshToken'] > 0 && $players['user_status'] == 2)
-                                            <span class="badge text-bg-danger text-light">Leave</span>
-                                        @else
-                                            <span class="badge text-bg-success text-light">Ended</span>
-                                        @endif
+                                    @if ($players['user_status'] == 1 && $players['refreshToken'] == 1)
+                                        <span class="badge text-bg-success text-light">Done</span>
+                                    @elseif($players['user_status'] == 0 && $players['refreshToken'] == 1)
+                                        <span class="badge text-bg-info text-light">Answering</span>
+                                    @elseif($players['refreshToken'] > 0 && $players['user_status'] == 2)
+                                        <span class="badge text-bg-danger text-light">Leave</span>
+                                    @else
+                                        <span class="badge text-bg-success text-light">Ended</span>
+                                    @endif
                                 @endif
                             @endforeach
 
@@ -265,14 +265,14 @@
 
                 @if ($yourrole == 0)
                     @if (!$next && !$finished)
-                        <div class="bg-light bg-opacity-25 vh-50 rounded p-3">
+                    <div class="">
 
                             <div>
                                 @if (count($rightanswer) > 1)
-                                    <span class="badge text-bg-success text-light">Multiple Answer</span>
+                                    <span class="badge bg-info mb-1">Multiple Answer</span>
                                 @endif
-
-                                <div class="fw-bold">{{ $current_count + 1 }}. {!! $current_question['question_text'] !!}</div>
+                             
+                                <div class="fw-bold text-center bg-light p-3 mb-3 rounded-3">{!! $current_question['question_text'] !!}</div>
 
                             </div>
 
@@ -281,25 +281,72 @@
                                     @if ($current_question['question_type'] == 1)
 
                                         @if (count($rightanswer) > 1)
-                                            @foreach ($current_answers as $ans)
-                                                <input wire:model.defer="multipleanswer" class="form-check-input"
-                                                    type="checkbox" value="{{ $ans['answer_text'] }}">
-                                                <label>
-                                                    {{ $ans['answer_text'] }}
-                                                </label>
-                                            @endforeach
-                                            <button class="btn btn-success" wire:click="user_answer('')">Submit</button>
+                                            <div class="row g-2">
+                                                @foreach ($current_answers as $ans)
+                                                <div class="col-sm-12 col-md-6 ">
+                                                        <div class="bg-light rounded-3 p-3">
+                                                            <input wire:model.defer="multipleanswer"
+                                                                class="form-check-input" type="checkbox" id="flexCheckChecked{{$ans['answer_id']}}"
+                                                                value="{{ $ans['answer_text'] }}">
+                                                            <label class="form-check-label" for="flexCheckChecked{{$ans['answer_id']}}">
+                                                                {{ $ans['answer_text'] }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+
+                                            <button class="btn btn-success w-100 mt-2" wire:click="user_answer('')">Submit</button>
                                         @else
-                                            @foreach ($current_answers as $ans)
-                                                <button wire:click="user_answer('{{ $ans['answer_text'] }}')"
-                                                    class="btn btn-success">{{ $ans['answer_text'] }}</button>
-                                            @endforeach
+                                            <div class="row g-2">
+                                                @foreach ($current_answers as $ans)
+                                                    <div class="col-sm-12 col-md-6 ">
+                                                        <div class="bg-light rounded-3 p-2">
+                                                            <button
+                                                                wire:click="user_answer('{{ $ans['answer_text'] }}')"
+                                                                class="text-center w-100 btn btn-success p-3">{{ $ans['answer_text'] }}</button>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+
                                         @endif
                                     @else
-                                        <input wire:model.defer="user_answer" class="form-control" type="text">
+                                    <div class="d-flex">
+                                        <input wire:model.defer="user_answer" class="form-control w-100" type="text">
+                                        <span class="mx-1"></span>
                                         <button class="btn btn-success" wire:click="user_answer('')">Submit</button>
+                                    </div>
+                              
                                     @endif
 
+                                </div>
+                            @endif
+
+                        </div>
+                    @endif
+                @else
+                    @if (!$next && !$finished)
+                        {{-- <div class="bg-light bg-opacity-25 vh-50 rounded p-3"> --}}
+                            <div class="">
+                            <div>
+                                @if (count($rightanswer) > 1)
+                                <span class="badge bg-info mb-1">Multiple Answer</span>
+                            @endif
+
+                                <div class="fw-bold text-center bg-light p-3 mb-3 rounded-3">{!! $current_question['question_text'] !!}</div>
+
+                            </div>
+
+                            @if (!$ended)
+                                <div class="d-none" id="ans_container">
+                                    <div
+                                        class="rounded-3 d-flex justify-content-center align-items-center p-4 bg-semi-dark border border-1 border-secondary border-opacity-25">
+                                        <span class="badge bg-info text-light mx-1">Answer:</span>
+                                        @foreach ($rightanswer as $ans)
+                                            <span class="mx-1 badge bg-success text-light">{{ $ans }}</span>
+                                        @endforeach
+                                    </div>
                                 </div>
                             @endif
 
