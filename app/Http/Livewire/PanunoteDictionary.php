@@ -28,9 +28,9 @@ class PanunoteDictionary extends Component
     public $soundlike;
 
     public $notfound = false;
+    
 
     public function findword($word){
-
         $this->selectedword = $word;
         $this->word = $word;
 
@@ -171,6 +171,8 @@ class PanunoteDictionary extends Component
     }
 
     public function search(){
+
+        $this->notfound = false;
 
         if(!$this->searchinput == ""){
             $client = new \GuzzleHttp\Client();
