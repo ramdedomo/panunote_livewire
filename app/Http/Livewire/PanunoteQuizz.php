@@ -149,6 +149,8 @@ class PanunoteQuizz extends Component
 
 
     public function mount($quiz_id=null){
+
+    
         $this->quiz_details = PanunoteQuizzes::where('quiz_id', $this->quiz_id)->first();
         $this->quiztags = $this->quiz_details->quiz_tags;
 

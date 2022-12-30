@@ -323,19 +323,21 @@
                                                                         <textarea wire:model="answer.{{ $choices['answer_id'] }}" class="form-control" cols="1" rows="1"></textarea>
                                                                     </div>
                                                                     
-                                                                    
+                                                             
                                                                     @if ($choices['answer_id'] != $publicid[$question['question_id']])
-                                                                        <div class="mx-1"></div>
+                                                                    <div class="mx-1"></div>
 
-                                                                        <div>
+                                                                    <div>
 
-                                                                            <button
-                                                                                wire:click="deletechoice('{{ $choices['answer_id'] }}','{{ $question['question_id'] }}')"
-                                                                                class="btn bg-semi-dark text-secondary px-2"><i
-                                                                                    class="bi bi-x"></i></button>
-                                                                        </div>
+                                                                        <button
+                                                                            wire:click="deletechoice('{{ $choices['answer_id'] }}','{{ $question['question_id'] }}')"
+                                                                            class="btn bg-semi-dark text-secondary px-2"><i
+                                                                                class="bi bi-x"></i></button>
+                                                                    </div>
                                                                     @endif
-
+                                                            
+                                                                    
+                                                     
                                                                 </div>
                                                             </div>
                                                         @endif

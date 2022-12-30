@@ -222,6 +222,8 @@ class PanunoteQuizzes extends Component
                     'quiz_tags' => implode(",",$this->quizcreate_tags)
                 ])->quiz_id;
 
+           
+                $counter = 0;
                 foreach($final as $q){
                     $b = PanunoteQuestions::create([
                         'quiz_id' => $a,
@@ -231,13 +233,24 @@ class PanunoteQuizzes extends Component
                     ])->question_id;
 
                     foreach($q['answers'] as $ans){
-                        PanunoteAnswers::create([
-                            "question_id" => $b,
-                            "answer_text" => $ans['answer_text'],
-                            "is_right" => $ans['is_right'],
-                            "answer_type" => $ans['answer_type'],
-                            "is_disabled" => 0
-                        ]);
+                        if($counter == count($final)){
+                            PanunoteAnswers::create([
+                                "question_id" => $b,
+                                "answer_text" => $ans['answer_text'],
+                                "is_right" => $ans['is_right'],
+                                "answer_type" => $ans['answer_type'],
+                                "is_disabled" => 0
+                            ]);
+                        }else{
+                            PanunoteAnswers::create([
+                                "question_id" => $b,
+                                "answer_text" => $ans['answer_text'],
+                                "is_right" => $ans['is_right'],
+                                "answer_type" => $ans['answer_type'],
+                                "is_disabled" => 1
+                            ]);
+                        }
+                        $counter++;
                     }
                 }
                 
