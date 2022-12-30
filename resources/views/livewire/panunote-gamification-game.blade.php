@@ -164,7 +164,9 @@
             
             Echo.channel('playerjoined')
                 .listen('PlayerJoin', (e) => {
-                    window.Livewire.emit('playerjoined', e.playername);
+                    if(@this.game_id == e.room_id){
+                        window.Livewire.emit('playerjoined', e.playername);
+                    }
             });
 
             Echo.channel('playeradminized')

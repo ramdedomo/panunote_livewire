@@ -250,11 +250,28 @@ class PanunoteGamificationGame extends Component
     }
 
     public function leave(){
-        PanunoteGamificationInroom::where('user_id', session('USER_ID'))
-        ->where('game_id', $this->game_id)
-        ->delete();
-
         PanunoteGamificationRoom::find($this->game_id)->decrement('player_count');
+
+        $b = PanunoteGamificationInroom::where('role', '!=', 1)
+        ->where('game_id', $this->game_id)
+        ->oldest('created_at')
+        ->first();
+
+        if(!is_null($b)){
+            PanunoteGamificationInroom::where('game_id', $this->game_id)
+            ->where('user_id', $b->user_id)
+            ->update(['role'=> 1]);
+
+            PanunoteGamificationInroom::where('user_id', session('USER_ID'))->where('game_id', $this->game_id)->delete();
+            event(new PlayerAdminize($b->user_id));
+
+            return redirect('/panugame/join');
+        }else{
+            if(PanunoteGamificationInroom::where('game_id', $this->game_id)->count()){
+                PanunoteGamificationInroom::where('game_id', $this->game_id)->delete();
+                PanunoteGamificationRoom::where('game_id', $this->game_id)->delete();
+            }
+        }
 
         return redirect()->to('/panugame/join');
     }

@@ -249,7 +249,7 @@ class PanunoteGamificationJoin extends Component
     
                 PanunoteGamificationRoom::find($id)->increment('player_count');
                 $playerinfo = PanunoteUsers::where('user_id', session('USER_ID'))->first();
-                event(new PlayerJoin($playerinfo->username));
+                event(new PlayerJoin($playerinfo->username, $id));
                 return redirect('lobby/'.$id);
             }else{
                 return redirect('lobby/'.$id);

@@ -20,10 +20,12 @@ class PlayerJoin implements ShouldBroadcast
      * @return void
      */
     public $playername;
-    public function __construct($playername)
+    public $room_id;
+    public function __construct($playername, $room_id)
     {
         //
         $this->playername = $playername;
+        $this->room_id = $room_id;
     }
 
     /**
