@@ -163,6 +163,10 @@
 
                 </table>
 
+                <div class="p-2 bg-dark bg-opacity-25 rounded-3 text-white mb-2">
+                    <i class="bi bi-info-circle-fill"></i> &nbsp; <strong>Navigating Back</strong> or <strong>Page Refresh</strong> will leave you in this Game.
+                </div>
+
                 @if ($yourrole == 1)
                     <div class="bg-light p-2 rounded-3 mb-3">
                         <div class="d-flex justify-content-between">
@@ -185,6 +189,7 @@
                         </div>
                     </div>
                 @endif
+
 
 
                 <div class="bg-light p-2 rounded-3 bg-opacity-25 d-flex justify-content-between align-items-center">

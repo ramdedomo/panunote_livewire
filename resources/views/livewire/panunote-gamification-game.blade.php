@@ -13,7 +13,7 @@
         </div>
 
         <div class="p-2 bg-dark bg-opacity-25 rounded-3 text-white">
-            <i class="bi bi-info-circle-fill"></i> &nbsp; <strong>Navigating Back</strong> or <strong>Page Refresh</strong> will leave you from this lobby.
+            <i class="bi bi-info-circle-fill"></i> &nbsp; <strong>Navigating Back</strong> or <strong>Page Refresh</strong> will leave you in this Lobby.
     </div>
 
 
