@@ -309,7 +309,7 @@
                                                     @endphp
                                                     @foreach ($note_toplikes as $topl)
                                                         <tr class="text-center"
-                                                            wire:click="visit({{ $topl->note_id }})"
+                                                        wire:click="visit({{ $topl->note_id }},{{ $topl->subject_id }})"
                                                             style="cursor: pointer;">
                                                             <td>
                                                                 @if ($count == 1)
