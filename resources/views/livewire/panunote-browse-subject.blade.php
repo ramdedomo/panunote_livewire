@@ -466,16 +466,7 @@
 
                 </div>
 
-                <div class="p-2 d-flex justify-content-between rounded-3 bg-semi-dark mt-3">
-                    <div>
 
-                    </div>
-                    <div>
-                        <a class="fw-bold  text-primary" href="activitiesandprograms">
-                            <div>More <span><i class="bi bi-arrow-right-circle-fill"></i></span></div>
-                        </a>
-                    </div>
-                </div>
 
 
 
