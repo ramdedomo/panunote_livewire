@@ -62,6 +62,16 @@
                             </select>
                         </div>
 
+                        <div class="mb-2">
+                            <div class="bg-semi-dark p-2 rounded-3 border border-1" style="font-size: 12px">
+                                <ul class="m-0">
+                                    <li>Single Precision <strong>(Recommended)</strong> - Individually search the selected Tags in a certain Quiz.</li>
+                                    <li>Half Precision - Partially search the selected Tags in a certain Quiz.</li>
+                                    <li>Full Precision - Fully search the selected Tags in a certain Quiz.</li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <div class="col-6" wire:ignore>
                             Tags Precision: <br>
                             <select class="selectpicker" title="Nothing Selected" wire:model="quizcreate_precision"
