@@ -117,8 +117,8 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Username</th>
                             <th scope="col">Score</th>
+                            <th scope="col">Username</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
