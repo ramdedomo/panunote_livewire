@@ -408,7 +408,7 @@
                                                     @endphp
                                                     @foreach ($note_topvisits as $topv)
                                                         <tr class="text-center"
-                                                            wire:click="visit({{ $topv->note_id }})"
+                                                            wire:click="visit({{ $topv->note_id }},{{ $topv->subject_id }})"
                                                             style="cursor: pointer;">
                                                             <td>
                                                                 @if ($count == 1)

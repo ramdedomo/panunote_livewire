@@ -35,8 +35,8 @@ class PanunoteBrowseQuizzes extends Component
     public $quizzes;
     public $search;
 
-    public function visit($subject_id){
-        dd($subject_id);
+    public function visit($quiz_id){
+        return redirect('quizzes/'.$quiz_id);
     }
 
     public function changedate($start, $end){

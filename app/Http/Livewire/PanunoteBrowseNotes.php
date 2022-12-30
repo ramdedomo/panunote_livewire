@@ -35,8 +35,8 @@ class PanunoteBrowseNotes extends Component
     public $search;
     
 
-    public function visit($subject_id){
-        dd($subject_id);
+    public function visit($note_id, $subject_id){
+        return redirect('subjects/'.$subject_id.'/'.$note_id);
     }
 
     public function changedate($start, $end){
