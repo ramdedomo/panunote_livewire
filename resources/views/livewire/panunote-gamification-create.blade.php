@@ -45,7 +45,7 @@
                                             @error('createDescription')
                                                 {{ $message }}
                                             @enderror
-                                            <input placeholder='' wire:model="createDescription" type="text"
+                                            <input placeholder='' wire:model.defer="createDescription" type="text"
                                                 class="bg-light form-control mb-2">
                                         </div>
 
@@ -56,13 +56,13 @@
                                             @enderror
                                             <div class="input-group mb-3">
                                                 <div class="input-group-text">
-                                                    <input wire:click="isPublic" wire:model="isPublic" checked
+                                                    <input wire:click="isPublic" wire:model.defer="isPublic" checked
                                                         class="form-check-input mt-0" type="checkbox">
                                                 </div>
 
 
                                                 <input @if ($isReadonly) disabled @endif
-                                                    wire:model="privatePass" placeholder='password' type="text"
+                                                wire:model.defer="privatePass" placeholder='password' type="text"
                                                     class="form-control" aria-label="Text input with checkbox">
                                             </div>
                                         </div>
@@ -71,7 +71,7 @@
                                         <div class="col-3">
                                             Quiz:
                                             @if (!empty($quiz_list))
-                                                <select wire:model="quizSelect" class="form-select"
+                                                <select wire:model.defer="quizSelect" class="form-select"
                                                     aria-label="Default select example">
                                                     @foreach ($quiz_list as $quiz)
                                                         <option value="{{ $quiz->quiz_id }}">{{ $quiz->quiz_title }}
@@ -86,7 +86,7 @@
 
                                         <div class="col-3">
                                             Capacity:
-                                            <select wire:model="capaSelect" class="form-select"
+                                            <select wire:model.defer="capaSelect" class="form-select"
                                                 aria-label="Default select example">
                                                 <option value="0">5 Players</option>
                                                 <option value="1">10 Players</option>
@@ -96,7 +96,7 @@
 
                                         <div class="col-3">
                                             Time per question:
-                                            <select wire:model="timeSelect" class="form-select"
+                                            <select wire:model.defer="timeSelect" class="form-select"
                                                 aria-label="Default select example">
                                                 <option value="0">20 Seconds</option>
                                                 <option value="1">40 Seconds</option>
@@ -106,7 +106,7 @@
 
                                         <div class="col-3">
                                             Difficulty:
-                                            <select wire:model="diffSelect" class="form-select"
+                                            <select wire:model.defer="diffSelect" class="form-select"
                                                 aria-label="Default select example">
                                                 <option value="0">Easy</option>
                                                 <option value="1">Intermediate</option>

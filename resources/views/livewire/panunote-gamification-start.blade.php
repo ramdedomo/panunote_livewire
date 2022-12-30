@@ -265,14 +265,15 @@
 
                 @if ($yourrole == 0)
                     @if (!$next && !$finished)
-                    <div class="">
+                        <div class="">
 
                             <div>
                                 @if (count($rightanswer) > 1)
                                     <span class="badge bg-info mb-1">Multiple Answer</span>
                                 @endif
-                             
-                                <div class="fw-bold text-center bg-light p-3 mb-3 rounded-3">{!! $current_question['question_text'] !!}</div>
+
+                                <div class="fw-bold text-center bg-light p-3 mb-3 rounded-3">{!! $current_question['question_text'] !!}
+                                </div>
 
                             </div>
 
@@ -283,12 +284,14 @@
                                         @if (count($rightanswer) > 1)
                                             <div class="row g-2">
                                                 @foreach ($current_answers as $ans)
-                                                <div class="col-sm-12 col-md-6 ">
+                                                    <div class="col-sm-12 col-md-6 ">
                                                         <div class="bg-light rounded-3 p-3">
                                                             <input wire:model.defer="multipleanswer"
-                                                                class="form-check-input" type="checkbox" id="flexCheckChecked{{$ans['answer_id']}}"
+                                                                class="form-check-input" type="checkbox"
+                                                                id="flexCheckChecked{{ $ans['answer_id'] }}"
                                                                 value="{{ $ans['answer_text'] }}">
-                                                            <label class="form-check-label" for="flexCheckChecked{{$ans['answer_id']}}">
+                                                            <label class="form-check-label"
+                                                                for="flexCheckChecked{{ $ans['answer_id'] }}">
                                                                 {{ $ans['answer_text'] }}
                                                             </label>
                                                         </div>
@@ -296,7 +299,8 @@
                                                 @endforeach
                                             </div>
 
-                                            <button class="btn btn-success w-100 mt-2" wire:click="user_answer('')">Submit</button>
+                                            <button class="btn btn-success w-100 mt-2"
+                                                wire:click="user_answer('')">Submit</button>
                                         @else
                                             <div class="row g-2">
                                                 @foreach ($current_answers as $ans)
@@ -312,12 +316,14 @@
 
                                         @endif
                                     @else
-                                    <div class="d-flex">
-                                        <input wire:model.defer="user_answer" class="form-control w-100" type="text">
-                                        <span class="mx-1"></span>
-                                        <button class="btn btn-success" wire:click="user_answer('')">Submit</button>
-                                    </div>
-                              
+                                        <div class="d-flex">
+                                            <input wire:model.defer="user_answer" class="form-control w-100"
+                                                type="text">
+                                            <span class="mx-1"></span>
+                                            <button class="btn btn-success"
+                                                wire:click="user_answer('')">Submit</button>
+                                        </div>
+
                                     @endif
 
                                 </div>
@@ -328,13 +334,14 @@
                 @else
                     @if (!$next && !$finished)
                         {{-- <div class="bg-light bg-opacity-25 vh-50 rounded p-3"> --}}
-                            <div class="">
+                        <div class="">
                             <div>
                                 @if (count($rightanswer) > 1)
-                                <span class="badge bg-info mb-1">Multiple Answer</span>
-                            @endif
+                                    <span class="badge bg-info mb-1">Multiple Answer</span>
+                                @endif
 
-                                <div class="fw-bold text-center bg-light p-3 mb-3 rounded-3">{!! $current_question['question_text'] !!}</div>
+                                <div class="fw-bold text-center bg-light p-3 mb-3 rounded-3">{!! $current_question['question_text'] !!}
+                                </div>
 
                             </div>
 
@@ -364,23 +371,14 @@
 
     <script>
         document.addEventListener('livewire:load', function() {
-            // $(window).on('beforeunload', function(e) {
-            //     window.livewire.emit('reloaded');
-            //     return false;
-            // });
-
-
             var audio_secs = new Audio("{{ asset('sounds/panunote_seconds.mp3') }}");
             var audio_go = new Audio("{{ asset('sounds/panunote_go.mp3') }}");
             var audio_timesup = new Audio("{{ asset('sounds/panunote_timesup.mp3') }}");
             var audio_ambient = new Audio("{{ asset('sounds/panunote_ambient.mp3') }}");
-
-
             var end = moment(@this.current_end).format('YYYY-MM-DD hh:mm:ss').valueOf();
             var post_end = moment(@this.current_end).add(5, 'seconds').format('YYYY-MM-DD hh:mm:ss').valueOf();
             var pre_start = moment(@this.current_end).subtract(@this.timePeritem, 'seconds').format(
                 'YYYY-MM-DD hh:mm:ss').valueOf();
-
             window.addEventListener('updated_question', event => {
                 end = moment(@this.current_end).format('YYYY-MM-DD hh:mm:ss').valueOf();
                 pre_start = moment(@this.current_end).subtract(@this.timePeritem, 'seconds').format(
@@ -392,28 +390,15 @@
             function pre() {
 
                 if ((moment(pre_start).diff(moment().format('YYYY-MM-DD hh:mm:ss').valueOf()) / 1000) < 0) {
-                    // $('#pre_timer').html('GO!');
                     function showTime() {
-
-                        // console.log(end);
                         var a = moment().format('YYYY-MM-DD hh:mm:ss').valueOf();
                         var b = end;
-
-                        // document.getElementById('jstime').innerHTML = a;
-                        // document.getElementById('phptime').innerHTML = b;
-
-                        // console.log((100 * moment(b).diff(moment(a)) / 20) / 1000);
-
                         var c = (100 * moment(b).diff(moment(a)) / 20) / 1000;
-                        // document.getElementById('difference').innerHTML = (c >= 0) ? c : 0;
                         document.getElementById('progress-bar-animated').style.width = (c >= 0) ? c + '%' :
                             '0%';
-
-
                         if (c <= 25 && c > 0) {
                             audio_secs.play();
                         }
-
                         if (c == 0) {
                             audio_timesup.play();
                             audio_secs.currentTime = 0;
@@ -421,22 +406,7 @@
                             $('#ans_container').addClass('d-none');
                             window.livewire.emit('nextquestion');
                         }
-
-
-                        // if (c <= 0) {
-                        //     if (c == 0) {
-                        //         window.livewire.emit('postquestion');
-                        //     }
-
-                        //     const post = moment().format('YYYY-MM-DD hh:mm:ss').valueOf();
-                        //     if ((moment(post_end).diff(moment(post)) / 1000) == 0) {
-                        //         console.log(moment(post_end).diff(moment(post)) / 1000);
-                        //         window.livewire.emit('nextquestion');
-                        //     }
-                        // }
-
                     }
-
                     setInterval(showTime, 1000);
 
                 } else if ((moment(pre_start).diff(moment().format('YYYY-MM-DD hh:mm:ss').valueOf()) / 1000) == 0) {

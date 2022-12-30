@@ -11,6 +11,7 @@ use App\Events\PlayerAdminize;
 use App\Events\PlayerKick;
 use App\Events\RoomStart;
 use Session;
+use App\Events\AdminLeaved;
 
 class PanunoteGamificationGame extends Component
 {
@@ -142,7 +143,36 @@ class PanunoteGamificationGame extends Component
         }
 
         if($this->roomdetails->status == 1){
-            abort(404);
+            $leave = PanunoteGamificationInroom::where('panunote_gamification_inroom.user_id', session('USER_ID'))
+            ->join('panunote_gamification_room', 'panunote_gamification_inroom.game_id', '=', 'panunote_gamification_room.game_id')
+            ->where('panunote_gamification_room.status', "<", 3);
+    
+            if($leave->exists()){
+                $gameid = $leave->first()->game_id;
+                if($leave->first()->role == 1){
+                    $b = PanunoteGamificationInroom::where('role', '!=', 1)
+                              ->where('game_id', $leave->first()->game_id)
+                              ->oldest('created_at')
+                              ->first();
+    
+                    if(!is_null($b)){
+                        $id = $leave->first()->game_id;
+                        PanunoteGamificationRoom::where('game_id', $leave->first()->game_id)->decrement('player_count');
+                        $leave->delete();
+                
+                        event(new AdminLeaved($id));
+                    }else{
+                        $leave->delete();
+                        PanunoteGamificationRoom::where('game_id', $gameid)->delete();
+                    }
+    
+                }else{
+                    PanunoteGamificationRoom::where('game_id', $leave->first()->game_id)->decrement('player_count');
+                    $leave->delete();
+                }
+            }
+
+            return redirect('panugame');
         }
 
         if($user_info->user_status == 2 || $user_info->refreshToken > 1){

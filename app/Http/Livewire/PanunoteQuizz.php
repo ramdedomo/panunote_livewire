@@ -179,7 +179,6 @@ class PanunoteQuizz extends Component
         }
 
 
-
         $this->quizname = $quiz->quiz_title;
 
         $a = DB::table('panunote_answers')
