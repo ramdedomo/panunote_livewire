@@ -162,6 +162,10 @@
                     </tbody>
 
                 </table>
+                
+                <div class="p-2 bg-dark bg-opacity-25 rounded-3 text-white mb-2">
+                    <i class="bi bi-info-circle-fill"></i> &nbsp; <strong> Score </strong> will add up if your answer is Correct.
+                </div>
 
                 <div class="p-2 bg-dark bg-opacity-25 rounded-3 text-white mb-2">
                     <i class="bi bi-info-circle-fill"></i> &nbsp; <strong>Navigating Back</strong> or <strong>Page Refresh</strong> will leave you in this Game.

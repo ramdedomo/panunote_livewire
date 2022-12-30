@@ -454,7 +454,7 @@ class PanunoteGamificationStart extends Component
         ->orderBy('score', 'DESC')->get()->toArray();
 
 
-        event(new UserAnswer());
+        // event(new UserAnswer());
     }
 
 

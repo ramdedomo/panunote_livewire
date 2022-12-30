@@ -114,6 +114,7 @@
                                             </select>
                                         </div>
 
+                                        @if (!empty($quiz_list))
                                         <div class="mt-2">
                                             <div class="d-none d-md-block">
                                                 <button class="btn btn-primary">Create</button>
@@ -123,6 +124,23 @@
                                                 <button class="btn btn-primary w-100">Create</button>
                                             </div>
                                         </div>
+                                        @else
+                                        <div>
+                                            <div class="p-2 bg-primary rounded-3 text-white my-2 d-flex align-items-center justify-content-between">
+
+                                                <div>
+                                                    <i class="bi bi-info-circle-fill"></i> &nbsp; Create a Quiz First. 
+                                                </div>
+                                                <div>
+                                                    <a class="btn btn-light" href="{{route('quizzes')}}">Go to Quiz</a>
+                                                </div>
+                                             
+                                              
+                                            </div>
+                                        </div>
+
+                                        @endif
+
                                     </div>
                                 </form>
                             </div>
