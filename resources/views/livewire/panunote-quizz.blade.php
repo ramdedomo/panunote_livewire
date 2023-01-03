@@ -40,13 +40,13 @@
                     <hr class="m-0">
                 </div>
 
-                <div>
+                {{-- <div>
                     <div class="form-check form-switch d-flex justify-content-center">
                         <input class="form-check-input" role="switch" type="checkbox" wire:model="preserveroom" id="preserveroom" data-onstyle="primary">
                         <span class="mx-1"></span>
                         <label class="form-check-label" for="preserveroom">Preserve Gamification History (if any)</label>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         

@@ -66,18 +66,26 @@ class PanunoteQuizz extends Component
 
     public function delete(){
 
-        if(PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->exists()){
-            if($this->preserveroom){
-                PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)
-                ->update([
-                    'quiz_id' => null
-                ]);
-            }else{
-                $a = PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->first();
-                PanunoteGamificationInroom::where('game_id',  $a->game_id)->delete();
-                PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->delete();
-            }
+        // if(PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->exists()){
+        //     if($this->preserveroom){
+        //         PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)
+        //         ->update([
+        //             'quiz_id' => null
+        //         ]);
+        //     }else{
+        //         $a = PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->first();
+        //         PanunoteGamificationInroom::where('game_id',  $a->game_id)->delete();
+        //         PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->delete();
+        //     }
+        // }
+
+        $a = PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->get();
+
+        foreach($a as $del){
+            PanunoteGamificationInroom::where('game_id',  $del->game_id)->delete();
         }
+  
+        PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->delete();
 
         PanunoteQuizVisits::where('quiz_id', $this->quiz_id)->delete();
         PanunoteQuizTakes::where('quiz_id', $this->quiz_id)->delete();
@@ -564,6 +572,16 @@ class PanunoteQuizz extends Component
         //dd($this->anwerquestionid);
 
         //create answers
+        // foreach($finalanswer as $id => $answer){
+        //     PanunoteAnswers::create([
+        //         'question_id' => $this->anwerquestionid[$id],
+        //         'answer_id' => $id,
+        //         'answer_text' => $answer,
+        //         'is_right'=> (in_array($id, array_keys($this->multiplerightanswer)) && $this->multiplerightanswer[$id]) ? 1 : 0,
+        //         'answer_type' => $finalanswertype[$id],
+        //         'is_disabled' => (in_array($id, $this->publicid)) ? 1 : 0,
+        //     ]);
+        // }
         foreach($finalanswer as $id => $answer){
             PanunoteAnswers::create([
                 'question_id' => $this->anwerquestionid[$id],
@@ -571,11 +589,10 @@ class PanunoteQuizz extends Component
                 'answer_text' => $answer,
                 'is_right'=> (in_array($id, array_keys($this->multiplerightanswer)) && $this->multiplerightanswer[$id]) ? 1 : 0,
                 'answer_type' => $finalanswertype[$id],
-                'is_disabled' => (in_array($id, $this->publicid)) ? 1 : 0,
+                'is_disabled' => 1,
             ]);
         }
 
-    
         //dd($this->anwerquestionid, $finalanswer, $finalanswertype, array_keys($this->multiplerightanswer));
         //dd("saved");
         //$this->dispatchBrowserEvent('saved');
