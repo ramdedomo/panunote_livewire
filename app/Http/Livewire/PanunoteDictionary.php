@@ -20,7 +20,7 @@ class PanunoteDictionary extends Component
     public $definition = [];
     public $selectedword;
 
-    public $hasphonetic;
+    public $hasphonetic = true;
 
     public $synonyms;
     public $antonyms;
@@ -28,9 +28,13 @@ class PanunoteDictionary extends Component
     public $soundlike;
 
     public $notfound = false;
-    
+
 
     public function findword($word){
+        
+        $this->hasphonetic = true;
+        $this->audio = null;
+  
         $this->selectedword = $word;
         $this->word = $word;
 
@@ -171,7 +175,6 @@ class PanunoteDictionary extends Component
     }
 
     public function search(){
-
         $this->notfound = false;
 
         if(!$this->searchinput == ""){
@@ -186,8 +189,6 @@ class PanunoteDictionary extends Component
     }
 
     public function mount(){
-        $this->hasphonetic = true;
-        
         $test = [];
         $this->word = "Placeholder";
         $this->res = [];

@@ -30,8 +30,7 @@
                             @endfor
 
                         @endif
-                 
-                  
+                
 
 
                         <ul class="sidebar-nav-right">
@@ -307,6 +306,22 @@
             $('#main_content').animate({ //animate element that has scroll
                 scrollTop: 0  //for scrolling
             }, 500);
+
+            
+            $('.phonetics').click(function(){
+                var audio = document.getElementById("audio");
+                audio.play();
+            });
+
+            var timer = null;
+            $('.search').keyup(function(){
+                clearTimeout(timer); 
+                timer = setTimeout(doStuff, 500)
+            });
+
+            $('#searchword').click(function(){
+                doStuff();
+            });
      
             //$('main_content').animate({scrollTop: document.body.scrollHeight},"slow");
         });
@@ -327,7 +342,7 @@
             doStuff();
         });
 
-        
+
         function doStuff() {
             window.livewire.emit('search');
         }
