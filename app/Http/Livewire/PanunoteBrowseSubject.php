@@ -72,10 +72,13 @@ class PanunoteBrowseSubject extends Component
             $count = 0;
             foreach($this->subject_visits_count as $visit_sub_key => $visit_sub_count){
                 $subject_visit_info = PanunoteSubjects::where('subject_id', $visit_sub_key)->first();
-                $this->topvisits[$count] = $subject_visit_info;
-                $this->topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $subject_visit_info->user_id)->get();
-                $this->topvisits[$count]['visit_count'] = $visit_sub_count;
-                $count++;
+                if($subject_visit_info->subject_sharing == 1){
+                    $this->topvisits[$count] = $subject_visit_info;
+                    $this->topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $subject_visit_info->user_id)->get();
+                    $this->topvisits[$count]['visit_count'] = $visit_sub_count;
+                    $count++;
+                }
+
             }
             $this->isvisitempty = false;
         }else{
@@ -98,10 +101,12 @@ class PanunoteBrowseSubject extends Component
             $count = 0;
             foreach($this->subject_likes_count as $like_sub_key => $like_sub_count){
                 $subject_like_info = PanunoteSubjects::where('subject_id', $like_sub_key)->first();
-                $this->toplikes[$count] = $subject_like_info;
-                $this->toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $subject_like_info->user_id)->get();
-                $this->toplikes[$count]['like_count'] = $like_sub_count;
-                $count++;
+                if($subject_like_info->subject_sharing == 1){
+                    $this->toplikes[$count] = $subject_like_info;
+                    $this->toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $subject_like_info->user_id)->get();
+                    $this->toplikes[$count]['like_count'] = $like_sub_count;
+                    $count++;
+                }
             }
 
             $this->islikeempty = false;

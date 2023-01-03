@@ -209,7 +209,7 @@
 
                                     <div class="mt-2">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave a comment here" id="result_scan" style="height: 50"></textarea>
+                                            <textarea wire:model="notecontent" class="form-control" placeholder="Leave a comment here" id="result_scan" style="height: 50"></textarea>
                                             <label for="result_scan">Note Content</label>
                                         </div>
                                     </div>

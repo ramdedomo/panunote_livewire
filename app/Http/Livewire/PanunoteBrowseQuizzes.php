@@ -70,10 +70,12 @@ class PanunoteBrowseQuizzes extends Component
             $count = 0;
             foreach($this->quiz_visits_count as $visit_quiz_key => $visit_quiz_count){
                 $quiz_visit_info = PanunoteQuizzes::where('quiz_id', $visit_quiz_key)->first();
-                $this->quiz_topvisits[$count] = $quiz_visit_info;
-                $this->quiz_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_visit_info->user_id)->get();
-                $this->quiz_topvisits[$count]['visit_count'] = $visit_quiz_count;
-                $count++;
+                if($quiz_visit_info->quiz_sharing == 1){
+                    $this->quiz_topvisits[$count] = $quiz_visit_info;
+                    $this->quiz_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_visit_info->user_id)->get();
+                    $this->quiz_topvisits[$count]['visit_count'] = $visit_quiz_count;
+                    $count++;
+                }
             }
 
             $this->isquizvisitempty = false;
@@ -101,10 +103,12 @@ class PanunoteBrowseQuizzes extends Component
             $count = 0;
             foreach($this->quiz_likes_count as $like_quiz_key => $like_quiz_count){
                 $quiz_like_info = PanunoteQuizzes::where('quiz_id', $like_quiz_key)->first();
-                $this->quiz_toplikes[$count] = $quiz_like_info;
-                $this->quiz_toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_like_info->user_id)->get();
-                $this->quiz_toplikes[$count]['like_count'] = $like_quiz_count;
-                $count++;
+                if($quiz_like_info->quiz_sharing == 1){
+                    $this->quiz_toplikes[$count] = $quiz_like_info;
+                    $this->quiz_toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_like_info->user_id)->get();
+                    $this->quiz_toplikes[$count]['like_count'] = $like_quiz_count;
+                    $count++;
+                }
             }
 
             $this->isquizlikeempty = false;
