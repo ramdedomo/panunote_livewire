@@ -78,7 +78,12 @@ class PanunoteBrowseQuizzes extends Component
                 }
             }
 
-            $this->isquizvisitempty = false;
+            if(empty($this->quiz_topvisits)){
+                $this->isquizvisitempty = true;
+            }else{
+                $this->isquizvisitempty = false;
+            }
+
         }else{
             $this->quiz_topvisits = [];
             $this->isquizvisitempty = true;
@@ -111,7 +116,12 @@ class PanunoteBrowseQuizzes extends Component
                 }
             }
 
-            $this->isquizlikeempty = false;
+            if(empty($this->quiz_toplikes)){
+                $this->isquizlikeempty = true;
+            }else{
+                $this->isquizlikeempty = false;
+            }
+
         }else{
             $this->quiz_toplikes = [];
             $this->isquizlikeempty = true;

@@ -80,7 +80,13 @@ class PanunoteBrowseSubject extends Component
                 }
 
             }
-            $this->isvisitempty = false;
+
+            if(empty($this->topvisits)){
+                $this->isvisitempty = true;
+            }else{
+                $this->isvisitempty = false;
+            }
+
         }else{
             $this->topvisits = [];
             $this->isvisitempty = true;
@@ -109,7 +115,13 @@ class PanunoteBrowseSubject extends Component
                 }
             }
 
-            $this->islikeempty = false;
+
+            if(empty($this->toplikes)){
+                $this->islikeempty = true;
+            }else{
+                $this->islikeempty = false;
+            }
+      
         }else{
             $this->toplikes = [];
             $this->islikeempty = true;
