@@ -145,25 +145,25 @@
         });
 
         window.addEventListener('SubjectRequired', event => {
-            $(".content-toast").text('Subject Name is Required!');
+            $(".content-toast").text('Subject Name is Required.');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
 
         window.addEventListener('SelectRequired', event => {
-            $(".content-toast").text('Select Subject is Required!');
+            $(".content-toast").text('Select Subject is Required.');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
 
         window.addEventListener('validation_empty', event => {
-            $(".content-toast").text('Quiz Title and Sharing is Required!');
+            $(".content-toast").text('Quiz Title is Required.');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
 
         window.addEventListener('validation', event => {
-            $(".content-toast").text('All fields are Required!');
+            $(".content-toast").text('All fields are Required.');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });

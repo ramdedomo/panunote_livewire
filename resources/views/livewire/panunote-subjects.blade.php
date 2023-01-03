@@ -57,6 +57,7 @@
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between mb-2">
 
+      
                         <div>
                             <a href="{{ url('subjects/') }}" class="disabled btn py-1 text-light bg-primary"><i
                                 class="bi bi-journals"></i> Subjects</a>
@@ -64,12 +65,6 @@
                         <span>|</span>
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                 class="btn text-light bg-primary">
-
-                                <span wire:loading wire:target="submit">
-                                    <span id="spinner"
-                                        class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
-                                        role="status" aria-hidden="true"></span>
-                                </span>
 
                                 <span class="d-none d-lg-block">
                                     <i class="bi bi-plus-square"></i>&nbsp; Create Subject
@@ -79,12 +74,19 @@
                                     <i class="bi bi-plus-square"></i>
                                 </span>
 
-                            </button>
+                            </button>                
                         </div>
 
-                        <div class="d-flex" wire:ignore>
 
-                            <div class="input-group first">
+                        <div class="d-flex align-items-center">
+                            
+                            <span class="mx-2" wire:loading>
+                                <span id="spinner"
+                                    class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
+                                    role="status" aria-hidden="true"></span>
+                            </span>
+        
+                            <div class="input-group first" wire:ignore>
                                 <select wire:model="sort" class="form-select" aria-label="Default select example">
                                     <option value="" selected disabled hidden>Sort</option>
                                     <option value="lto">Latest to Oldest</option>
@@ -114,7 +116,10 @@
                 @if ($subjects->isEmpty() && empty($search))
                     <div class="p-3 text-center">
                         <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
-                            <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Subject, Click <strong>Create Subject</strong> Above
+                            <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Note, Create a Subject First.
+                            <br>
+                            
+                            Click <strong>Create Subject</strong> Above.
                         </div>
                     </div>
                 @elseif($subjects->isEmpty() && !empty($search))

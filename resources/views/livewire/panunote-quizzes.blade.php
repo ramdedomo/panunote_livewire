@@ -136,15 +136,20 @@
                     <div>
 
                         <button type="submit" wire:click="create_quiz_empty" class="btn btn-primary tooltip-container">
-                            Create Empty &nbsp;<i class="bi bi-journal"></i>
+                            Create Empty Quiz &nbsp;<i class="bi bi-journal"></i>
                             <span class="tooltip me-4">
-                                Requires Quiz Title and Sharing only
+                                Requires Quiz Title
                             </span>
                         </button>
 
 
-                        <button type="submit" wire:click="create_quiz" class="btn btn-primary">Create &nbsp;<i
-                                class="bi bi-journal-text"></i></button>
+                        <button type="submit" wire:click="create_quiz" class="btn btn-primary tooltip-container">Create Quiz &nbsp;<i
+                                class="bi bi-journal-text"></i>
+                                <span class="tooltip">
+                                    Requires All Field
+                                </span>
+                            
+                            </button>
                     </div>
 
 
