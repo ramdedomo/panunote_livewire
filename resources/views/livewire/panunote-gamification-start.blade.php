@@ -414,7 +414,11 @@
                             audio_ambient.pause();
                             $('#ans_container').addClass('d-none');
                             window.livewire.emit('nextquestion');
+                            @this.user_answer = "";
+                        }else if(c > 0 && c < 100){
+                            $('#ans_container').removeClass('d-none');
                         }
+
                     }
                     setInterval(showTime, 1000);
 

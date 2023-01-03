@@ -233,23 +233,33 @@ class PanunoteQuizzes extends Component
                     ])->question_id;
 
                     foreach($q['answers'] as $ans){
-                        if($counter == count($final)){
-                            PanunoteAnswers::create([
-                                "question_id" => $b,
-                                "answer_text" => $ans['answer_text'],
-                                "is_right" => $ans['is_right'],
-                                "answer_type" => $ans['answer_type'],
-                                "is_disabled" => 0
-                            ]);
-                        }else{
-                            PanunoteAnswers::create([
-                                "question_id" => $b,
-                                "answer_text" => $ans['answer_text'],
-                                "is_right" => $ans['is_right'],
-                                "answer_type" => $ans['answer_type'],
-                                "is_disabled" => 1
-                            ]);
-                        }
+
+                        PanunoteAnswers::create([
+                            "question_id" => $b,
+                            "answer_text" => $ans['answer_text'],
+                            "is_right" => $ans['is_right'],
+                            "answer_type" => $ans['answer_type'],
+                            "is_disabled" => 1
+                        ]);
+
+                        // if($counter == count($final)){
+                        //     PanunoteAnswers::create([
+                        //         "question_id" => $b,
+                        //         "answer_text" => $ans['answer_text'],
+                        //         "is_right" => $ans['is_right'],
+                        //         "answer_type" => $ans['answer_type'],
+                        //         "is_disabled" => 0
+                        //     ]);
+                        // }else{
+                        //     PanunoteAnswers::create([
+                        //         "question_id" => $b,
+                        //         "answer_text" => $ans['answer_text'],
+                        //         "is_right" => $ans['is_right'],
+                        //         "answer_type" => $ans['answer_type'],
+                        //         "is_disabled" => 1
+                        //     ]);
+                        // }
+
                         $counter++;
                     }
                 }
