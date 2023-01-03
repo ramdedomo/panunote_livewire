@@ -63,11 +63,11 @@
                         <span class="badge text-bg-secondary text-light">{{$roomdetails->item_count}} Items</span>
 
                         @if($roomdetails->time == 0)
-                        <span class="badge text-bg-info text-light">10 Seconds / Item</span>
-                        @elseif($roomdetails->time == 1)
                         <span class="badge text-bg-info text-light">20 Seconds / Item</span>
+                        @elseif($roomdetails->time == 1)
+                        <span class="badge text-bg-info text-light">40 Seconds / Item</span>
                         @elseif($roomdetails->time == 2)
-                        <span class="badge text-bg-info text-light">30 Seconds / Item</span>
+                        <span class="badge text-bg-info text-light">60 Seconds / Item</span>
                         @endif
 
                     </p>

@@ -271,7 +271,7 @@
                         <div class="justify-content-center align-items-center d-flex rounded-3 mb-3"
                             style="background-size: cover; height: 100px; background-image: url({{ asset('img/logos/panugame_banner1.png') }})">
                             <span class="fs-2 fw-bold text-light">
-                                <i class="bi bi-journals"></i>
+                                <i class="bi bi-question-square"></i>
 
                                 Quiz Top Likes of the
                                 @if ($weekly)

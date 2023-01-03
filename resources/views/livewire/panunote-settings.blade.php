@@ -110,54 +110,61 @@
                 <div class="modal-body" x-data="{ remove: false }">
 
 
-                        @if (Session::has('successphoto'))
-                            <div class="p-3 mb-3 bg-primary rounded-3 bg-opacity-25 border border-primary"
-                                role="alert">
-                                {{ Session::get('successphoto') }}
-                            </div>
-                        @endif
+                    @if (Session::has('successphoto'))
+                        <div class="p-3 mb-3 bg-primary rounded-3 bg-opacity-25 border border-primary" role="alert">
+                            {{ Session::get('successphoto') }}
+                        </div>
+                    @endif
 
 
-                        @if (Session::has('errorphoto'))
-                            <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark"
-                                role="alert">
-                                {{ Session::get('errorphoto') }}
-                            </div>
-                        @endif
+                    @if (Session::has('errorphoto'))
+                        <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                            {{ Session::get('errorphoto') }}
+                        </div>
+                    @endif
 
-                            @if(!is_null($user_info->user_photo) || !empty($user_info->user_photo))
-                            <div class="rounded bg-semi-dark p-2 mb-3">
-                                <div class="text-center d-flex justify-content-between px-2">
-                                    <span>Remove Photo</span>
-                                    <span>
-                                        <div class="form-check form-switch">
-                                            <input wire:model="removephoto" @click="remove = !remove" class="form-check-input"
-                                                type="checkbox" role="switch" id="flexSwitchCheckChecked">
-                                        </div>
-                                    </span>
-        
-                                </div>
+                    @if (!is_null($user_info->user_photo) || !empty($user_info->user_photo))
+                        <div class="rounded bg-semi-dark p-2 mb-3">
+                            <div class="text-center d-flex justify-content-between px-2">
+                                <span>Remove Photo</span>
+                                <span>
+                                    <div class="form-check form-switch">
+                                        <input wire:model="removephoto" @click="remove = !remove"
+                                            class="form-check-input" type="checkbox" role="switch"
+                                            id="flexSwitchCheckChecked">
+                                    </div>
+                                </span>
+
                             </div>
-                            @endif
+                        </div>
+                    @endif
+
+                    
+                    @error('display_picture')
+                        <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                            {{ $message }}
+                        </div>
+                    @enderror
 
 
                     <form wire:submit.prevent="save">
 
-
                         <div x-transition x-show="!remove">
 
-                            <div class="text-center bg-semi-dark p-2 rounded mb-2 w-100" wire:loading wire:target="display_picture">Uploading...</div>
+                            <div class="text-center bg-semi-dark p-2 rounded mb-2 w-100" wire:loading
+                                wire:target="display_picture">Uploading...</div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Choose Photo</span>
                                 <input wire:model="display_picture" accept="image/png, image/jpeg, image/jpg"
                                     type="file" class="form-control" placeholder="Username" aria-label="Username"
                                     aria-describedby="basic-addon1">
+                         
                             </div>
 
-                    
 
-                            @if ($display_picture)
+
+                            {{-- @if ($display_picture)
                                 <div class="d-flex justify-content-center p-2">
                                     <div class="d-flex align-items-center justify-content-center fw-bold text-primary">
                                         Photo Selected:
@@ -167,7 +174,7 @@
                                     <img width="120px" class="rounded-3 border border-2 border-primary"
                                         src="{{ $display_picture->temporaryUrl() }}">
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
 
 
@@ -178,6 +185,7 @@
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 </form>
+
 
             </div>
         </div>
@@ -289,15 +297,16 @@
             </div>
 
             <div class="px-3 my-3">
-                <div class="justify-content-center align-items-center d-flex rounded-3 bg-semi-dark p-3 border border-1 border-primary">
+                <div
+                    class="justify-content-center align-items-center d-flex rounded-3 bg-semi-dark p-3 border border-1 border-primary">
                     <span class="text-primary px-2 fs-4 fw-bold d-flex justify-content-between w-100">
                         <div>
-                            <i class="bi bi-gear-fill"></i> 
+                            <i class="bi bi-gear-fill"></i>
                         </div>
                         <div>
                             Profile Settings
                         </div>
-                  
+
                     </span>
                 </div>
             </div>
@@ -312,12 +321,9 @@
                             class="imgcontainer bg-semi-dark rounded-3 d-flex aligns-items-center justify-content-center">
 
                             <img style="width: 300px"
-                            @if(is_null($user_info->user_photo) || empty($user_info->user_photo))
-                                src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                @if (is_null($user_info->user_photo) || empty($user_info->user_photo)) src="{{ asset('img/avatars/default_dp.jpg') }}"
                             @else
-                                src="data:image/png;base64,{{$user_info->user_photo}}"
-                            @endif
-
+                                src="data:image/png;base64,{{ $user_info->user_photo }}" @endif
                                 class="imgprofile p-2 img-fluid rounded-3 me-1 border border-1 border-primary"
                                 alt="" />
 

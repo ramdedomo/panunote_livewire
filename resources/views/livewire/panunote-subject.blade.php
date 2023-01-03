@@ -206,7 +206,6 @@
                                     </div>
 
   
-
                                     <div class="mt-2">
                                         <div class="form-floating">
                                             <textarea wire:model="notecontent" class="form-control" placeholder="Leave a comment here" id="result_scan" style="height: 50"></textarea>
@@ -434,28 +433,37 @@
                         $(document).ready(function() {
                             $("#scanphoto").click(function() {
                                 var a = $('#formFile')[0].files[0];
-                                document.getElementById('progress-bar-scan').style.width = '0%';
-                                $("#progress_bar").removeClass("d-none")
+                                var fileType = a["type"];
+                                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+                                if ($.inArray(fileType, validImageTypes) < 0) {
+                                    $(".content-toast").text('Please Pick a Image.');
+                                    const toast = new bootstrap.Toast($('#liveToast'));
+                                    toast.show();
+                                }else{
+                                    document.getElementById('progress-bar-scan').style.width = '0%';
+                                    $("#progress_bar").removeClass("d-none")
 
-                                Tesseract.recognize(
-                                    a,
-                                    'eng', {
-                                        logger: message => {
-                                            if (message.status == "recognizing text") {
-                                                document.getElementById('progress-bar-scan').style
-                                                    .width = (message.progress * 100) + '%';
+                                    Tesseract.recognize(
+                                        a,
+                                        'eng', {
+                                            logger: message => {
+                                                if (message.status == "recognizing text") {
+                                                    document.getElementById('progress-bar-scan').style
+                                                        .width = (message.progress * 100) + '%';
+                                                }
                                             }
                                         }
-                                    }
-                                ).then(({
-                                    data: {
-                                        text
-                                    }
-                                }) => {
-                                    document.getElementById("result_scan").value = text;
-                                    $("#progress_bar").addClass("d-none")
-                                    @this.notecontent = text;
-                                })
+                                    ).then(({
+                                        data: {
+                                            text
+                                        }
+                                    }) => {
+                                        document.getElementById("result_scan").value = text;
+                                        $("#progress_bar").addClass("d-none")
+                                        @this.notecontent = text;
+                                    })
+                                }
+
 
                             });
                         });
