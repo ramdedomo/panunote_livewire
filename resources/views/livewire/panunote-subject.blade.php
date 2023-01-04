@@ -2,7 +2,7 @@
     <div wire:ignore.self class="modal fade" id="deleteSubject" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content"  x-data="{ not: false, create: true, transfer: false }">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Are you sure to Delete
                         <strong>{{ $subject_details->subject_name }} (Subject) </strong>?
@@ -46,7 +46,7 @@
                         </div>
 
                         @if (!$notes->isEmpty())
-                            <div x-data="{ not: false, create: true, transfer: false }">
+                            <div>
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         Preserve Notes
@@ -110,7 +110,13 @@
                 <div class="modal-footer">
                     <button data-bs-dismiss="modal" aria-label="Close" type="button"
                         class="btn bg-secondary text-light">Cancel</button>
-                    <button wire:click="delete" type="button" class="btn bg-warning text-light">Delete</button>
+
+                    <button wire:click="delete" type="button" class="btn bg-warning text-light">
+                        <span x-show="not">Delete</span>
+                        <span x-show="create">Create</span>
+                        <span x-show="transfer">Transfer</span>
+                    </button>
+                    
                 </div>
             </div>
         </div>

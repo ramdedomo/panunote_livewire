@@ -134,7 +134,7 @@ class PanunoteBrowseSubject extends Component
         if($date == 'weekly'){
 
             $this->startDate = Carbon::now()->subDays(7)->startOfDay()->format('Y-m-d');
-            $this->endDate = Carbon::now()->endOfDay()->format('Y-m-d');
+            $this->endDate = Carbon::now()->addDays(1)->format('Y-m-d');
 
             $this->weekly = true;
             $this->monthly = false;
@@ -146,7 +146,7 @@ class PanunoteBrowseSubject extends Component
         }elseif($date == 'monthly'){
 
             $this->startDate = Carbon::now()->subDays(31)->startOfDay()->format('Y-m-d');
-            $this->endDate = Carbon::now()->endOfDay()->format('Y-m-d');
+            $this->endDate = Carbon::now()->addDays(1)->format('Y-m-d');
 
             $this->weekly = false;
             $this->monthly = true;
@@ -158,7 +158,7 @@ class PanunoteBrowseSubject extends Component
         }elseif($date == 'yearly'){
 
             $this->startDate = Carbon::now()->subDays(365)->startOfDay()->format('Y-m-d');
-            $this->endDate = Carbon::now()->endOfDay()->format('Y-m-d');
+            $this->endDate = Carbon::now()->addDays(1)->format('Y-m-d');
 
             $this->weekly = false;
             $this->monthly = false;
@@ -178,7 +178,7 @@ class PanunoteBrowseSubject extends Component
     public function render()
     {
         $this->startDate = Carbon::now()->subDays(31)->startOfDay()->format('Y-m-d');
-        $this->endDate = Carbon::now()->endOfDay()->format('Y-m-d');
+        $this->endDate = Carbon::now()->addDays(1)->format('Y-m-d');
         $this->changedate($this->startDate, $this->endDate);
 
         $this->subjects = PanunoteSubjects::search($this->search)
