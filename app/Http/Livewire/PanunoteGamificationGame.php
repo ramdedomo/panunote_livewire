@@ -25,6 +25,7 @@ class PanunoteGamificationGame extends Component
 
     public $default_role;
     public $isadmin;
+    public $whosadmin;
 
     protected $listeners = [
         'playerjoined' => 'list_playerjoined',
@@ -134,6 +135,8 @@ class PanunoteGamificationGame extends Component
         // }elseif($this->roomdetails->status == 3){
 
         // }
+
+
         $user_info = PanunoteGamificationInroom::where('user_id', session('USER_ID'))
         ->where('game_id', '=', $this->game_id)
         ->first();
@@ -291,6 +294,7 @@ class PanunoteGamificationGame extends Component
         // ->pluck('user_id');
 
         // dd($user_ids);
+        $this->whosadmin = PanunoteGamificationInroom::where('role', 1)->where('game_id', '=', $this->game_id)->first();
 
         //get players info
         $this->players = DB::table('panunote_users')
@@ -298,7 +302,7 @@ class PanunoteGamificationGame extends Component
 
 
         if($this->isjoined){
-            return view('livewire.panunote-gamification-game', ['players' => $this->players])->layout('layouts.gamebase');
+            return view('livewire.panunote-gamification-game', ['whosadmin' => $this->whosadmin, 'players' => $this->players])->layout('layouts.gamebase');
         }else{
             abort(404);
         }

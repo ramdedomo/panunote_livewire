@@ -42,37 +42,39 @@
                                     $count = 1;
                                 @endphp
                                 @foreach ($playerdetails as $players)
-                                    <tr>
-                                        <th scope="row">
-                                            @if ($count == 1)
-                                                <span class="badge fs-4"
-                                                    style="background-color: #C9B037">{{ $count }}</span>
-                                            @elseif ($count == 2)
-                                                <span class="badge fs-4"
-                                                    style="background-color: #D7D7D7">{{ $count }}</span>
-                                            @elseif ($count == 3)
-                                                <span class="badge fs-4"
-                                                    style="background-color: #6A3805">{{ $count }}</span>
-                                            @else
-                                                <span class="badge fs-4"
-                                                    style="background-color: #eaeaea">{{ $count }}</span>
-                                            @endif
-                                        </th>
+                                    @if($players['role'] == 0)
+                                        <tr>
+                                            <th scope="row">
+                                                @if ($count == 1)
+                                                    <span class="badge fs-4"
+                                                        style="background-color: #C9B037">{{ $count }}</span>
+                                                @elseif ($count == 2)
+                                                    <span class="badge fs-4"
+                                                        style="background-color: #D7D7D7">{{ $count }}</span>
+                                                @elseif ($count == 3)
+                                                    <span class="badge fs-4"
+                                                        style="background-color: #6A3805">{{ $count }}</span>
+                                                @else
+                                                    <span class="badge fs-4"
+                                                        style="background-color: #eaeaea">{{ $count }}</span>
+                                                @endif
+                                            </th>
 
 
-                                        <td>
-                                            @if ($players['user_id'] == session('USER_ID'))
-                                                <span class="fw-bold">(You)</span>
-                                            @endif {{ $players['username'] }}
-                                        </td>
+                                            <td>
+                                                @if ($players['user_id'] == session('USER_ID'))
+                                                    <span class="fw-bold">(You)</span>
+                                                @endif {{ $players['username'] }}
+                                            </td>
 
-                                        <td>{{ $players['score'] }}</td>
+                                            <td>{{ $players['score'] }}</td>
 
-                                    </tr>
+                                        </tr>
 
-                                    @php
-                                        $count++;
-                                    @endphp
+                                        @php
+                                            $count++;
+                                        @endphp
+                                    @endif
                                 @endforeach
 
 

@@ -10,7 +10,7 @@
 <body>
     <div class="vh-100 vw-100 d-flex justify-content-center align-items-center">
         <div>
-            It could be Page not found or you Leaved the game :)
+            It could be Page not found or you Left the game :)
             <br>
 
             <div class="d-flex justify-content-center align-items-center mt-3">

@@ -74,8 +74,6 @@
 
 
         </div>
-
-        
                 {{-- admin --}}
         @if($yourrole == 1)
         <div class="p-3">
@@ -94,7 +92,7 @@
                         <tr>
                             <td>{{$player->user_id}}</td>
                             <td>@if($player->user_id == session('USER_ID')) <span class="fw-bold">(You)</span> @endif {{$player->username}}</td>
-                            <td>@if($player->user_id == session('USER_ID')) Guest @else Admin @endif</td>
+                            <td>@if($player->user_id == $whosadmin->user_id) Admin @else Guest @endif</td>
                             <td>@if($player->user_id != session('USER_ID')) <button wire:click="kick({{$player->user_id}})" class="btn-danger btn">Kick</button> <button wire:click="adminize({{$player->user_id}})" class="btn-info btn">Make Admin</button> @endif</td>
                         </tr>
                     @endforeach
@@ -120,7 +118,7 @@
                         <tr>
                             <td>{{$player->user_id}}</td>
                             <td>@if($player->user_id == session('USER_ID')) <span class="fw-bold">(You)</span> @endif {{$player->username}}</td>
-                            <td>@if($player->user_id == session('USER_ID')) Guest @else Admin @endif</td>
+                            <td>@if($player->user_id == $whosadmin->user_id) Admin @else Guest @endif</td>
                         </tr>
                     @endforeach
             
@@ -150,7 +148,7 @@
 
         <hr class="text-light">
         <div class="mt-2">
-            <button wire:click="leave" class="btn btn-link text-light"><i class="bi bi-escape"></i> Leave</button>
+            <button wire:click="leave" class="btn bg-danger text-light"><i class="bi bi-escape"></i> Leave</button>
         </div>
 
 
