@@ -61,6 +61,11 @@ class PanunoteNote extends Component
     public $notetags;
 
     public $note_details;
+    public $highlighted;
+
+    public function replace(){
+        
+    }
 
     public function delete(){
 
@@ -116,7 +121,10 @@ class PanunoteNote extends Component
     }
     
 
+
     public function paraphrase($paraphrasetext){
+
+        $this->highlighted = $paraphrasetext;
 
         if(strlen($paraphrasetext) > 100){
             $this->dispatchBrowserEvent('limitparaerror');
@@ -144,7 +152,6 @@ class PanunoteNote extends Component
     
             $this->dispatchBrowserEvent('paraphrased');
         }
-        
 
     }
 

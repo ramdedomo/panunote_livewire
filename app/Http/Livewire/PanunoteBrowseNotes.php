@@ -70,8 +70,11 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->note_visits_count as $visit_note_key => $visit_note_count){
-                $note_visit_info = PanunoteNotes::select('note_id','subject_id', 'note_title', 'user_id', 'note_sharing')->where('note_id', $visit_note_key)->first();
-                if($note_visit_info->note_sharing == 1){
+                $note_visit_info = PanunoteNotes::join('panunote_subjects', 'panunote_notes.subject_id', '=', 'panunote_subjects.subject_id')
+                ->select('panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
+                ->where('note_id', $visit_note_key)
+                ->first();
+                if($note_visit_info->note_sharing == 1 && $note_visit_info->subject_sharing == 1){
                     $this->note_topvisits[$count] = $note_visit_info;
                     $this->note_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $note_visit_info->user_id)->get();
                     $this->note_topvisits[$count]['visit_count'] = $visit_note_count;
@@ -106,8 +109,12 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->note_likes_count as $like_note_key => $like_note_count){
-                $note_like_info = PanunoteNotes::select('note_id','subject_id', 'note_title', 'user_id', 'note_sharing')->where('note_id', $like_note_key)->first();
-                if($note_like_info->note_sharing == 1){
+                $note_like_info = PanunoteNotes::join('panunote_subjects', 'panunote_notes.subject_id', '=', 'panunote_subjects.subject_id')
+                ->select('panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
+                ->where('note_id', $like_note_key)
+                ->first();
+                
+                if($note_like_info->note_sharing == 1 && $note_like_info->subject_sharing == 1){
                     $this->note_toplikes[$count] = $note_like_info;
                     $this->note_toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $note_like_info->user_id)->get();
                     $this->note_toplikes[$count]['like_count'] = $like_note_count;

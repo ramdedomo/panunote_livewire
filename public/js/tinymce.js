@@ -4,9 +4,9 @@ tinymce.init({
     branding: false,
     selector: "#noteareaID",
     resize: true,
-    plugins: "codesample image link lists",
+    plugins: "searchreplace codesample image link lists",
     contextmenu: 'paraphrase',
-    toolbar: "insertUsername | customInsertButton | styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist ",
+    toolbar: "searchreplace insertUsername | customInsertButton | styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist ",
     mobile: {
         resize: true,
         menubar: false,

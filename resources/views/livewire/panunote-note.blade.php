@@ -248,6 +248,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="replace" class="btn btn-primary">Replace</button>
                     <button onclick="copytoclipboard()" id="submit" class="btn btn-primary">Copy</button>
                 </div>
         
@@ -365,7 +366,17 @@
             </div>
 
             <script>
-                
+
+                document.addEventListener('livewire:load', function () {
+                    $( "#replace" ).click(function() {
+                        tinymce.activeEditor.execCommand('mceReplaceContent', false, @this.paraphrasedtext.toString());
+
+                        $(".content-toast").text('Paraphrased Text Replaced!');
+                        const toast = new bootstrap.Toast($('#liveToast'));
+                        toast.show();
+                    });
+                });
+
 
                 document.addEventListener('keydown', (e) => {
                     if (e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() === 's') {
