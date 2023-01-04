@@ -228,7 +228,15 @@
                 </div>
             </div>
 
-                <div class="p-2">
+                <div class="p-3">
+
+     
+                    <div class="alert alert-secondary alert-dismissible fade show m-0 mb-2" role="alert">
+                        <div class="alert-message">
+                            <i class="bi bi-info-circle-fill"></i> <strong>Make sure to save</strong> after you edit the quiz.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
 
                     {{-- <div class="d-flex justify-content-between m-2">
                         <div class="bg-semi-dark w-100 rounded"></div>
@@ -469,8 +477,8 @@
                                 selector: "#questionarea{{ $question['question_id'] }}",
                                 resize: true,
                                 plugins: "image",
-                                //toolbar: "image | alignleft aligncenter alignright",
-                                toolbar: "image",
+                                toolbar: "image | alignleft aligncenter alignright",
+                                //toolbar: "image",
                                 setup: function(ed) {
                                     ed.on('Change', function(e) {
                                         @this.set("questionsvalue.{{ $question['question_id'] }}", ed.getContent());

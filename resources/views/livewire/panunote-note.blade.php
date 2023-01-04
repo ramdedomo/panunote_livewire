@@ -357,7 +357,7 @@
                 
                 <div class="alert alert-secondary alert-dismissible fade show m-0 mb-2" role="alert">
                     <div class="alert-message">
-                        <strong>To Paraphrase</strong> highlight the sentence and right click, choose  <strong>Paraphrase</strong> 
+                        <i class="bi bi-info-circle-fill"></i> <strong>To Paraphrase</strong> highlight the sentence and right click, choose  <strong>Paraphrase</strong> 
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div>
