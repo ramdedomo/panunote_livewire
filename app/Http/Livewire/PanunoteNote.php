@@ -126,7 +126,7 @@ class PanunoteNote extends Component
 
         $this->highlighted = $paraphrasetext;
 
-        if(strlen($paraphrasetext) > 100){
+        if(strlen($paraphrasetext) > 150){
             $this->dispatchBrowserEvent('limitparaerror');
         }else{
             $client = new \GuzzleHttp\Client();

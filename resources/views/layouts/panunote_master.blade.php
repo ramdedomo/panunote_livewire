@@ -107,7 +107,7 @@
         });
 
         window.addEventListener('limitparaerror', event => {
-            $(".content-toast").text('You can only Paraphrase 100 Characters (for now)');
+            $(".content-toast").text('You can only Paraphrase 150 Characters (for now)');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
