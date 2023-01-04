@@ -23,8 +23,8 @@
 
                             @if($isjoined)
                             <div class="text-center mt-2 bg-semi-dark rounded-3 p-2" style="font-size: 12px">
-                               <strong>Warning:</strong> You Currently Joined in a Game! Clicking<br>
-                                button above will leave you on the Joined Game.
+                               <strong>Warning:</strong> You currently on a Lobby, Clicking<br>
+                                any button above will leave you on the Joined Lobby.
                             </div>
                         
                             @endif
