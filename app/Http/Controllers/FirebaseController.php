@@ -55,7 +55,11 @@ class FirebaseController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $request->session()->put('user_email', $request->email);
+
+
+            $request->session()->put('user_email',  Auth::user()->email);
+            $request->session()->put('user_id',  Auth::user()->user_id);
+
             return to_route('subjects');
         }
 
@@ -65,6 +69,7 @@ class FirebaseController extends Controller
     public function signOut()
     {
         Auth::logout();
+        Session::flush();
         return to_route('/');
     }
 

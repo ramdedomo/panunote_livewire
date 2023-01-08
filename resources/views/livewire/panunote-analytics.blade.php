@@ -22,9 +22,9 @@
                             <div class="col-6 d-flex justify-content-center align-items-center">
                                 <div class="rounded-3 text-center">
                                     <h1 class="fw-bold text-primary m-0">
-                                        {{round(($user_screentime->screentime_main+$user_screentime->screentime_take+$user_screentime->screentime_game) / 3600, 2)}} Hours</h1>
+                                        {{round(($user_screentime->screentime_main+$user_screentime->screentime_take+$user_screentime->screentime_game) / 3600, 2)}} Hour/s</h1>
                                         
-                                    <span class="fw-bold text-primary">Total of screentime on Panunote</span> 
+                                    <span class="fw-bold text-primary">Total of Screentime</span> 
                                 </div>
                             </div>
 

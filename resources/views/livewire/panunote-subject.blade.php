@@ -440,7 +440,7 @@
                 <div class="modal-footer">
                     <div>
                         <div>
-                            <button wire:click="copy_single" type="button" class="btn btn-primary"><i
+                            <button wire:click="copy_single" type="button" class="btn btn-primary  @if ($allsubs->isEmpty()) disabled @endif"><i
                                     class="bi bi-clipboard"></i> Copy</button>
                         </div>
                     </div>
@@ -496,7 +496,7 @@
                 <div class="modal-footer">
                     <div>
                         <div>
-                            <button wire:click="move_single" type="button" class="btn btn-primary"><i
+                            <button wire:click="move_single" type="button" class="btn btn-primary @if ($allsubs->isEmpty()) disabled @endif"><i
                                     class="bi bi-arrow-right-square"></i> Move</button>
                         </div>
                     </div>

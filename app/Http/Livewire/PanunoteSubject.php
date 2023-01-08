@@ -56,19 +56,24 @@ class PanunoteSubject extends Component
 
 
     public function move_single(){
-        $note = PanunoteNotes::find($this->singleSelectid);
-        $note->subject_id = $this->selectsubject;
-        $note->save();
-        $this->dispatchBrowserEvent('notemodifydone');
+        if(!$this->allsubs->isEmpty()){
+            $note = PanunoteNotes::find($this->singleSelectid);
+            $note->subject_id = $this->selectsubject;
+            $note->save();
+            $this->dispatchBrowserEvent('notemodifydone');
+        }
     }
 
     public function copy_single(){
-        $note = PanunoteNotes::find($this->singleSelectid);
-        $newNote = $note->replicate();
-        $newNote->subject_id = $this->selectsubject;
-        $newNote->save();
-        $this->dispatchBrowserEvent('notemodifydone');
+        if(!$this->allsubs->isEmpty()){
+            $note = PanunoteNotes::find($this->singleSelectid);
+            $newNote = $note->replicate();
+            $newNote->subject_id = $this->selectsubject;
+            $newNote->save();
+            $this->dispatchBrowserEvent('notemodifydone');
+        }
     }
+
 
     public function duplicate_single($noteid){
         $note = PanunoteNotes::find($noteid);
