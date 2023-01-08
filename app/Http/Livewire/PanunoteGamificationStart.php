@@ -11,9 +11,10 @@ use DB;
 use Carbon\Carbon;
 use App\Events\QuestionNext;
 use App\Events\UserAnswer;
+use App\Models\PanunoteUsers;
 use App\Events\AdminLeaved;
 use Session;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteGamificationStart extends Component
 {
 
@@ -35,6 +36,8 @@ class PanunoteGamificationStart extends Component
 
     public $playerdetails;
 
+    public $user;
+
     protected $listeners = [
         'nextquestion' => 'list_nextquestion',
         'questionnexted' => 'list_questionnexted',
@@ -42,7 +45,15 @@ class PanunoteGamificationStart extends Component
         'useranswered' => 'list_useranswered',
         'reloaded' => 'list_reloaded',
         'adminleaves' => 'list_adminleaves',
+        'getscreentime' => 'getscreentime'
     ];
+
+    public function getscreentime($screentime){
+        PanunoteUsers::where('user_id', Auth::user()->user_id)->update([
+            'screentime_game' => $this->user->screentime_game += $screentime
+        ]);
+    }
+
 
     public function list_adminleaves($room_id){
 
@@ -56,7 +67,7 @@ class PanunoteGamificationStart extends Component
             })->first();
 
            
-                if($a->user_id == session('USER_ID')){
+                if($a->user_id == Auth::user()->user_id){
                     PanunoteGamificationInroom::where('game_id', $this->game_id)
                     ->where('user_id', $a->user_id)
                     ->update(['role'=> 1]);
@@ -67,7 +78,7 @@ class PanunoteGamificationStart extends Component
                     $this->yourrole = DB::table('panunote_gamification_room')
                     ->join('panunote_gamification_inroom', 'panunote_gamification_room.game_id', '=', 'panunote_gamification_inroom.game_id')
                     ->where('panunote_gamification_room.game_id', $this->game_id)
-                    ->where('panunote_gamification_inroom.user_id', session('USER_ID'))
+                    ->where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
                     ->first()->role;
 
                     $this->playerdetails = PanunoteGamificationInroom::select('panunote_gamification_inroom.role', 'panunote_gamification_inroom.refreshToken', 'panunote_gamification_inroom.user_status', 'panunote_gamification_inroom.user_id', 'panunote_gamification_inroom.score', 'panunote_users.username')
@@ -150,7 +161,7 @@ class PanunoteGamificationStart extends Component
         if($this->current_count == $this->roomdetails->item_count-1){
 
             PanunoteGamificationInroom::where('game_id', $this->game_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['user_status'=>'1']);
 
             $this->playerdetails = PanunoteGamificationInroom::select('panunote_gamification_inroom.role', 'panunote_gamification_inroom.refreshToken', 'panunote_gamification_inroom.user_status', 'panunote_gamification_inroom.user_id', 'panunote_gamification_inroom.score', 'panunote_users.username')
@@ -172,7 +183,7 @@ class PanunoteGamificationStart extends Component
             $this->ended = true;
 
             //if user is answered make its status to "PAUSE" if the time is done or admin clicked next chnage status to "CONTINUE";
-            // PanunoteGamificationInroom::where('user_id', session('USER_ID'))
+            // PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)
             // ->where('game_id', $this->game_id)
             // ->update(['user_status'=>'1']);
 
@@ -183,7 +194,7 @@ class PanunoteGamificationStart extends Component
             // }
 
             PanunoteGamificationInroom::where('game_id', $this->game_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['user_status'=>'1']);
 
             $this->playerdetails = PanunoteGamificationInroom::select('panunote_gamification_inroom.role', 'panunote_gamification_inroom.refreshToken', 'panunote_gamification_inroom.user_status', 'panunote_gamification_inroom.user_id', 'panunote_gamification_inroom.score', 'panunote_users.username')
@@ -220,7 +231,7 @@ class PanunoteGamificationStart extends Component
         $this->roomdetails = PanunoteGamificationRoom::where('game_id', '=', $this->game_id)->first();
 
         //if user refreshed
-        PanunoteGamificationInroom::where('user_id', session('USER_ID'))
+        PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)
         ->where('game_id', $this->game_id)
         ->increment('refreshToken');
 
@@ -229,7 +240,7 @@ class PanunoteGamificationStart extends Component
         $this->isjoined = DB::table('panunote_gamification_room')
         ->join('panunote_gamification_inroom', 'panunote_gamification_room.game_id', '=', 'panunote_gamification_inroom.game_id')
         ->where('panunote_gamification_room.game_id', $this->game_id)
-        ->where('panunote_gamification_inroom.user_id', session('USER_ID'))
+        ->where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
         ->exists();
 
         if(!$this->isjoined){
@@ -241,12 +252,12 @@ class PanunoteGamificationStart extends Component
         $this->yourrole = DB::table('panunote_gamification_room')
         ->join('panunote_gamification_inroom', 'panunote_gamification_room.game_id', '=', 'panunote_gamification_inroom.game_id')
         ->where('panunote_gamification_room.game_id', $this->game_id)
-        ->where('panunote_gamification_inroom.user_id', session('USER_ID'))
+        ->where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
         ->first()->role;
         
 
         //user details
-        $this->userdetails = PanunoteGamificationInroom::where('user_id', '=', session('USER_ID'))
+        $this->userdetails = PanunoteGamificationInroom::where('user_id', '=', Auth::user()->user_id)
         ->where('game_id', $this->game_id)
         ->first();
 
@@ -282,7 +293,7 @@ class PanunoteGamificationStart extends Component
             
             if($this->roomdetails->status != 3){
 
-                PanunoteGamificationInroom::where('user_id', session('USER_ID'))
+                PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)
                 ->where('game_id', $this->game_id)
                 ->update(['user_status'=> 2]);
 
@@ -295,7 +306,7 @@ class PanunoteGamificationStart extends Component
 
             
         }
-            //PanunoteGamificationInroom::where('user_id', session('USER_ID'))->delete();
+            //PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)->delete();
         elseif($this->roomdetails->status == 3){
             $this->finished = true;
             $this->next = true;
@@ -360,6 +371,8 @@ class PanunoteGamificationStart extends Component
         if($this->roomdetails->status == 0){
             return redirect()->to('/lobby/'.$this->game_id);
         }
+
+        $this->user = PanunoteUsers::where('user_id',  Auth::user()->user_id)->first();
         
     }
 
@@ -429,7 +442,7 @@ class PanunoteGamificationStart extends Component
             }
     
              //if user is answered make its status to "PAUSE" if the time is done or admin clicked next chnage status to "CONTINUE";
-            PanunoteGamificationInroom::where('user_id', session('USER_ID'))
+            PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)
             ->where('game_id', $this->game_id)
             ->update(['user_status'=>'1', 'score'=>$this->diff]);
     
@@ -440,7 +453,7 @@ class PanunoteGamificationStart extends Component
             $this->diff += 0;
 
             //if user is answered make its status to "PAUSE" if the time is done or admin clicked next chnage status to "CONTINUE";
-            PanunoteGamificationInroom::where('user_id', session('USER_ID'))
+            PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)
             ->where('game_id', $this->game_id)
             ->update(['user_status'=>'1', 'score'=>$this->diff]);
     

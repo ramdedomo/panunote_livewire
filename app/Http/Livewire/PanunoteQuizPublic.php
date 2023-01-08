@@ -18,7 +18,7 @@ use App\Models\PanunoteQuizVisits;
 use Carbon\Carbon;
 use URL;
 use DB;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteQuizPublic extends Component
 {
  
@@ -53,10 +53,10 @@ class PanunoteQuizPublic extends Component
         ->first();
 
         if(!is_null($quiz)){
-            if(session('USER_ID') != $quiz->user_id){
-                if($quiz->quiz_sharing == "1" && !empty(session('USER_ID'))){
+            if(Auth::user()->user_id != $quiz->user_id){
+                if($quiz->quiz_sharing == "1" && !empty(Auth::user()->user_id)){
     
-                }elseif($quiz->quiz_sharing == "0" && !empty(session('USER_ID'))){
+                }elseif($quiz->quiz_sharing == "0" && !empty(Auth::user()->user_id)){
                     dd("Private");
                 }else{
                     abort(404);
@@ -69,25 +69,25 @@ class PanunoteQuizPublic extends Component
         //visits count
         //check if exists
         $isexists = PanunoteQuizVisits::where('quiz_id', $this->quiz_id)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->exists();
 
         if($isexists){
             $updated = PanunoteQuizVisits::where('quiz_id', $this->quiz_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->orderBy('created_at', 'desc')
             ->first('updated_at');
 
             if((Carbon::now())->gte(Carbon::parse($updated->updated_at)->addSeconds(60))){
                 PanunoteQuizVisits::create([
                     'quiz_id' => $this->quiz_id,
-                    'user_id' => session('USER_ID'),
+                    'user_id' => Auth::user()->user_id,
                 ]);
             }
         }else{
             PanunoteQuizVisits::create([
                 'quiz_id' => $this->quiz_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
             ]);
         }
 
@@ -158,7 +158,7 @@ class PanunoteQuizPublic extends Component
 
         $like = PanunoteQuizLikes::where([
             ['quiz_id', $this->quiz_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->first();
 
         $this->isfavorite = (!is_null($like) && $like->quiz_like == 1) ? true : false;
@@ -170,20 +170,20 @@ class PanunoteQuizPublic extends Component
 
         $isexist = PanunoteQuizLikes::where([
             ['quiz_id', $this->quiz_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->exists();
 
         if($isexist){
             //update
             PanunoteQuizLikes::where('quiz_id', $this->quiz_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['quiz_like' => ($this->isfavorite) ? 1 : 0]);
 
         }else{
             //create
             PanunoteQuizLikes::create([
                 'quiz_id' => $this->quiz_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'quiz_like' => ($this->isfavorite) ? 1 : 0
             ]);
         }

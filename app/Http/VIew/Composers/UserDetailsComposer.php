@@ -5,6 +5,8 @@ namespace App\Http\View\Composers;
 use Illuminate\View\View;
 use Session;
 use App\Models\PanunoteUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserDetailsComposer
 {
@@ -19,15 +21,18 @@ class UserDetailsComposer
 
     public function compose(View $view)
     {
-        if(Session::has('USER_ID')){
-            //get user info
-            $userInfo = PanunoteUsers::where('user_id', session('USER_ID'))->first();
-        }
-        // else{
-        //     return "No session";
-        // }
-
-        $view->with('name', $userInfo);
+            
+            if(Auth::user()){
+                //get user info
+                $userInfo = PanunoteUsers::where('user_id', Auth::user()->user_id)->first();
+            }
+            // else{
+            //     return "No session";
+            // }
+    
+            $view->with('name', $userInfo);
+      
+       
         
     }
 }

@@ -15,7 +15,7 @@ use App\Models\PanunoteUsers;
 use App\Models\PanunoteSubjectVisits;
 use Carbon\Carbon;
 use URL;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteSubjectPublic extends Component
 {
     public $subject_id;
@@ -28,10 +28,10 @@ class PanunoteSubjectPublic extends Component
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
 
         if(!is_null($subject)){
-            if(session('USER_ID') != $subject->user_id){
-                if($subject->subject_sharing == 1 && !empty(session('USER_ID'))){
+            if(Auth::user()->user_id != $subject->user_id){
+                if($subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
 
-                }elseif($subject->subject_sharing == 0 && !empty(session('USER_ID'))){
+                }elseif($subject->subject_sharing == 0 && !empty(Auth::user()->user_id)){
                     return dd('Private');
                 }else{
                     abort(404);
@@ -44,25 +44,25 @@ class PanunoteSubjectPublic extends Component
         //visits count
         //check if exists
         $isexists = PanunoteSubjectVisits::where('subject_id', $this->subject_id)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->exists();
 
         if($isexists){
             $updated = PanunoteSubjectVisits::where('subject_id', $this->subject_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->orderBy('created_at', 'desc')
             ->first('updated_at');
 
             if((Carbon::now())->gte(Carbon::parse($updated->updated_at)->addSeconds(60))){
                 PanunoteSubjectVisits::create([
                     'subject_id' => $this->subject_id,
-                    'user_id' => session('USER_ID'),
+                    'user_id' => Auth::user()->user_id,
                 ]);
             }
         }else{
             PanunoteSubjectVisits::create([
                 'subject_id' => $this->subject_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
             ]);
         }
 
@@ -82,7 +82,7 @@ class PanunoteSubjectPublic extends Component
         //favorite
         $like = PanunoteSubjectLikes::where([
             ['subject_id', $this->subject_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->first();
 
         $this->isfavorite = (!is_null($like) && $like->subject_like == 1) ? true : false;
@@ -93,20 +93,20 @@ class PanunoteSubjectPublic extends Component
 
         $isexist = PanunoteSubjectLikes::where([
             ['subject_id', $this->subject_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->exists();
 
         if($isexist){
             //update
             PanunoteSubjectLikes::where('subject_id', $this->subject_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['subject_like' => ($this->isfavorite) ? 1 : 0]);
 
         }else{
             //create
             PanunoteSubjectLikes::create([
                 'subject_id' => $this->subject_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'subject_like' => ($this->isfavorite) ? 1 : 0
             ]);
         }

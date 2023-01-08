@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\PanunoteUsers;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use DB;
+use Redirect;
 
 class PanunoteController extends Controller
 {
@@ -38,6 +45,45 @@ class PanunoteController extends Controller
 
     //     return view('pages.panunote_subjects', ['name' => $fullname,  'subjects' => $subject_list]);
     // }
+
+    public function recover(Request $request){
+
+        $request->validate([
+            'email' => 'required|email|exists:panunote_users,email',
+        ],[
+            'email.exists' => 'The :attribute is not registered.'
+        ]);
+
+        $token = base64_encode(Str::random(64));
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $user = PanunoteUsers::where('email', $request->email)->first();
+
+        $link = route('reset', ['token'=>$token, 'email'=>$user->email]);
+
+        $body_message = "<a href='".$link."' class='font button-reset'>Reset Password</a>";
+
+        $data = [
+            'title' => 'Panunote Password Reset',
+            'name' => $user->user_fname,
+            'info' => 'To Reset the Password Click the button Below:',
+            'body' => $body_message,
+        ];
+
+        Mail::send('pages.panunote_email', $data, function ($message) use ($user){
+            $message->from('john@johndoe.com', 'Panunote: Online Study Companion');
+            $message->to($user->email, $user->firstname);
+            $message->subject('Panunote Reset Password');
+        });
+
+        Session::flash('success', "Password Reset Sent! Please Check your Email. If not found, Check Spam.");
+        return Redirect::back();
+
+    }
 
 
     public function subject($id){
@@ -111,7 +157,15 @@ class PanunoteController extends Controller
         return view('pages.auth.panunote_login');
     }
 
+    function forgot(){
+        return view('pages.auth.panunote_forgot');
+    }
+
     function register(){
         return view('pages.auth.panunote_register');
+    }
+
+    function test(){
+        return view('pages.panunote_email');
     }
 }

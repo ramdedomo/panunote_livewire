@@ -85,7 +85,7 @@
                                                 <div class="card-footer">
                                                     <span class="d-flex align-items-center justify-content-end">
                                                         <div>
-                                                            @if (session('USER_ID') == $subject->subject_info[0]->user_id)
+                                                            @if (Auth::user()->user_id == $subject->subject_info[0]->user_id)
                                                                 <i class="bi bi-person-check-fill text-primary"></i>
                                                                 <strong>{{ $subject->subject_info[0]->username }}</strong>
                                                             @else
@@ -146,7 +146,7 @@
                                                 <div class="card-footer">
                                                     <span class="d-flex align-items-center justify-content-end">
                                                         <div>
-                                                            @if (session('USER_ID') == $note->note_info[0]->user_id)
+                                                            @if (Auth::user()->user_id == $note->note_info[0]->user_id)
                                                                 <i class="bi bi-person-check-fill text-warning"></i>
                                                                 <strong>{{ $note->note_info[0]->username }}</strong>
                                                             @else
@@ -211,7 +211,7 @@
                                                 <div class="card-footer">
                                                     <span class="d-flex align-items-center justify-content-end">
                                                   
-                                                            @if (session('USER_ID') == $quiz->quiz_info[0]->user_id)
+                                                            @if (Auth::user()->user_id == $quiz->quiz_info[0]->user_id)
                                                                 <i class="bi bi-person-check-fill text-info"></i>
                                                                 <strong>{{ $quiz->quiz_info[0]->username }}</strong>
                                                             @else

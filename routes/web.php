@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PanunoteController;
 use App\Http\Controllers\FirebaseController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,8 @@ Route::get('/', function () {
     return view('pages.auth.panunote_login');
 })->name('/');
 
+Route::get('/verify', App\Http\Livewire\PanunoteVerify::class)->name('verify')->middleware('islogin');
+
 Route::post('signin', [FirebaseController::class, 'signIn'])->name('signin'); 
 Route::post('signup', [FirebaseController::class, 'signUp'])->name('signup');
 
@@ -29,6 +32,11 @@ Route::post('/savenote', [FirebaseController::class, 'savenote'])->name('savenot
 
 Route::get('/display', [FirebaseController::class, 'display'])->name('display'); 
 Route::get('/signout', [FirebaseController::class, 'signOut'])->name('signout');
+
+
+Route::post('/recover', [PanunoteController::class, 'recover'])->name('recover');
+
+Route::get('/forgot', [PanunoteController::class, 'forgot'])->name('forgot');
 
 Route::get('/login', [PanunoteController::class, 'login'])->name('login')->middleware('islogin');
 Route::get('/register', [PanunoteController::class, 'register'])->name('register');
@@ -67,6 +75,8 @@ Route::get('/analytics', App\Http\Livewire\PanunoteAnalytics::class)->name('anal
 
 Route::get('/dictionary', App\Http\Livewire\PanunoteDictionary::class)->name('dictionary')->middleware('islogin');
 
+// Route::get('/test', [PanunoteController::class, 'test'])->name('test');
 
+Route::get('/reset', App\Http\Livewire\ForgotPassword::class)->name('reset');
 // Route::get('/get_questions', [PanunoteController::class, 'get_questions'])->name('get_questions');
 

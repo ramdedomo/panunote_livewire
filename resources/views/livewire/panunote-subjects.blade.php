@@ -54,15 +54,16 @@
             {{-- <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1> --}}
             <div class="bg-white p-0 m-0 border-bottom border-2 border-primary">
                 <div class="sizebox"></div>
+ 
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between mb-2">
 
-      
+
                         <div>
                             <a href="{{ url('subjects/') }}" class="disabled btn py-1 text-light bg-primary"><i
-                                class="bi bi-journals"></i> Subjects</a>
+                                    class="bi bi-journals"></i> Subjects</a>
 
-                        <span>|</span>
+                            <span>|</span>
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                 class="btn text-light bg-primary">
 
@@ -74,18 +75,17 @@
                                     <i class="bi bi-plus-square"></i>
                                 </span>
 
-                            </button>                
+                            </button>
                         </div>
 
 
                         <div class="d-flex align-items-center">
-                            
+
                             <span class="mx-2" wire:loading>
-                                <span id="spinner"
-                                    class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
+                                <span id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
                                     role="status" aria-hidden="true"></span>
                             </span>
-        
+
                             <div class="input-group first" wire:ignore>
                                 <select wire:model="sort" class="form-select" aria-label="Default select example">
                                     <option value="" selected disabled hidden>Sort</option>
@@ -108,48 +108,47 @@
                     </div>
                 </div>
             </div>
-            
+
 
 
             <div id="subjectcontainer" class="row p-3">
 
                 @if ($subjects->isEmpty() && empty($search))
                     <div class="p-3 text-center">
-                        <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
+                        <div
+                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100">
                             <i class="bi bi-info-circle-fill"></i> &nbsp;To Create Note, Create a Subject First.
                             <br>
-                            
+
                             Click <strong>Create Subject</strong> Above.
                         </div>
                     </div>
                 @elseif($subjects->isEmpty() && !empty($search))
-                <div class="p-3 text-center">
-                    <div class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100 fw-bold">
-                        <i class="bi bi-search"></i> Not Found
+                    <div class="p-3 text-center">
+                        <div
+                            class="bg-semi-dark rounded-3 border border-1 border-secondary border-opacity-25 p-4 h-100 fw-bold">
+                            <i class="bi bi-search"></i> Not Found
+                        </div>
                     </div>
-                </div>
-
                 @else
                     @foreach ($subjects as $subject)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="card note-card rounded-3 border border-1 border-primary border-opacity-25">
-                                <div
-                                    class="card-header border-bottom border-primary border-2">
+                                <div class="card-header border-bottom border-primary border-2">
                                     <div>
                                         <p class="p-0 m-0 fw-bold" id="title">
                                             {{ substr($subject->subject_name, 0, 25) }}
-                                      
+
                                         </p>
                                     </div>
                                     <div>
                                         <p class="p-0 m-0" id="title">
                                             {{ date_format($subject->updated_at, 'm/d h:i A') }}
-                                        
+
                                         </p>
                                     </div>
                                 </div>
 
-                       
 
 
                                 <div class="card-body">
@@ -181,4 +180,6 @@
             </div>
         </div>
     </main>
+
+
 </div>

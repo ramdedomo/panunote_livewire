@@ -1,3 +1,8 @@
+@if(Auth::user()->isverified == 0)
+    <script>window.location = "/verify";</script>
+@endif
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +13,7 @@
     <title>Test</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @vite(['resources/js/app.js'])
-
+    <link rel="shortcut icon" href="{{ asset('img/favicon_main.ico') }}">
     <script src="https://cdn.tiny.cloud/1/wfuqkmql36bw2zkf9fqzskn8lk2yue6yyk7tak3n60qoexkt/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -60,6 +65,23 @@
 
     @livewireScripts
     <script src="{{ asset('js/app2.js') }}"></script>
+    <script src="{{ asset('js/timeme.js') }}"></script>
+
+    <script>
+
+        TimeMe.initialize({
+            currentPageName: "takequiz", // current page
+            idleTimeoutInSeconds: 5 // seconds
+        });
+
+        window.onload = function(){
+		setInterval(function(){
+                var timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
+                document.getElementById('timeInSeconds').textContent = timeSpentOnPage.toFixed(2);
+            }, 25);
+	    }
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>

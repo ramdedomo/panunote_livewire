@@ -17,7 +17,7 @@ use App\Models\PanunoteUsers;
 use App\Models\PanunoteNoteVisits;
 use Carbon\Carbon;
 use URL;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteNotePublic extends Component
 {
     public $notecontent;
@@ -35,10 +35,10 @@ class PanunoteNotePublic extends Component
         $note_details = PanunoteNotes::where('note_id', $this->note_id)->first();
 
         if(!is_null($note_details) && !is_null($subject)){
-            if(session('USER_ID') != $note_details->user_id){
-                if($note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(session('USER_ID'))){
+            if(Auth::user()->user_id != $note_details->user_id){
+                if($note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
                     
-                }elseif($note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(session('USER_ID'))){
+                }elseif($note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
                     dd("Private");
                 }else{
                     abort(404);
@@ -52,25 +52,25 @@ class PanunoteNotePublic extends Component
         //visits count
         //check if exists
         $isexists = PanunoteNoteVisits::where('note_id', $this->note_id)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->exists();
 
         if($isexists){
             $updated = PanunoteNoteVisits::where('note_id', $this->note_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->orderBy('created_at', 'desc')
             ->first('updated_at');
 
             if((Carbon::now())->gte(Carbon::parse($updated->updated_at)->addSeconds(60))){
                 PanunoteNoteVisits::create([
                     'note_id' => $this->note_id,
-                    'user_id' => session('USER_ID'),
+                    'user_id' => Auth::user()->user_id,
                 ]);
             }
         }else{
             PanunoteNoteVisits::create([
                 'note_id' => $this->note_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
             ]);
         }
 
@@ -103,7 +103,7 @@ class PanunoteNotePublic extends Component
         //favorite
         $like = PanunoteNoteLikes::where([
             ['note_id', $this->note_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->first();
 
         $this->isfavorite = (!is_null($like) && $like->note_like == 1) ? true : false;
@@ -114,20 +114,20 @@ class PanunoteNotePublic extends Component
 
         $isexist = PanunoteNoteLikes::where([
             ['note_id', $this->note_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->exists();
 
         if($isexist){
             //update
             PanunoteNoteLikes::where('note_id', $this->note_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['note_like' => ($this->isfavorite) ? 1 : 0]);
 
         }else{
             //create
             PanunoteNoteLikes::create([
                 'note_id' => $this->note_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'note_like' => ($this->isfavorite) ? 1 : 0
             ]);
         }

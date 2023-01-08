@@ -91,9 +91,9 @@
                     @foreach ($players as $player)
                         <tr>
                             <td>{{$player->user_id}}</td>
-                            <td>@if($player->user_id == session('USER_ID')) <span class="fw-bold">(You)</span> @endif {{$player->username}}</td>
+                            <td>@if($player->user_id == Auth::user()->user_id) <span class="fw-bold">(You)</span> @endif {{$player->username}}</td>
                             <td>@if($player->user_id == $whosadmin->user_id) Admin @else Guest @endif</td>
-                            <td>@if($player->user_id != session('USER_ID')) <button wire:click="kick({{$player->user_id}})" class="btn-danger btn">Kick</button> <button wire:click="adminize({{$player->user_id}})" class="btn-info btn">Make Admin</button> @endif</td>
+                            <td>@if($player->user_id != Auth::user()->user_id) <button wire:click="kick({{$player->user_id}})" class="btn-danger btn">Kick</button> <button wire:click="adminize({{$player->user_id}})" class="btn-info btn">Make Admin</button> @endif</td>
                         </tr>
                     @endforeach
             
@@ -117,7 +117,7 @@
                     @foreach ($players as $player)
                         <tr>
                             <td>{{$player->user_id}}</td>
-                            <td>@if($player->user_id == session('USER_ID')) <span class="fw-bold">(You)</span> @endif {{$player->username}}</td>
+                            <td>@if($player->user_id == Auth::user()->user_id) <span class="fw-bold">(You)</span> @endif {{$player->username}}</td>
                             <td>@if($player->user_id == $whosadmin->user_id) Admin @else Guest @endif</td>
                         </tr>
                     @endforeach
@@ -194,5 +194,13 @@
         }, 3000); // 3 second
         </script>
     @endif
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            window.onbeforeunload = function() {
+                window.livewire.emit('getscreentime', TimeMe.getTimeOnCurrentPageInSeconds());
+            }
+        })
+    </script>
   
 </div>

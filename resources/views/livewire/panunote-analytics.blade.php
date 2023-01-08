@@ -17,6 +17,55 @@
 
                     <div class="p-3 bg-semi-dark rounded-3 mb-3">
 
+                        <div class="row">
+
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <div class="rounded-3 text-center">
+                                    <h1 class="fw-bold text-primary m-0">
+                                        {{round(($user_screentime->screentime_main+$user_screentime->screentime_take+$user_screentime->screentime_game) / 3600, 2)}} Hours</h1>
+                                        
+                                    <span class="fw-bold text-primary">Total of screentime on Panunote</span> 
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="rounded-3">
+                                    <ol class="list-group">
+
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span>Editing & Browsing</span>
+                                            <span class="badge text-bg-primary">{{ round($user_screentime->screentime_main / 60, 2) }}
+                                                Min</span>
+                                        </li>
+
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span>Taking Quiz</span>
+                                            <span class="badge text-bg-primary">{{ round($user_screentime->screentime_take / 60, 2) }}
+                                                Min</span>
+                                        </li>
+
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span>Panugame</span>
+                                            <span class="badge text-bg-primary">{{ round($user_screentime->screentime_game / 60, 2) }}
+                                                Min</span>
+                                        </li>
+
+                                    </ol>
+                                </div>
+                            </div>
+
+                         
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="p-3 bg-semi-dark rounded-3 mb-3">
+
                         <div class="d-flex justify-content-between align-items-center" x-data="{ alltime: @entangle('alltime') }">
 
                             <div class="form-check form-switch">
@@ -165,6 +214,8 @@
 
 
                     </div>
+
+             
 
                     {{-- subjects --}}
                     <div class="p-3 bg-semi-dark rounded-3">

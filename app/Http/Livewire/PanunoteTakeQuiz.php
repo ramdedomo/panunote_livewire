@@ -18,7 +18,7 @@ use App\Models\PanunoteQuizTakes;
 use Carbon\Carbon;
 use URL;
 use DB;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteTakeQuiz extends Component
 {
     public $quiz_id;
@@ -29,6 +29,16 @@ class PanunoteTakeQuiz extends Component
     public $result = [];
     public $score = 0;
     public $total = 0;
+
+    public $user;
+
+    protected $listeners = ['getscreentime' => 'getscreentime'];
+
+    public function getscreentime($screentime){
+        PanunoteUsers::where('user_id', Auth::user()->user_id)->update([
+            'screentime_take' => $this->user->screentime_take += $screentime
+        ]);
+    }
 
     public function submit(){
 
@@ -49,11 +59,15 @@ class PanunoteTakeQuiz extends Component
             ->where('is_right', 1)
             ->get();
 
+            $del_re = '/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/m';
+
             if($count_answer > 1){
                 //if multiple answer
                 foreach($qstns[$count]['right_answer'] as $rightans){
                     if($rightans->is_right == 1){
-                        $this->correctanswer[$question->question_id][] = $rightans->answer_text;
+                        $this->correctanswer[$question->question_id]['answer'] = $rightans->answer_text;
+                        $str =  trim(strip_tags(preg_replace($del_re, '', $question->question_text)));
+                        $this->correctanswer[$question->question_id]['question'] = $str;
                     }
                 }
 
@@ -61,7 +75,9 @@ class PanunoteTakeQuiz extends Component
                 //one answer
                 foreach($qstns[$count]['right_answer'] as $rightans){
                     if($rightans->is_right == 1){
-                        $this->correctanswer[$question->question_id] = $rightans->answer_text;
+                        $this->correctanswer[$question->question_id]['answer'] = $rightans->answer_text;
+                        $str =  trim(strip_tags(preg_replace($del_re, '', $question->question_text)));
+                        $this->correctanswer[$question->question_id]['question'] = $str;
                     }
                 }
             }
@@ -69,13 +85,14 @@ class PanunoteTakeQuiz extends Component
             $count++;
         }
 
+
         //checking
         foreach($this->correctanswer as $ans_key => $ans_value){
 
-            if(is_array($ans_value)){
+            if(is_array($ans_value['answer'])){
 
                 if(!empty($this->useranswer[$ans_key])){
-                    foreach($ans_value as $userans){
+                    foreach($ans_value['answer'] as $userans){
                         if(in_array($userans, $this->useranswer[$ans_key])){
                             $res = true;
                         }else{
@@ -100,7 +117,7 @@ class PanunoteTakeQuiz extends Component
             }else{
 
                 if(!empty($this->useranswer[$ans_key])){
-                    if($ans_value == $this->useranswer[$ans_key]){
+                    if($ans_value['answer'] == $this->useranswer[$ans_key]){
                         $this->score++;
                         $this->result[$ans_key]['iscorrect'] = 0;
                         $this->result[$ans_key]['correct_answer'] = $this->correctanswer[$ans_key];
@@ -120,28 +137,28 @@ class PanunoteTakeQuiz extends Component
 
         //visits count
         //check if exists
-        if($this->quiz_details->user_id != session('USER_ID')){
+        if($this->quiz_details->user_id != Auth::user()->user_id){
             $isexists = PanunoteQuizTakes::where('quiz_id', $this->quiz_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->exists();
     
             if($isexists){
                 $updated = PanunoteQuizTakes::where('quiz_id', $this->quiz_id)
-                ->where('user_id', session('USER_ID'))
+                ->where('user_id', Auth::user()->user_id)
                 ->orderBy('created_at', 'desc')
                 ->first('updated_at');
 
                 if((Carbon::now())->gte(Carbon::parse($updated->updated_at)->addSeconds(60))){
                     PanunoteQuizTakes::create([
                         'quiz_id' => $this->quiz_id,
-                        'user_id' => session('USER_ID'),
+                        'user_id' => Auth::user()->user_id,
                         'user_average' => (($this->score / $this->total) * 100),
                     ]);
                 }
             }else{
                 PanunoteQuizTakes::create([
                     'quiz_id' => $this->quiz_id,
-                    'user_id' => session('USER_ID'),
+                    'user_id' => Auth::user()->user_id,
                     'user_average' => (($this->score / $this->total) * 100),
                 ]);
             }
@@ -152,32 +169,34 @@ class PanunoteTakeQuiz extends Component
 
     public function mount($quiz_id=null){
 
+        $this->user = PanunoteUsers::where('user_id', Auth::user()->user_id)->first();
+
 
         $this->quiz_id = $quiz_id;
         $this->quiz_details = PanunoteQuizzes::where('quiz_id', $this->quiz_id)->first();
         //visits count
         //check if exists
-        if($this->quiz_details->user_id != session('USER_ID')){
+        if($this->quiz_details->user_id != Auth::user()->user_id){
             $isexists = PanunoteQuizVisits::where('quiz_id', $this->quiz_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->exists();
 
             if($isexists){
                 $updated = PanunoteQuizVisits::where('quiz_id', $this->quiz_id)
-                ->where('user_id', session('USER_ID'))
+                ->where('user_id', Auth::user()->user_id)
                 ->orderBy('created_at', 'desc')
                 ->first('updated_at');
 
                 if((Carbon::now())->gte(Carbon::parse($updated->updated_at)->addSeconds(60))){
                     PanunoteQuizVisits::create([
                         'quiz_id' => $this->quiz_id,
-                        'user_id' => session('USER_ID'),
+                        'user_id' => Auth::user()->user_id,
                     ]);
                 }
             }else{
                 PanunoteQuizVisits::create([
                     'quiz_id' => $this->quiz_id,
-                    'user_id' => session('USER_ID'),
+                    'user_id' => Auth::user()->user_id,
                 ]);
             }
         }

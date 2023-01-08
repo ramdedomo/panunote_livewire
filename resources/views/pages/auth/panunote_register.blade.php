@@ -2,7 +2,7 @@
 @section('title', 'Panunote')
 @section('content')
 
-@if(!is_null(session('USER_ID')))
+@if(!is_null(Auth::user()))
     <script>window.location = "{{ route('subjects') }}";</script>
 @endif
 
@@ -24,7 +24,7 @@
                 @csrf
 
                 @if ($errors->any())
-                    <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                    <div class="p-3  mb-3 bg-danger rounded-3 bg-opacity-25 border border-danger" role="alert">
                         @foreach ($errors->all() as $error)
                            <div>{{ $error }}</div> 
                         @endforeach

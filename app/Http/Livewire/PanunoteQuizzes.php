@@ -10,7 +10,7 @@ use App\Models\PanunoteNotes;
 use App\Models\PanunoteAnswers;
 use DB;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteQuizzes extends Component
 {
 
@@ -53,7 +53,7 @@ class PanunoteQuizzes extends Component
         }else{
 
             PanunoteQuizzess::create([
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'quiz_sharing' => ($this->quizcreate_sharing) ? 1 : 0,
                 'quiz_title' => $this->quizcreate_title
             ]);
@@ -216,7 +216,7 @@ class PanunoteQuizzes extends Component
                 $final = array_slice($final_questions, 0, $question_count);
 
                 $a = PanunoteQuizzess::create([
-                    'user_id' => session('USER_ID'),
+                    'user_id' => Auth::user()->user_id,
                     'quiz_sharing' => ($this->quizcreate_sharing) ? 1 : 0,
                     'quiz_title' => $this->quizcreate_title,
                     'quiz_tags' => implode(",",$this->quizcreate_tags)
@@ -322,10 +322,10 @@ class PanunoteQuizzes extends Component
 
     public function render()
     {
-        // $this->quiz_list = PanunoteQuizzess::where('user_id', session('USER_ID'))->get();
+        // $this->quiz_list = PanunoteQuizzess::where('user_id', Auth::user()->user_id)->get();
 
         $this->quiz_list = PanunoteQuizzess::searchall($this->search)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->when(empty($this->search), function ($query) {
             $query->where('quiz_id', '>', 0);
         })

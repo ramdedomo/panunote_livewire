@@ -20,7 +20,7 @@ use App\Models\PanunoteQuizVisits;
 use App\Models\PanunoteQuizTakes;
 use URL;
 use DB;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteQuizz extends Component
 {
     protected $listeners = [
@@ -170,13 +170,13 @@ class PanunoteQuizz extends Component
         ->first();
 
         if(!is_null($quiz)){
-            if(session('USER_ID') != $quiz->user_id){
-                if($quiz->quiz_sharing == "1" && !empty(session('USER_ID'))){
+            if(Auth::user()->user_id != $quiz->user_id){
+                if($quiz->quiz_sharing == "1" && !empty(Auth::user()->user_id)){
     
                     $a = PanunoteUsers::where('user_id', $quiz->user_id)->first('username');
                     return redirect()->to('/'.$a->username.'/quizzes/'.$this->quiz_id);
     
-                }elseif($quiz->quiz_sharing == "0" && !empty(session('USER_ID'))){
+                }elseif($quiz->quiz_sharing == "0" && !empty(Auth::user()->user_id)){
                     dd("Private");
                 }else{
                     abort(404);
@@ -265,7 +265,7 @@ class PanunoteQuizz extends Component
 
         $like = PanunoteQuizLikes::where([
             ['quiz_id', $this->quiz_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->first();
 
         $this->isfavorite = (!is_null($like) && $like->quiz_like == 1) ? true : false;
@@ -329,20 +329,20 @@ class PanunoteQuizz extends Component
 
         $isexist = PanunoteQuizLikes::where([
             ['quiz_id', $this->quiz_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->exists();
 
         if($isexist){
             //update
             PanunoteQuizLikes::where('quiz_id', $this->quiz_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['quiz_like' => ($this->isfavorite) ? 1 : 0]);
 
         }else{
             //create
             PanunoteQuizLikes::create([
                 'quiz_id' => $this->quiz_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'quiz_like' => ($this->isfavorite) ? 1 : 0
             ]);
         }

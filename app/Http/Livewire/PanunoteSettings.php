@@ -7,7 +7,13 @@ use App\Models\PanunoteUsers;
 use Session;
 use Hash;
 use Livewire\WithFileUploads;
-
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\rand;
+use Redirect;
 class PanunoteSettings extends Component
 {
     use WithFileUploads;
@@ -25,12 +31,14 @@ class PanunoteSettings extends Component
 
     public $removephoto = false;
 
+    public $verification_code;
+
     public function save()
     {
 
         if($this->removephoto){
 
-            $a = PanunoteUsers::where('user_id', session('USER_ID'))
+            $a = PanunoteUsers::where('user_id', Auth::user()->user_id)
             ->update([
                 'user_photo' =>  null,
             ]);
@@ -51,7 +59,7 @@ class PanunoteSettings extends Component
             $logo = file_get_contents($path);
             $base64 = base64_encode($logo);
     
-            $a = PanunoteUsers::where('user_id', session('USER_ID'))
+            $a = PanunoteUsers::where('user_id', Auth::user()->user_id)
             ->update([
                 'user_photo' =>  $base64,
             ]);
@@ -69,12 +77,86 @@ class PanunoteSettings extends Component
     }
 
     public function mount(){
-        $this->user_info = PanunoteUsers::where('user_id', session('USER_ID'))->first();
+        $this->user_info = PanunoteUsers::where('user_id', Auth::user()->user_id)->first();
 
         $this->user_fname = $this->user_info->user_fname;
         $this->user_lname = $this->user_info->user_lname;
         $this->email = $this->user_info->email;
         $this->username = $this->user_info->username;
+    }
+
+    public function verifycode(){
+        $this->validate([
+            'email' => 'required|email|unique:panunote_users,email,0,isverified',
+            'verification_code' => 'required|min:6',
+        ],[
+            'email.unique' => 'This :attribute is already Registered and Verified.'
+        ]);
+
+        $isexists = DB::table('email_verification')
+        ->where('email', $this->email)
+        ->where('status', 0)
+        ->where('code', $this->verification_code)->exists();
+
+        if($isexists){
+            PanunoteUsers::where('user_id', Auth::user()->user_id)->update([
+                'email' => $this->email,
+                'isverified' => 1
+            ]);
+
+            DB::table('email_verification')
+            ->where('email', $this->email)
+            ->where('status', 0)
+            ->where('code', $this->verification_code)->update([
+                'status' => 1
+            ]);
+
+            Session::put('user_email', $this->email);
+
+            $this->email = $this->email;
+            Session::flash('success', "New Email Verified!");
+        }else{
+            Session::flash('error', "Invalid Code.");
+        }
+
+    }
+
+    public function changeemail(){
+        if($this->email == $this->user_info->email){
+            Session::flash('error', "No Changes");
+        }else{
+            
+            $this->validate([
+                'email' => 'required|email|unique:panunote_users,email,0,isverified',
+            ],[
+                'email.unique' => 'This :attribute is already Registered and Verified.'
+            ]);
+
+            $token = rand(000000000000,100000000000);
+            DB::table('email_verification')->insert([
+                'email' => $this->email,
+                'code' => $token,
+                'created_at' => Carbon::now(),
+            ]);
+    
+            $body_message = "<span class='font button-reset'>". $token ."</span>";
+    
+            $data = [
+                'title' => 'Panunote Change Email',
+                'name' => 'Panunote User',
+                'info' => 'To Verify Email please Input this Code:',
+                'body' => $body_message,
+            ];
+    
+            Mail::send('pages.panunote_email', $data, function ($message){
+                $message->from('john@johndoe.com', 'Panunote: Online Study Companion');
+                $message->to($this->email, 'Panunote User');
+                $message->subject('Panunote Verify Email');
+            });
+
+            Session::flash('success', "Verification Code Sent! Please Check your Email and Enter the code below.");
+  
+        }
     }
 
     public function password(){
@@ -89,7 +171,7 @@ class PanunoteSettings extends Component
         
         if (Hash::check($this->oldpassword, $this->user_info->password)) {
 
-            $a = PanunoteUsers::where('user_id', session('USER_ID'))
+            $a = PanunoteUsers::where('user_id', Auth::user()->user_id)
             ->update([
                 'password' =>  Hash::make($this->newpassword),
             ]);
@@ -110,7 +192,7 @@ class PanunoteSettings extends Component
         return [
             'user_fname' => 'required',
             'user_lname' => 'required',
-            'email' => 'required|email|unique:panunote_users,email,'.$this->user_info->user_id.',user_id',
+            //'email' => 'required|email|unique:panunote_users,email,'.$this->user_info->user_id.',user_id',
             'username' => 'required|min:6',
         ];
     }
@@ -118,11 +200,10 @@ class PanunoteSettings extends Component
     public function submit(){
         $this->validate();
 
-        $a = PanunoteUsers::where('user_id', session('USER_ID'))
+        $a = PanunoteUsers::where('user_id', Auth::user()->user_id)
         ->update([
             'user_fname' =>  $this->user_fname,
             'user_lname' => $this->user_lname,
-            'email' => $this->email,
             'username' =>  $this->username,
         ]);
 

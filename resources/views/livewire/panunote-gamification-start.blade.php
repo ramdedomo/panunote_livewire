@@ -62,7 +62,7 @@
 
 
                                             <td>
-                                                @if ($players['user_id'] == session('USER_ID'))
+                                                @if ($players['user_id'] == Auth::user()->user_id)
                                                     <span class="fw-bold">(You)</span>
                                                 @endif {{ $players['username'] }}
                                             </td>
@@ -136,7 +136,7 @@
                                     <th scope="row">{{ $count++ }}</th>
                                     <td>{{ $players['score'] }}</td>
                                     <td>
-                                        @if ($players['user_id'] == session('USER_ID'))
+                                        @if ($players['user_id'] == Auth::user()->user_id)
                                             <span class="fw-bold">(You)</span>
                                         @endif {{ $players['username'] }}
                                     </td>
@@ -179,7 +179,7 @@
                             <span>You're the admin in this Room</span>
 
                             @foreach ($playerdetails as $players)
-                                @if ($players['user_id'] == session('USER_ID'))
+                                @if ($players['user_id'] == Auth::user()->user_id)
                                     @if ($players['user_status'] == 1 && $players['refreshToken'] == 1)
                                         <span class="badge text-bg-success text-light">Done</span>
                                     @elseif($players['user_status'] == 0 && $players['refreshToken'] == 1)
@@ -465,6 +465,14 @@
                     window.Livewire.emit('useranswered');
                 });
         });
+    </script>
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            window.onbeforeunload = function() {
+                window.livewire.emit('getscreentime', TimeMe.getTimeOnCurrentPageInSeconds());
+            }
+        })
     </script>
 
 </div>

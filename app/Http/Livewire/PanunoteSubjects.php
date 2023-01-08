@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\PanunoteSubjects as PanunoteSubject;
 use App\Models\PanunoteNotes;
 use Session;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteSubjects extends Component
 {
     public $subjecttitle;
@@ -32,7 +32,7 @@ class PanunoteSubjects extends Component
         $addsubject = PanunoteSubject::create([
             'subject_name' => $this->subjecttitle,
             'subject_sharing' => $sharing,
-            'user_id' => Session::get('USER_ID')
+            'user_id' => Auth::user()->user_id
         ]);
 
         $this->dispatchBrowserEvent('createdsubject');
@@ -41,7 +41,7 @@ class PanunoteSubjects extends Component
     public function render()
     {
 
-        // $subject_list = PanunoteSubject::where('panunote_subjects.user_id', session('USER_ID'))->get();
+        // $subject_list = PanunoteSubject::where('panunote_subjects.user_id', Auth::user()->user_id)->get();
    
         // $count = 0;
         // foreach($subject_list as $subject){
@@ -50,7 +50,7 @@ class PanunoteSubjects extends Component
         // }
 
         $this->subject_list = PanunoteSubject::searchall($this->search)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->when(empty($this->search), function ($query) {
             $query->where('subject_id', '>', 0);
         })

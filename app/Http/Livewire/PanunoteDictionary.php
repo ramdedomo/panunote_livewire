@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Client;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteDictionary extends Component
 {
     protected $listeners = [

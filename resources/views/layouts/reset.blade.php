@@ -1,8 +1,3 @@
-@if(Auth::user()->isverified == 0)
-    <script>window.location = "/verify";</script>
-@endif
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Panugame</title>
+    <title>Panunote - Password Reset</title>
+    
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @vite(['resources/js/app.js'])
-
-    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('img/favicon_main.ico') }}">
     <script src="https://cdn.tiny.cloud/1/wfuqkmql36bw2zkf9fqzskn8lk2yue6yyk7tak3n60qoexkt/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -40,7 +35,7 @@
     @livewireStyles
 </head>
 
-<body style="overflow-y: auto; background-image:url({{ url('img/logos/panunote_bg2.png') }}); background-size: cover;">
+<body>
 
     <div class="toast-container position-fixed end-0 p-3" wire:ignore>
         <div id="liveToast" class="toast" data-bs-delay="2000" role="alert" aria-live="assertive" aria-atomic="true">
@@ -75,60 +70,14 @@
         integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="{{ asset('js/timeme.js') }}"></script>
 
     <script>
-        TimeMe.initialize({
-            currentPageName: "game", // current page
-            idleTimeoutInSeconds: 5 // seconds
-        });
-
-        window.onload = function() {
-            setInterval(function() {
-                var timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
-			    //document.getElementById('timeInSeconds').textContent = timeSpentOnPage.toFixed(2);
-            }, 25);
-        }
-        //kick
-
-        //$('.filter').selectpicker('mobile');
-        window.addEventListener('kicked', event => {
-            $(".content-toast").text("You have been kicked by the admin! Redirecting...");
-            const toast = new bootstrap.Toast($('#liveToast'));
-            toast.show();
-        });
-
-        window.addEventListener('wrongcredentials', event => {
-            $(".content-toast").text("Wrong Credentials Please Try Again");
-            const toast = new bootstrap.Toast($('#liveToast'));
-            toast.show();
-        });
-
-
-        window.addEventListener('notify', event => {
-            $(".content-toast").text("Your are now the admin!");
-            const toast = new bootstrap.Toast($('#liveToast'));
-            toast.show();
-        });
-
-        window.addEventListener('error', event => {
-            $(".content-toast").text("Something went wrong, please try again or refresh the page.");
-            const toast = new bootstrap.Toast($('#liveToast'));
-            toast.show();
+        window.addEventListener('show-result', event => {
+            event.stopPropagation();
+            var bsOffcanvas = new bootstrap.Offcanvas($('#offcanvasRight'));
+            bsOffcanvas.show();
         })
-
-        window.addEventListener('playerjoined', event => {
-            $(".content-toast").text(event.detail.player_name + " joined the game!");
-            const toast = new bootstrap.Toast($('#liveToast'));
-            toast.show();
-        })
-
-
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            $('.lobbyfilter').selectpicker('mobile');
-        }
     </script>
-
 
 
 </body>

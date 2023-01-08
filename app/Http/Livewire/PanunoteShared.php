@@ -7,7 +7,7 @@ use App\Models\PanunoteSubjects;
 use App\Models\PanunoteNotes;
 use App\Models\PanunoteQuizzes;
 use App\Models\PanunoteQuestions;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteShared extends Component
 {
     public $sharedSubjects;
@@ -16,7 +16,7 @@ class PanunoteShared extends Component
 
     public function mount(){
         //subjects
-        $this->sharedSubjects = PanunoteSubjects::where('user_id',  session('USER_ID'))
+        $this->sharedSubjects = PanunoteSubjects::where('user_id',  Auth::user()->user_id)
         ->where('subject_sharing', 1)
         ->get();
 
@@ -27,13 +27,13 @@ class PanunoteShared extends Component
         }
 
         //notes
-        $this->sharedNotes = PanunoteNotes::where('user_id',  session('USER_ID'))
+        $this->sharedNotes = PanunoteNotes::where('user_id',  Auth::user()->user_id)
         ->where('note_sharing', 1)
         ->get();
 
 
         //quiz
-        $this->sharedQuizzes = PanunoteQuizzes::where('user_id',  session('USER_ID'))
+        $this->sharedQuizzes = PanunoteQuizzes::where('user_id',  Auth::user()->user_id)
         ->where('quiz_sharing', 1)
         ->get();
 

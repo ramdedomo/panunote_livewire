@@ -142,7 +142,7 @@
                                                     </div>
                                                     <div>
                                                         <p class="p-0 m-0" id="title">
-                                                            @if(session('USER_ID') ==  $subject->user_id)
+                                                            @if(Auth::user()->user_id ==  $subject->user_id)
                                                             <i class="bi bi-person-check-fill text-primary"></i> {{$subject->username}}
                                                             @else
                                                             <i class="bi bi-person-fill"></i> {{$subject->username}}
@@ -185,7 +185,7 @@
                                                     </div>
                                                     <div>
                                                         <p class="p-0 m-0" id="title">
-                                                            @if(session('USER_ID') ==  $note->user_id)
+                                                            @if(Auth::user()->user_id ==  $note->user_id)
                                                             <i class="bi bi-person-check-fill text-warning"></i> {{$note->username}}
                                                             @else
                                                             <i class="bi bi-person-fill"></i> {{$note->username}}
@@ -228,7 +228,7 @@
                                                     </div>
                                                     <div>
                                                         <p class="p-0 m-0" id="title">
-                                                            @if(session('USER_ID') ==  $quiz->user_id)
+                                                            @if(Auth::user()->user_id ==  $quiz->user_id)
                                                             <i class="bi bi-person-check-fill text-info"></i> {{$quiz->username}}
                                                             @else
                                                             <i class="bi bi-person-fill"></i> {{$quiz->username}}
@@ -290,6 +290,12 @@
 
 
                         @if (!$islikeempty)
+
+
+
+
+
+                        
                             <div class="col-12 my-2">
                                 <div class="bg-light rounded">
                                     <div class="bg-semi-dark p-2 rounded">
@@ -334,7 +340,7 @@
                                                             <td>{{ $topl->subject_name }}</td>
                                                             <td>{{ $topl->like_count }}</td>
                                                             <td>
-                                                                @if (session('USER_ID') == $topl->user_info[0]['user_id'])
+                                                                @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
                                                                     <i class="bi bi-person-check-fill text-primary"></i>
                                                                     {{ $topl->user_info[0]['username'] }}
                                                                 @else
@@ -433,7 +439,7 @@
                                                             <td>{{ $topv->subject_name }}</td>
                                                             <td>{{ $topv->visit_count }}</td>
                                                             <td>
-                                                                @if (session('USER_ID') == $topv->user_info[0]['user_id'])
+                                                                @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
                                                                     <i
                                                                         class="bi bi-person-check-fill text-primary"></i>
                                                                     {{ $topv->user_info[0]['username'] }}

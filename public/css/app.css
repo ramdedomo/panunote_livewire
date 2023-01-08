@@ -13840,3 +13840,14 @@ a:hover .tooltip {
 .alert-dark .alert-link {
     color: #101214;
 }
+
+
+.browse-picker {
+    transition: transform 0.2s;
+}
+
+.browse-picker:hover {
+    -ms-transform: scale(1.02); /* IE 9 */
+    -webkit-transform: scale(1.02); /* Safari 3-8 */
+    transform: scale(1.02);
+}

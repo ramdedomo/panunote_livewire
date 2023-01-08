@@ -6,17 +6,31 @@ use Livewire\Component;
 use App\Models\PanunoteSubjects;
 use App\Models\PanunoteQuizzes;
 use App\Models\PanunoteNotes;
-
+use App\Models\PanunoteUsers;
+use Illuminate\Support\Facades\Auth;
 class PanunoteTopBar extends Component
 {
 
+    public $user;
     public $searchglobal;
+
+    protected $listeners = ['getscreentime' => 'getscreentime'];
+
+    public function mount(){
+        $this->user = PanunoteUsers::where('email', session('user_email'))->first();
+    }
+
+    public function getscreentime($screentime){
+        PanunoteUsers::where('email', session('user_email'))->update([
+            'screentime_main' => $this->user->screentime_main += $screentime
+        ]);
+    }
 
     public function render()
     {
 
         $this->subjects = PanunoteSubjects::searchall($this->searchglobal)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->when(empty($this->searchglobal), function ($query) {
             $query->where('subject_id', 0);
         })
@@ -24,7 +38,7 @@ class PanunoteTopBar extends Component
         ->get();
 
         $this->notes = PanunoteNotes::searchall($this->searchglobal)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->when(empty($this->searchglobal), function ($query) {
             $query->where('note_id', 0);
         })
@@ -32,7 +46,7 @@ class PanunoteTopBar extends Component
         ->get();
 
         $this->quizzes = PanunoteQuizzes::searchall($this->searchglobal)
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->when(empty($this->searchglobal), function ($query) {
             $query->where('quiz_id', 0);
         })

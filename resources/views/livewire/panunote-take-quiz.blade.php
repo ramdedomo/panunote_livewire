@@ -4,6 +4,8 @@
             <div class="bg-white p-0 m-0">
                 <div class="sizebox-test"></div>
 
+                {{-- <span class="text-danger" id="timeInSeconds"></span> --}}
+
                 <div class="p-3 m-0 fixed-top bg-light border-bottom border-1 border-info">
                     <div class="d-flex justify-content-between">
                         <div class="py-1 px-2 text-info rounded fs-3">
@@ -12,19 +14,6 @@
                         </div>
 
                         <div class="">
-                            <span wire:loading>
-                                <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
-                                    role="status" aria-hidden="true"></div>
-                            </span>
-                            @if (!empty($result))
-                                <button class="btn py-1 px-2 bg-info text-light" type="button"
-                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                                    aria-controls="offcanvasRight">Results</button></button>
-                                        <span class="mx-1"></span>
-                            @else
-                                <button wire:click="submit" class="btn py-1 px-2 bg-info text-light">Submit <i
-                                        class="bi bi-check-lg"></i></button>
-                            @endif
 
                         </div>
 
@@ -85,27 +74,42 @@
                                             @foreach ($result as $res)
                                                 <div>
                                                     @if ($res['iscorrect'] == 0)
-                                                        <span class="badge text-bg-primary">Correct</span>
+                                                        <span class="badge text-bg-primary mb-1">Correct</span>
                                                     @elseif($res['iscorrect'] == 1)
-                                                        <span class="badge text-bg-danger">Wrong</span>
+                                                        <span class="badge text-bg-danger mb-1">Wrong</span>
                                                     @else
-                                                        <span class="badge text-bg-warning">No Answer</span>
+                                                        <span class="badge text-bg-warning mb-1">No Answer</span>
                                                     @endif
                                                 </div>
 
                                                 <div class="bg-semi-dark mb-3 p-2">
 
                                                     <div>
-                                                        @if (is_array($res['correct_answer']))
-                                                            <strong>Correct Answer:</strong>
-                                                            @foreach ($res['correct_answer'] as $correctans)
+                                                        @if (is_array($res['correct_answer']['answer']))
+
+                                                        <div class="mb-2">
+                                                            <strong>Question:</strong>
+                                                            {{$res['correct_answer']['question']}}
+                                                        </div>
+
+                                                        <strong>Correct Answer:</strong>
+                                                            @foreach ($res['correct_answer']['answer'] as $correctans)
                                                                 <span class="badge text-bg-info">
                                                                     {{ $correctans }}</span>
                                                             @endforeach
+                                                       
+                                                      
                                                         @else
+                                                        <div class="mb-2">
+                                                            <strong>Question:</strong>
+                                                            {{$res['correct_answer']['question']}}
+                                                        </div>
+                                                 
                                                             <strong>Correct Answer:</strong>
                                                             <span
-                                                                class="badge text-bg-info">{{ $res['correct_answer'] }}</span>
+                                                                class="badge text-bg-info">{{ $res['correct_answer']['answer'] }}</span>
+                                                          
+                                                    
                                                         @endif
                                                     </div>
 
@@ -242,8 +246,50 @@
 
                     @endforeach
                 </div>
+
+                <div class="py-4">
+
+                </div>
+
+
+                <div class="p-3 m-0 fixed-bottom bg-light border-top border-1 border-info">
+                    <div class="d-flex justify-content-between">
+                        <div class="py-1 px-2 text-info rounded fs-3">
+            
+                        </div>
+            
+                        <div class="">
+                            <span wire:loading>
+                                <div id="spinner" class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
+                                    role="status" aria-hidden="true"></div>
+                            </span>
+                            @if (!empty($result))
+                                <button class="btn py-1 px-2 bg-info text-light" type="button"
+                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight">Results</button></button>
+                                        <span class="mx-1"></span>
+                            @else
+                                <button wire:click="submit" class="btn py-1 px-2 bg-info text-light">Submit <i
+                                        class="bi bi-check-lg"></i></button>
+                            @endif
+            
+                        </div>
+            
+                    </div>
+                </div>
+
             </div>
 
         </div>
+        
     </main>
+
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            window.onbeforeunload = function() {
+                window.livewire.emit('getscreentime', TimeMe.getTimeOnCurrentPageInSeconds());
+            }
+        })
+    </script>
 </div>

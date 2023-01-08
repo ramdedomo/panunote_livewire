@@ -75,4 +75,13 @@
 
         </div>
     </div>
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            window.onbeforeunload = function() {
+                window.livewire.emit('getscreentime', TimeMe.getTimeOnCurrentPageInSeconds());
+            }
+        })
+    </script>
+    
 </div>

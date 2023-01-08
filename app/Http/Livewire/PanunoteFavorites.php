@@ -11,7 +11,7 @@ use App\Models\PanunoteQuizzes;
 use App\Models\PanunoteNotes;
 use App\Models\PanunoteUsers;
 use App\Models\PanunoteQuestions;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteFavorites extends Component
 {
 
@@ -23,7 +23,7 @@ class PanunoteFavorites extends Component
     public function mount(){
         //subject
         $this->isSubempty = true;
-        $this->likeSubjects = PanunoteSubjectLikes::where('user_id', session('USER_ID'))
+        $this->likeSubjects = PanunoteSubjectLikes::where('user_id', Auth::user()->user_id)
         ->where('subject_like', 1)
         ->get();
 
@@ -49,7 +49,7 @@ class PanunoteFavorites extends Component
 
         //notes
         $this->isNoteempty = true;
-        $this->likeNotes = PanunoteNoteLikes::where('user_id', session('USER_ID'))
+        $this->likeNotes = PanunoteNoteLikes::where('user_id', Auth::user()->user_id)
         ->where('note_like', 1)
         ->get();
 
@@ -73,7 +73,7 @@ class PanunoteFavorites extends Component
 
         //quizzes
         $this->isQuizempty = true;
-        $this->likeQuizzes = PanunoteQuizLikes::where('user_id', session('USER_ID'))
+        $this->likeQuizzes = PanunoteQuizLikes::where('user_id', Auth::user()->user_id)
         ->where('quiz_like', 1)
         ->get();
 

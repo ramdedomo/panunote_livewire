@@ -1,5 +1,9 @@
 <div>
     <main>
+
+
+    
+
         <div>
             <div class="p-3 p-md-5 p-lg-5">
 
@@ -12,6 +16,7 @@
                     <div>
                         <a href="/panugame" type="button" class="btn btn-outline-light"><i
                                 class="bi bi-arrow-left-circle"></i> Go Back</a>
+                                <span class="text-danger fs-1 mt-5" id="timeInSeconds"></span>
                     </div>
                 </div>
 
@@ -160,6 +165,14 @@
             </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            window.onbeforeunload = function() {
+                window.livewire.emit('getscreentime', TimeMe.getTimeOnCurrentPageInSeconds());
+            }
+        })
+    </script>
 
 
 </div>

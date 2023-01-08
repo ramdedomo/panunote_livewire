@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 /**
  * @property integer $user_id
  * @property string $email
@@ -18,8 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property PanunoteSubject[] $panunoteSubjects
  * @property PanunoteSubject[] $panunoteSubjects
  */
-class PanunoteUsers extends Model
+class PanunoteUsers extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
     /**
      * The primary key for the model.
      * 
@@ -32,7 +34,7 @@ class PanunoteUsers extends Model
      */
 
 
-    protected $fillable = ['user_id', 'email', 'user_fname', 'user_lname', 'username', 'password', 'user_photo'];
+    protected $fillable = ['screentime_game', 'screentime_main', 'screentime_take', 'user_id', 'isverified', 'email', 'user_fname', 'user_lname', 'username', 'password', 'user_photo'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

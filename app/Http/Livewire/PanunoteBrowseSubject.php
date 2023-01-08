@@ -11,7 +11,7 @@ use App\Models\PanunoteNotes;
 use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\PanunoteSubjectVisits;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteBrowseSubject extends Component
 {
     public $startDate;

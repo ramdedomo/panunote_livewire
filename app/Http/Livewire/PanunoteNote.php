@@ -15,7 +15,7 @@ use App\Models\PanunoteNoteVisits;
 use App\Models\PanunoteUsers;
 use URL;
 use GuzzleHttp\Promise;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteNote extends Component
 {
     public $finalquestions = [];
@@ -69,7 +69,7 @@ class PanunoteNote extends Component
 
     public function delete(){
 
-        if(session("USER_ID") == $this->note_details->user_id){
+        if(Auth::user()->user_id == $this->note_details->user_id){
             PanunoteNoteLikes::where('note_id', $this->note_id)->delete();
             PanunoteNoteVisits::where('note_id', $this->note_id)->delete();
             PanunoteNotes::where('note_id', $this->note_id)->delete();
@@ -90,7 +90,7 @@ class PanunoteNote extends Component
             'note_id' => $this->note_id,
             'quiz_sharing' => 0,
             'quiz_title' => $this->quiztitle,
-            'user_id' => session('USER_ID')
+            'user_id' => Auth::user()->user_id
         ])->quiz_id;
 
 
@@ -179,13 +179,13 @@ class PanunoteNote extends Component
         $this->note_details = PanunoteNotes::where('note_id', $this->note_id)->first();
 
         if(!is_null($this->note_details) && !is_null($subject)){
-            if(session('USER_ID') != $this->note_details->user_id){
-                if($this->note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(session('USER_ID'))){
+            if(Auth::user()->user_id != $this->note_details->user_id){
+                if($this->note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
     
                     $a = PanunoteUsers::where('user_id', $subject->user_id)->first('username');
                     return redirect()->to('/'.$a->username.'/subjects/'.$this->subject_id.'/'.$this->note_id);
     
-                }elseif($this->note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(session('USER_ID'))){
+                }elseif($this->note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
                     dd("Private");
                 }else{
                     abort(404);
@@ -213,7 +213,7 @@ class PanunoteNote extends Component
         //favorite
         $like = PanunoteNoteLikes::where([
             ['note_id', $this->note_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->first();
 
         $this->isfavorite = (!is_null($like) && $like->note_like == 1) ? true : false;
@@ -266,20 +266,20 @@ class PanunoteNote extends Component
 
         $isexist = PanunoteNoteLikes::where([
             ['note_id', $this->note_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->exists();
 
         if($isexist){
             //update
             PanunoteNoteLikes::where('note_id', $this->note_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['note_like' => ($this->isfavorite) ? 1 : 0]);
 
         }else{
             //create
             PanunoteNoteLikes::create([
                 'note_id' => $this->note_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'note_like' => ($this->isfavorite) ? 1 : 0
             ]);
         }
@@ -365,93 +365,100 @@ class PanunoteNote extends Component
                         $this->finalquestions[$count] = json_decode($result->getBody()->getContents())->data;
                         $count++;
                     }
+
                 
-                    // dd($this->finalquestions);
-                
-                
-                    //longer 22secs on 5 questions
-    
-                    //  foreach($matches as $answer){
+   
+                    $rememberingVerbs = array("cite", "define", "describe", "draw", "enumerate", "identify", "index", "indicate", "label", "list", "match", "meet", "name", "outline", "point", "quote", "read", "recall", "recite", "recognize", "record", "repeat", "reproduce", "review", "select", "state", "study", "tabulate", "trace", "write");
+                    $understandingVerbs = array("add", "approximate", "articulate", "associate", "characterize", "clarify", "classify", "compare", "compute", "contrast", "convert", "defend", "describe", "detail", "differentiate", "discuss", "distinguish", "elaborate", "estimate", "example", "explain", "express", "extend", "extrapolate", "factor", "generalize", "give", "infer", "interact", "interpolate", "interpret", "observe", "paraphrase", "picture graphically", "predict", "review", "rewrite", "subtract", "summarize", "translate", "visualize");
+                    $applyingVerbs = array("acquire", "adapt", "allocate", "alphabetize", "apply", "ascertain", "assign", "attain", "avoid", "back up", "calculate", "capture", "change", "classify", "complete", "compute", "construct", "customize", "demonstrate", "depreciate", "derive", "determine", "diminish", "discover", "draw", "employ", "examine", "exercise", "explore", "expose", "express", "factor", "figure", "graph", "handle", "illustrate", "interconvert", "investigate", "manipulate", "modify", "operate", "personalize", "plot", "practice", "predict", "prepare", "price", "process", "produce", "project", "provide", "relate", "round off", "sequence", "show", "simulate", "sketch", "solve", "subscribe", "tabulate", "transcribe", "translate", "use");
+                    $analyzingVerbs = array("analyze", "audit", "blueprint", "breadboard", "break down", "characterize", "classify", "compare", "confirm", "contrast", "correlate", "detect", "diagnose", "diagram", "differentiate", "discriminate", "dissect", "distinguish", "document", "ensure", "examine", "explain", "explore", "figure out", "file", "group", "identify", "illustrate", "infer", "interrupt", "inventory", "investigate", "layout", "manage", "maximize", "minimize", "optimize", "order", "outline", "point out", "prioritize", "proofread", "query", "relate", "select", "separate", "subdivide", "train", "transform");
+                    $evaluatingVerbs = array("appraise", "assess", "compare", "conclude", "contrast", "counsel", "criticize", "critique", "defend", "determine", "discriminate", "estimate", "evaluate", "explain", "grade", "hire", "interpret", "judge", "justify", "measure", "predict", "prescribe", "rank", "rate", "recommend", "release", "select", "summarize", "support", "test", "validate", "verify");
+                    $creatingVerbs = array("abstract", "animate", "arrange", "assemble", "budget", "categorize", "code", "combine", "compile", "compose", "construct", "cope", "correspond", "create", "cultivate", "debug", "depict", "design", "develop", "devise", "dictate", "enhance", "explain", "facilitate", "format", "formulate", "generalize", "generate", "handle", "import", "improve", "incorporate", "integrate", "interface", "join", "lecture", "model", "modify", "network", "organize", "outline", "overhaul", "plan", "portray", "prepare", "prescribe", "produce", "program", "rearrange", "reconstruct", "relate", "reorganize", "revise", "rewrite", "specify", "summarize");
                     
-                    //     $response = $client->post('https://burubugyot-question-generation.hf.space/api/predict/',
-                    //         [
-                    //             'headers' => [  
-                    //                 'Authorization' => $bearer
-                    //             ],
-    
-                    //             'body' => json_encode(
-                    //             [  
-                    //                 'data' => [$sanitizehtml.'\n', str_replace("&nbsp;", " ", $answer[1])]
-                    //             ]
-    
-                    //         )]
-                    //     );
-                        
-                    //     $this->finalquestions[$count] = json_decode($response->getBody()->getContents())->data;
-                    //     $this->finalanswers[$count] = str_replace("&nbsp;", " ", $answer[1]);
-    
-                    //     $count++;
-                    //  }
-    
-    
-                    //  dd($this->finalquestions);
-    
-    
-                
-    
-                $count = 0;
-                $frequency = [];
-    
-                foreach(array_column($this->finalquestions, 0) as $difficulty){
-                
-                    if($count == count($this->finalquestions)){
-                        $difficulty = str_replace('?', '', $difficulty);
-                    }
-    
-                    $frequency[$count]['total'] = 0;
-                    $frequency[$count]['noofword'] = count(explode(' ', $difficulty));
-    
-                    foreach(explode(' ', $difficulty) as $diff){
-                
-                        $response = $client->get('https://api.datamuse.com/words?sp='.$diff.'&md=f&max=1');
-                        $response_body = (string)$response->getBody();
-                        
-                        if(!empty(json_decode($response_body, true))){
-                            //$frequency[$count]['total'] += str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]);
-    
-                            if(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 100){
-                                $frequency[$count]['total'] += 2;
-                            }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 100 && str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 50){
-                                $frequency[$count]['total'] += 4;
-                            }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 50){
-                                $frequency[$count]['total'] += 6;
-                            }
-    
+
+               
+                    $count = 0;
+
+                    foreach(array_column($this->finalquestions, 0) as $difficulty){
+                    
+                        if($count == count($this->finalquestions)){
+                            $difficulty = str_replace('?', '', $difficulty);
                         }
-                        
+
+                        $this->finaldifficulty[$count] = "remembering (easy)";
+        
+                        foreach(explode(' ', $difficulty) as $diff){
+                              // Check if the word is a verb
+                            if(in_array($diff, $rememberingVerbs)) {
+                                $this->finaldifficulty[$count] = 1;
+                            }
+                            else if(in_array($diff, $understandingVerbs)) {
+                                $this->finaldifficulty[$count] = 1;
+                            }
+                            else if(in_array($diff, $applyingVerbs)) {
+                                $this->finaldifficulty[$count] = 2;
+                            }
+                            else if(in_array($diff, $analyzingVerbs)) {
+                                $this->finaldifficulty[$count] = 2;
+                            }
+                            else if(in_array($diff, $evaluatingVerbs)) {
+                                $this->finaldifficulty[$count] = 3;
+                            }
+                            else if(in_array($diff, $creatingVerbs)) {
+                                $this->finaldifficulty[$count] = 3;
+                            }
+                        }
+
+                       $count++;
                     }
+
+
     
-                    $count++;
-                }
+                // $count = 0;
+                // $frequency = [];
     
-            
-                // $test = [];
+                // foreach(array_column($this->finalquestions, 0) as $difficulty){
+                
+                //     if($count == count($this->finalquestions)){
+                //         $difficulty = str_replace('?', '', $difficulty);
+                //     }
     
-                // foreach($frequency as $fqncy){
-                //     $test[] = $fqncy['total'] / $fqncy['noofword'] / $fqncy['noofword'];
+                //     $frequency[$count]['total'] = 0;
+                //     $frequency[$count]['noofword'] = count(explode(' ', $difficulty));
+    
+                //     foreach(explode(' ', $difficulty) as $diff){
+                
+                //         $response = $client->get('https://api.datamuse.com/words?sp='.$diff.'&md=f&max=1');
+                //         $response_body = (string)$response->getBody();
+                        
+                //         if(!empty(json_decode($response_body, true))){
+                //             //$frequency[$count]['total'] += str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]);
+    
+                //             if(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 100){
+                //                 $frequency[$count]['total'] += 2;
+                //             }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 100 && str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) > 50){
+                //                 $frequency[$count]['total'] += 4;
+                //             }elseif(str_replace('f:', '', json_decode($response_body, true)[0]['tags'][0]) <= 50){
+                //                 $frequency[$count]['total'] += 6;
+                //             }
+    
+                //         }
+                        
+                //     }
+    
+                //     $count++;
                 // }
+
+                
     
-                // dd($frequency, $test);
-    
-                //method 1
     
                 // $count = 0;
                 // foreach($frequency as $fqncy){
-                //     if($fqncy['total'] <= 20){
+                //     if($fqncy['total'] / $fqncy['noofword'] < 2.5){
                 //         $this->finaldifficulty[$count] = "1";
-                //     }elseif($fqncy['total'] > 20 && $fqncy['total'] <= 30){
+                //     }elseif($fqncy['total'] / $fqncy['noofword'] >= 2.5 && $fqncy['total'] / $fqncy['noofword'] < 3.5){
                 //         $this->finaldifficulty[$count] = "2";
-                //     }elseif($fqncy['total'] > 30){
+                //     }elseif($fqncy['total'] / $fqncy['noofword'] >= 3.5){
                 //         $this->finaldifficulty[$count] = "3";
                 //     }
     
@@ -459,29 +466,7 @@ class PanunoteNote extends Component
                 // }
     
     
-                //method 2
-    
-    
-    
-                $count = 0;
-                foreach($frequency as $fqncy){
-                    if($fqncy['total'] / $fqncy['noofword'] < 2.5){
-                        $this->finaldifficulty[$count] = "1";
-                    }elseif($fqncy['total'] / $fqncy['noofword'] >= 2.5 && $fqncy['total'] / $fqncy['noofword'] < 3.5){
-                        $this->finaldifficulty[$count] = "2";
-                    }elseif($fqncy['total'] / $fqncy['noofword'] >= 3.5){
-                        $this->finaldifficulty[$count] = "3";
-                    }
-    
-                    $count++;
-                }
-    
-    
-    
-                //dd($this->finalquestions, $this->finalanswers, $this->finaldifficulty);
-    
-    
-    
+
                 $this->dispatchBrowserEvent('generated');
                 $this->isgenerated = true;
                 //dd($questions, $answers);

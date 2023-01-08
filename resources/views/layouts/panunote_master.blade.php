@@ -1,3 +1,8 @@
+@if(Auth::user()->isverified == 0)
+    <script>window.location = "/verify";</script>
+@endif
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,15 +41,9 @@
         integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     @livewireStyles
-
-
-
-
-
 </head>
 
 <body style="overflow-y: auto">
-
 
     <div class="toast-container position-fixed end-0 p-3" wire:ignore>
         <div id="liveToast" class="toast" data-bs-delay="2000" role="alert" aria-live="assertive" aria-atomic="true">
@@ -97,8 +96,27 @@
         integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
+    <script src="{{ asset('js/timeme.js') }}"></script>
     <script>
+
+        TimeMe.initialize({
+            currentPageName: "main", // current page
+            idleTimeoutInSeconds: 5 // seconds
+        });
+
+        window.onload = function(){
+		setInterval(function(){
+                var timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
+            }, 25);
+	    }
+
+        window.addEventListener('selectednotes', event => {
+            $(".content-toast").text('No selected Notes. Please Select and Try Again');
+            const toast = new bootstrap.Toast($('#liveToast'));
+            toast.show();
+        });
+
+
 
         window.addEventListener('emptyanswer', event => {
             $(".content-toast").text('No Answers Found. To Generate Question highlight possible answer in the note below.');
@@ -191,6 +209,15 @@
             $('#deleteQuiz').modal('hide');
             $('#deleteSubject').modal('hide');
         })
+
+        window.addEventListener('notemodifydone', event => {
+            $(".content-toast").text('Note Modify Done!');
+            const toast = new bootstrap.Toast($('#liveToast'));
+            toast.show();
+            $('#movecopy').modal('hide');
+            $('#copysingle').modal('hide');
+            $('#movesingle').modal('hide');
+        });
 
         window.addEventListener('createdquiz', event => {
             $('#staticBackdrop').modal('hide');

@@ -13,7 +13,7 @@ use App\Models\PanunoteSubjectLikes;
 use App\Models\PanunoteSubjectVisits;
 use App\Models\PanunoteUsers;
 use URL;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteSubject extends Component
 {
     public $notetitle;
@@ -48,11 +48,104 @@ class PanunoteSubject extends Component
 
     public $allsubs;
 
+    public $itemsCard = [];
+
+
+    public $singleSelectid;
+
+
+
+    public function move_single(){
+        $note = PanunoteNotes::find($this->singleSelectid);
+        $note->subject_id = $this->selectsubject;
+        $note->save();
+        $this->dispatchBrowserEvent('notemodifydone');
+    }
+
+    public function copy_single(){
+        $note = PanunoteNotes::find($this->singleSelectid);
+        $newNote = $note->replicate();
+        $newNote->subject_id = $this->selectsubject;
+        $newNote->save();
+        $this->dispatchBrowserEvent('notemodifydone');
+    }
+
+    public function duplicate_single($noteid){
+        $note = PanunoteNotes::find($noteid);
+        $newNote = $note->replicate();
+        $newNote->save();
+        $this->dispatchBrowserEvent('notemodifydone');
+    }
+
+    
+    public function delete_single($noteid){
+        PanunoteNotes::find($noteid)->delete();
+        $this->dispatchBrowserEvent('notemodifydone');
+    }
+
+
+    public function delete_selected(){
+        if(empty($this->itemsCard)){
+            $this->dispatchBrowserEvent('selectednotes');
+        }else{
+
+            foreach($this->itemsCard as $item){
+                $note = PanunoteNotes::find(explode (",",  $item)[0])->delete();
+            }
+
+            $this->dispatchBrowserEvent('notemodifydone');
+        }
+    }
+
+
+    public function move_selected(){
+        if(empty($this->itemsCard)){
+            $this->dispatchBrowserEvent('selectednotes');
+        }else{
+            foreach($this->itemsCard as $item){
+                $note = PanunoteNotes::find(explode (",",  $item)[0]);
+                $note->subject_id = $this->selectsubject;
+                $note->save();
+            }
+            
+            $this->dispatchBrowserEvent('notemodifydone');
+        }
+    }
+
+    public function copy_selected(){
+        if(empty($this->itemsCard)){
+            $this->dispatchBrowserEvent('selectednotes');
+        }else{
+            foreach($this->itemsCard as $item){
+                $note = PanunoteNotes::find(explode (",",  $item)[0]);
+                $newNote = $note->replicate();
+                $newNote->subject_id = $this->selectsubject;
+                $newNote->save();
+            }
+
+            $this->dispatchBrowserEvent('notemodifydone');
+        }
+    }
+
+    public function duplicate_selected(){
+        if(empty($this->itemsCard)){
+            $this->dispatchBrowserEvent('selectednotes');
+        }else{
+            foreach($this->itemsCard as $item){
+                $note = PanunoteNotes::find(explode (",",  $item)[0]);
+                $newNote = $note->replicate();
+                $newNote->save();
+            }
+
+            $this->dispatchBrowserEvent('notemodifydone');
+        }
+    }
+
     public function delete(){
 
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
 
-        if(session('USER_ID') == $subject->user_id){
+        if(Auth::user()->user_id == $subject->user_id){
 
             if($this->note_list->isEmpty()){
 
@@ -150,14 +243,14 @@ class PanunoteSubject extends Component
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
 
         if(!is_null($subject)){
-            if(session('USER_ID') != $subject->user_id){
-                if($subject->subject_sharing == 1 && !empty(session('USER_ID'))){
+            if(Auth::user()->user_id != $subject->user_id){
+                if($subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
     
                     $a = PanunoteUsers::where('user_id', $subject->user_id)->first('username');
                     return redirect()->to('/'.$a->username.'/subjects/'.$this->subject_id);
                     
     
-                }elseif($subject->subject_sharing == 0 && !empty(session('USER_ID'))){
+                }elseif($subject->subject_sharing == 0 && !empty(Auth::user()->user_id)){
                     return dd('Private');
                 }else{
                     abort(404);
@@ -185,7 +278,7 @@ class PanunoteSubject extends Component
         //favorite
         $like = PanunoteSubjectLikes::where([
             ['subject_id', $this->subject_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->first();
 
         $this->isfavorite = (!is_null($like) && $like->subject_like == 1) ? true : false;
@@ -197,7 +290,7 @@ class PanunoteSubject extends Component
 
 
         //get all subjects
-        $this->allsubs = PanunoteSubjects::where('user_id', session('USER_ID'))->where('subject_id', '!=', $this->subject_id)->get();
+        $this->allsubs = PanunoteSubjects::where('user_id', Auth::user()->user_id)->where('subject_id', '!=', $this->subject_id)->get();
     
         
         if(!$this->allsubs->isEmpty()){
@@ -228,20 +321,20 @@ class PanunoteSubject extends Component
 
         $isexist = PanunoteSubjectLikes::where([
             ['subject_id', $this->subject_id],
-            ['user_id', session('USER_ID')]
+            ['user_id', Auth::user()->user_id]
         ])->exists();
 
         if($isexist){
             //update
             PanunoteSubjectLikes::where('subject_id', $this->subject_id)
-            ->where('user_id', session('USER_ID'))
+            ->where('user_id', Auth::user()->user_id)
             ->update(['subject_like' => ($this->isfavorite) ? 1 : 0]);
 
         }else{
             //create
             PanunoteSubjectLikes::create([
                 'subject_id' => $this->subject_id,
-                'user_id' => session('USER_ID'),
+                'user_id' => Auth::user()->user_id,
                 'subject_like' => ($this->isfavorite) ? 1 : 0
             ]);
         }
@@ -268,7 +361,7 @@ class PanunoteSubject extends Component
             'note_sharing' => $sharing,
             'note_title' => $this->notetitle,
             'subject_id' => $this->subject_id,
-            'user_id' => session('USER_ID')
+            'user_id' => Auth::user()->user_id
         ]);
 
         $this->dispatchBrowserEvent('creatednote');
@@ -299,6 +392,8 @@ class PanunoteSubject extends Component
             }
         })
         ->get();
+
+  
 
 
         return view('livewire.panunote-subject', ['notes' => $this->note_list, 'subject_details' => $subject]);

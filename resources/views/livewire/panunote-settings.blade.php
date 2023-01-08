@@ -20,19 +20,20 @@
                             </div>
                         @endif
 
-
+{{-- 
                         @if (Session::has('errorinfo'))
                             <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark"
                                 role="alert">
-                                {{ Session::get('errorinfo') }}
+                       
                             </div>
-                        @endif
+                        @endif --}}
 
 
 
-                        @if ($errors->any())
+                        @if ($errors->any() || Session::has('errorinfo'))
                             <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark"
                                 role="alert">
+                                {{ Session::get('errorinfo') }}
                                 @foreach ($errors->all() as $error)
                                     <div>{{ $error }}</div>
                                 @endforeach
@@ -69,12 +70,6 @@
                                         <i class="bi bi-person-fill"></i>&nbsp; Account Info&nbsp;&nbsp;&nbsp;
                                     </div>
                                 </span>
-                            </div>
-
-                            <div class="mb-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Email</label>
-                                <input wire:model.defer="email" type="email" class="form-control" id=""
-                                    placeholder="">
                             </div>
 
                             <div class="mb-3 col-sm-6 col-md-6">
@@ -203,8 +198,9 @@
 
                 <div class="modal-body" x-data="{ remove: false }">
 
-                    @if ($errors->any())
+                    @if ($errors->any() || Session::has('error'))
                         <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                            {{ Session::get('error') }}
                             @foreach ($errors->all() as $error)
                                 <span>{{ $error }}</span>
                             @endforeach
@@ -217,23 +213,23 @@
                         </div>
                     @endif
 
-                    @if (Session::has('error'))
+                    {{-- @if (Session::has('error'))
                         <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
                             {{ Session::get('error') }}
                         </div>
-                    @endif
+                    @endif --}}
 
                     <div class="row g-2">
                         <div class="col-sm-12 col-md-6 mb-3">
-                            <span class="input-group-text mb-1" id="basic-addon1">Old Password</span>
+                            <span class="input-group-text mb-2" id="basic-addon1">Old Password</span>
                             <input wire:model='oldpassword' type="password" class="form-control">
                         </div>
 
                         <div class="col-sm-12 col-md-6 mb-3" x-data="{ show: false }">
                             <div class="d-flex">
-                                <span class="w-100 input-group-text mb-1" id="basic-addon1">New Password</span>
+                                <span class="w-100 input-group-text mb-2" id="basic-addon1">New Password</span>
                                 <span class="mx-1"></span>
-                                <button @click="show = ! show" class="btn btn-primary mb-1 px-2">
+                                <button @click="show = ! show" class="btn btn-primary mb-2 px-2">
                                     <i :class="show ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'">
                                     </i></button>
                             </div>
@@ -255,6 +251,106 @@
             </div>
         </div>
     </div>
+
+
+    <div wire:ignore.self class="modal fade" id="changeemail" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Change Email</h5>
+                <a type="button" class="btn-link" data-bs-dismiss="modal" aria-label="Close">Close</a>
+            </div>
+
+
+
+            <div class="modal-body">
+
+                @if ($errors->any() || Session::has('error'))
+                <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                    <span>{{ Session::get('error') }}</span>
+                    @foreach ($errors->all() as $error)
+                        <span>{{ $error }}</span>
+                    @endforeach
+                </div>
+                @endif
+    
+                @if (Session::has('success'))
+                    <div class="p-3 mb-3 bg-primary rounded-3 bg-opacity-25 border border-primary" role="alert">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
+    
+                {{-- @if (Session::has('error'))
+                    <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif --}}
+
+
+            <div class="mb-3">
+                <span class="input-group-text mb-2" id="basic-addon1">Email</span>
+                <div class="d-flex">
+                    <div class="w-100">
+                        <input wire:model.defer="email" type="email" class="form-control" id=""
+                        placeholder="">
+                    </div>
+                    <span class="mx-1"></span>
+                    <div>
+                        <button class="btn btn-primary d-flex" wire:click="changeemail">
+                            <span class="me-1" wire:loading wire:target="changeemail">
+                                <span id="spinner"
+                                    class="spinner-grow spinner-grow-sm justify-content-center p-0 m-0"
+                                    role="status" aria-hidden="true"></span>
+                            </span>
+                            Change
+                            
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-semi-dark p-3 rounded-3 my-2 text-center" style="font-size: 12px">
+                    <i class="bi bi-info-circle-fill"></i> To Change Email enter your new Email Above and Click Change, <br> after sending, check your email and enter the code below and click verify.
+                </div>
+
+                <div class="bg-semi-dark p-3 rounded-3 border-4 border-bottom border-primary mt-2">
+                    <div class="d-flex fw-bold"><label for="password">Enter Code Here:</label></div>
+
+                    <div class="d-flex" x-data='{show: false}'>
+
+                        <div class="w-100">
+                            <input :type="show ? 'text' : 'password'" class="text-center form-control mb-3"
+                                wire:model="verification_code">
+                        </div>
+
+                        <span class="mx-1"></span>
+                        
+                        <div>
+                            <button @click="show = ! show" type="button" class="btn btn-primary px-2"><i
+                                    :class="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+
+                
+                <button wire:click="verifycode" class="btn btn-primary w-100 text-center mt-2">
+                    Verify
+                </button>   
+            </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button data-bs-dismiss="modal" aria-label="Close" type="button"
+                    class="btn btn-primary">Done</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
 
     <main class="">
         <div class="">
@@ -378,8 +474,21 @@
 
                             <div class="mb-3 col-sm-12 col-md-6">
                                 <label for="" class="form-label">Email</label>
-                                <input disabled value="{{ $user_info->email }}" type="email" class="form-control"
-                                    id="" placeholder="">
+
+                                <div class="d-flex">
+                                    <div class="w-100">
+                                        <input disabled value="{{ $user_info->email }}" type="email" class="form-control"
+                                        id="" placeholder="">
+                                    </div>
+
+                                    <span class="mx-1"></span>
+
+                                    <div>
+                                        <button data-bs-toggle="modal" data-bs-target="#changeemail" class="btn btn-primary"><i class="bi bi-gear-fill"></i></button>
+                                    </div>
+
+                                </div>
+                          
                             </div>
 
                             <div class="mb-3 col-sm-6 col-md-3">

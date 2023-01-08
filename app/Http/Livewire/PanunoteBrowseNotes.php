@@ -10,7 +10,7 @@ use App\Models\PanunoteQuizzes;
 use App\Models\PanunoteNotes;
 use App\Models\PanunoteNoteVisits;
 use App\Models\PanunoteNoteLikes;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteBrowseNotes extends Component
 {
     public $startDate;
@@ -71,7 +71,7 @@ class PanunoteBrowseNotes extends Component
             $count = 0;
             foreach($this->note_visits_count as $visit_note_key => $visit_note_count){
                 $note_visit_info = PanunoteNotes::join('panunote_subjects', 'panunote_notes.subject_id', '=', 'panunote_subjects.subject_id')
-                ->select('panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
+                ->select('panunote_notes.note_content', 'panunote_notes.updated_at', 'panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
                 ->where('note_id', $visit_note_key)
                 ->first();
                 if($note_visit_info->note_sharing == 1 && $note_visit_info->subject_sharing == 1){
@@ -110,7 +110,7 @@ class PanunoteBrowseNotes extends Component
             $count = 0;
             foreach($this->note_likes_count as $like_note_key => $like_note_count){
                 $note_like_info = PanunoteNotes::join('panunote_subjects', 'panunote_notes.subject_id', '=', 'panunote_subjects.subject_id')
-                ->select('panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
+                ->select('panunote_notes.note_content', 'panunote_notes.updated_at', 'panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
                 ->where('note_id', $like_note_key)
                 ->first();
                 

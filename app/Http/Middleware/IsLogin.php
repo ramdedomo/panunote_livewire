@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class IsLogin
 {
@@ -18,14 +19,14 @@ class IsLogin
     public function handle(Request $request, Closure $next)
     {
 
-        if(is_null(session('USER_ID'))){
+        if(is_null(Auth::user())){
             return redirect('/');
         }
 
         if(empty($request->route()->uri()) || 
         $request->route()->uri() == "login" || 
         $request->route()->uri() == "register" && 
-        !is_null(session('USER_ID'))
+        !is_null(Auth::user())
         ){
             return redirect('subjects');
         }

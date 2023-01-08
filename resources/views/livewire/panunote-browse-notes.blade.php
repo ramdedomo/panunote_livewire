@@ -102,7 +102,8 @@
                     </div>
                 </div>
 
-                <div class="p-2 d-flex border-bottom border-3 border-primary align-items-center rounded-3 justify-content-center bg-semi-dark mb-5">
+                <div
+                    class="p-2 d-flex border-bottom border-3 border-primary align-items-center rounded-3 justify-content-center bg-semi-dark mb-5">
                     <div class="text-secondary w-100">
                         @if ($subjects->isEmpty() && $notes->isEmpty() && $quizzes->isEmpty() && !empty($this->search))
                             <span class="d-flex justify-content-center fw-bold">
@@ -117,130 +118,148 @@
                         @else
                             <div>
                                 @if (!$subjects->isEmpty())
-                                <div class="hrdivider">
-                                    <hr class="text-primary">
-                                    <span>
-                                        <div class="d-flex align-items-center bg-semi-dark text-primary">
-                                            Subjects&nbsp;&nbsp;&nbsp;
-                                        </div>
-                                    </span>
-                                </div>
-                            
-                                    <div class="row g-2">
-                                    @foreach ($subjects as $subject)
-                                        <div class="col-3">
-                                            <div class="p-0 m-0 card note-card rounded-3 border border-1 border-primary" style="--bs-border-opacity: .2;">
-                                                <div class="card-header border-bottom border-primary border-2 d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="p-0 m-0 fw-bold" id="title">{{ $subject->subject_name }}
-                                                        </p>
-                                                    </div>
-                                                    <div>
-                                                        <p class="p-0 m-0" id="title">
-                                                            @if(session('USER_ID') ==  $subject->user_id)
-                                                            <i class="bi bi-person-check-fill text-primary"></i> {{$subject->username}}
-                                                            @else
-                                                            <i class="bi bi-person-fill"></i> {{$subject->username}}
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-                    
-                                                <div class="card-body">
-                                                   
-                                                </div>
-                    
-                                                <a href="/subjects/{{$subject->subject_id}}" target="_blank" class="stretched-link"></a>
+                                    <div class="hrdivider">
+                                        <hr class="text-primary">
+                                        <span>
+                                            <div class="d-flex align-items-center bg-semi-dark text-primary">
+                                                Subjects&nbsp;&nbsp;&nbsp;
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        </span>
+                                    </div>
+
+                                    <div class="row g-2">
+                                        @foreach ($subjects as $subject)
+                                            <div class="col-3">
+                                                <div class="p-0 m-0 card note-card rounded-3 border border-1 border-primary"
+                                                    style="--bs-border-opacity: .2;">
+                                                    <div
+                                                        class="card-header border-bottom border-primary border-2 d-flex justify-content-between">
+                                                        <div>
+                                                            <p class="p-0 m-0 fw-bold" id="title">
+                                                                {{ $subject->subject_name }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="p-0 m-0" id="title">
+                                                                @if (Auth::user()->user_id == $subject->user_id)
+                                                                    <i class="bi bi-person-check-fill text-primary"></i>
+                                                                    {{ $subject->username }}
+                                                                @else
+                                                                    <i class="bi bi-person-fill"></i>
+                                                                    {{ $subject->username }}
+                                                                @endif
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-body">
+
+                                                    </div>
+
+                                                    <a href="/subjects/{{ $subject->subject_id }}" target="_blank"
+                                                        class="stretched-link"></a>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 @endif
                             </div>
 
                             <div>
                                 @if (!$notes->isEmpty())
-                                <div class="hrdivider">
-                                    <hr class="text-warning">
-                                    <span>
-                                        <div class="d-flex align-items-center bg-semi-dark text-warning">
-                                            Notes&nbsp;&nbsp;&nbsp;
-                                        </div>
-                                    </span>
-                                </div>
+                                    <div class="hrdivider">
+                                        <hr class="text-warning">
+                                        <span>
+                                            <div class="d-flex align-items-center bg-semi-dark text-warning">
+                                                Notes&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                        </span>
+                                    </div>
 
                                     <div class="row mb-4 g-2">
                                         @foreach ($notes as $note)
-                                        <div class="col-3">
-                                            <div class="p-0 m-0 card note-card rounded-3 border border-1 border-warning" style="--bs-border-opacity: .2;">
-                                                <div class="card-header border-bottom border-warning border-2 d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="p-0 m-0 fw-bold" id="title">{{ $note->note_title }}
-                                                        </p>
+                                            <div class="col-3">
+                                                <div class="p-0 m-0 card note-card rounded-3 border border-1 border-warning"
+                                                    style="--bs-border-opacity: .2;">
+                                                    <div
+                                                        class="card-header border-bottom border-warning border-2 d-flex justify-content-between">
+                                                        <div>
+                                                            <p class="p-0 m-0 fw-bold" id="title">
+                                                                {{ $note->note_title }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="p-0 m-0" id="title">
+                                                                @if (Auth::user()->user_id == $note->user_id)
+                                                                    <i class="bi bi-person-check-fill text-warning"></i>
+                                                                    {{ $note->username }}
+                                                                @else
+                                                                    <i class="bi bi-person-fill"></i>
+                                                                    {{ $note->username }}
+                                                                @endif
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p class="p-0 m-0" id="title">
-                                                            @if(session('USER_ID') ==  $note->user_id)
-                                                            <i class="bi bi-person-check-fill text-warning"></i> {{$note->username}}
-                                                            @else
-                                                            <i class="bi bi-person-fill"></i> {{$note->username}}
-                                                            @endif
-                                                        </p>
+
+                                                    <div class="card-body">
+
                                                     </div>
+
+                                                    <a href="/subjects/{{ $note->subject_id }}/{{ $note->note_id }}"
+                                                        target="_blank" class="stretched-link"></a>
                                                 </div>
-                    
-                                                <div class="card-body">
-                                                   
-                                                </div>
-                    
-                                                <a href="/subjects/{{$note->subject_id}}/{{$note->note_id}}" target="_blank"  class="stretched-link"></a>
                                             </div>
-                                        </div>
                                         @endforeach
-                                        </div>
+                                    </div>
                                 @endif
                             </div>
 
                             <div>
                                 @if (!$quizzes->isEmpty())
-                                <div class="hrdivider">
-                                    <hr class="text-info">
-                                    <span>
-                                        <div class="d-flex align-items-center bg-semi-dark text-info">
-                                            Quizzes&nbsp;&nbsp;&nbsp;
-                                        </div>
-                                    </span>
-                                </div>
-                            
+                                    <div class="hrdivider">
+                                        <hr class="text-info">
+                                        <span>
+                                            <div class="d-flex align-items-center bg-semi-dark text-info">
+                                                Quizzes&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                        </span>
+                                    </div>
+
                                     <div class="row mb-4 g-2">
                                         @foreach ($quizzes as $quiz)
-                                        <div class="col-3">
-                                            <div class="p-0 m-0 card note-card rounded-3 border border-1 border-info" style="--bs-border-opacity: .2;">
-                                                <div class="card-header border-bottom border-info border-2 d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="p-0 m-0 fw-bold" id="title">{{ $quiz->quiz_title }}
-                                                        </p>
+                                            <div class="col-3">
+                                                <div class="p-0 m-0 card note-card rounded-3 border border-1 border-info"
+                                                    style="--bs-border-opacity: .2;">
+                                                    <div
+                                                        class="card-header border-bottom border-info border-2 d-flex justify-content-between">
+                                                        <div>
+                                                            <p class="p-0 m-0 fw-bold" id="title">
+                                                                {{ $quiz->quiz_title }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="p-0 m-0" id="title">
+                                                                @if (Auth::user()->user_id == $quiz->user_id)
+                                                                    <i class="bi bi-person-check-fill text-info"></i>
+                                                                    {{ $quiz->username }}
+                                                                @else
+                                                                    <i class="bi bi-person-fill"></i>
+                                                                    {{ $quiz->username }}
+                                                                @endif
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p class="p-0 m-0" id="title">
-                                                            @if(session('USER_ID') ==  $quiz->user_id)
-                                                            <i class="bi bi-person-check-fill text-info"></i> {{$quiz->username}}
-                                                            @else
-                                                            <i class="bi bi-person-fill"></i> {{$quiz->username}}
-                                                            @endif
-                                                        </p>
+
+                                                    <div class="card-body">
+
                                                     </div>
+
+                                                    <a href="/quizzes/{{ $quiz->quiz_id }}" target="_blank"
+                                                        class="stretched-link"></a>
                                                 </div>
-                    
-                                                <div class="card-body">
-                                                   
-                                                </div>
-                    
-                                                <a href="/quizzes/{{$quiz->quiz_id}}" target="_blank"  class="stretched-link"></a>
                                             </div>
-                                        </div>
                                         @endforeach
-                                        </div>
+                                    </div>
                                 @endif
                             </div>
 
@@ -285,188 +304,214 @@
 
 
                         @if (!$isnotelikeempty)
-                            <div class="col-12 my-2">
-                                <div class="bg-light rounded">
-                                    <div class="bg-semi-dark p-2 rounded">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover fs-4">
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th scope="col">Rank</th>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col"><i
-                                                                class="bi bi-heart-fill text-primary"></i>
-                                                            Likes</th>
-                                                        <th scope="col"><i
-                                                                class="bi bi-person-fill text-primary"></i>
-                                                            User</th>
-                                                    </tr>
-                                                </thead>
+                            <div class="row">
+                                @php
+                                    $count = 1;
+                                @endphp
+                                @foreach ($note_toplikes as $topl)
+                                    <div class="col-6">
+                                        <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-primary">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <div class="icon">
+                                                        @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
+                                                            <img width="40px" class="rounded-5"
+                                                            src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                                            alt="">
+                                                    </div>
+                                                        @else
+                                                            <img width="40px" class="rounded-5"
+                                                            src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
+                                                            alt="">
+                                                            </div>
+                                                        @endif
 
-                                                <tbody>
-                                                    @php
-                                                        $count = 1;
-                                                    @endphp
-                                                    @foreach ($note_toplikes as $topl)
-                                                        <tr class="text-center"
-                                                        wire:click="visit({{ $topl->note_id }},{{ $topl->subject_id }})"
-                                                            style="cursor: pointer;">
-                                                            <td>
-                                                                @if ($count == 1)
-                                                                    <span
-                                                                        class="badge text-bg-primary">{{ $count }}</span>
-                                                                @elseif($count == 2)
-                                                                    <span
-                                                                        class="badge text-bg-primary bg-opacity-75">{{ $count }}</span>
-                                                                @elseif($count == 3)
-                                                                    <span
-                                                                        class="badge text-bg-primary bg-opacity-50">{{ $count }}</span>
-                                                                @else
-                                                                    <span
-                                                                        class="badge text-bg-primary bg-opacity-25">{{ $count }}</span>
-                                                                @endif
-                                                            </td>
 
-                                                            <td>{{ $topl->note_title }}</td>
-                                                            <td>{{ $topl->like_count }}</td>
-                                                            <td>
-                                                                @if (session('USER_ID') == $topl->user_info[0]['user_id'])
-                                                                    <i
-                                                                        class="bi bi-person-check-fill text-primary"></i>
-                                                                    {{ $topl->user_info[0]['username'] }}
-                                                                @else
-                                                                    {{ $topl->user_info[0]['username'] }}
-                                                                @endif
-                                                            </td>
-                                                        </tr>
+                                                <div class="ms-2 c-details">
+                                                    @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
+                                                        <i class="bi bi-check-lg"></i>
+                                                        <h6 class="mb-0">
+                                                            <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                        </h6>
+                                                    @else
+                                                        <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                    @endif
+                                                    <br>
+                                                    <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
 
-                                                        @php
-                                                            $count++;
-                                                        @endphp
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <span class="fs-3 fw-bold text-primary rounded-2 px-2 d-flex align-items-center">
+                                                @if ($count == 1)
+                                                    <span class="badge text-bg-primary">#{{ $count }}</span>
+                                                @elseif($count == 2)
+                                                    <span class="badge text-bg-primary">#{{ $count }}</span>
+                                                @elseif($count == 3)
+                                                    <span class="badge text-bg-primary">#{{ $count }}</span>
+                                                @else
+                                                    <span class="badge text-bg-primary">#{{ $count }}</span>
+                                                @endif
+                                            </span>
+
                                         </div>
-                                    </div>
+
+                                        <div class="mt-5">
+                                            <h3 class="heading p-0 text-dark"><strong>{{ $topl->note_title }}</strong> </h3>
+                                            <p>{{ str_word_count($topl->note_content) }} Words</p>
+                                            <div class="mt-5">
+
+                                                <div class="d-flex fw-4">
+                                                    <div class=" w-100">
+
+                                                        <i class="bi bi-heart-fill text-primary text-primary"></i>
+                                                        <span class="mx-1"><strong>{{ $topl->like_count }}</strong> Likes</span>
+                                                    </div>
+                                                    <div class="bg-semi-dark d-flex w-100 rounded-4">
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <a href="/subjects/{{ $topl->subject_id }}/{{ $topl->note_id }}" class="stretched-link"></a>
+
                                 </div>
                             </div>
-                        @else
-                            <div
-                                class="fw-bold mb-3 p-3 bg-semi-dark rounded-3 d-flex justify-content-center align-items-center">
-                                <i class="bi bi-bar-chart-line"></i>&nbsp;&nbsp; No Data
-                            </div>
-                        @endif
 
-
+                        @php
+                            $count++;
+                        @endphp
+                        @endforeach
                     </div>
+                @else
+                    <div class="fw-bold mb-3 p-3 bg-semi-dark rounded-3 d-flex justify-content-center align-items-center">
+                        <i class="bi bi-bar-chart-line"></i>&nbsp;&nbsp; No Data
+                    </div>
+                    @endif
 
-                    <div class="col-md-12 col-lg-6 rounded-3">
 
-                        <div class="justify-content-center align-items-center d-flex rounded-3 mb-3"
-                            style="background-size: cover; height: 100px; background-image: url({{ asset('img/logos/panugame_banner2.png') }})">
-                            <span class="fs-2 fw-bold text-light">
-                                <i class="bi bi-bar-chart-line"></i>
+            </div>
 
-                                Note Top Visits of the
-                                @if ($weekly)
-                                    Week!
-                                @elseif ($monthly)
-                                    Month!
-                                @elseif ($yearly)
-                                    Year!
-                                @else
-                                    Unknown!
-                                @endif
+            <div class="col-md-12 col-lg-6 rounded-3">
 
-                            </span>
-                        </div>
+                <div class="justify-content-center align-items-center d-flex rounded-3 mb-3"
+                    style="background-size: cover; height: 100px; background-image: url({{ asset('img/logos/panugame_banner2.png') }})">
+                    <span class="fs-2 fw-bold text-light">
+                        <i class="bi bi-bar-chart-line"></i>
 
-                        @if (!$isnotevisitempty)
-
-                            <div class="col-12 my-2">
-                                <div class="bg-light rounded">
-                                    <div class="bg-semi-dark p-2 rounded">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover fs-4">
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th scope="col">Rank</th>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col"><i
-                                                                class="bi bi-bar-chart-line-fill text-primary"></i>
-                                                            Visits
-                                                        </th>
-                                                        <th scope="col"><i
-                                                                class="bi bi-person-fill text-primary"></i>
-                                                            User</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    @php
-                                                        $count = 1;
-                                                    @endphp
-                                                    @foreach ($note_topvisits as $topv)
-                                                        <tr class="text-center"
-                                                            wire:click="visit({{ $topv->note_id }},{{ $topv->subject_id }})"
-                                                            style="cursor: pointer;">
-                                                            <td>
-                                                                @if ($count == 1)
-                                                                    <span
-                                                                        class="badge text-bg-primary">{{ $count }}</span>
-                                                                @elseif($count == 2)
-                                                                    <span
-                                                                        class="badge text-bg-primary bg-opacity-75">{{ $count }}</span>
-                                                                @elseif($count == 3)
-                                                                    <span
-                                                                        class="badge text-bg-primary bg-opacity-50">{{ $count }}</span>
-                                                                @else
-                                                                    <span
-                                                                        class="badge text-bg-primary bg-opacity-25">{{ $count }}</span>
-                                                                @endif
-
-                                                            </td>
-                                                            <td>{{ $topv->note_title }}</td>
-                                                            <td>{{ $topv->visit_count }}</td>
-                                                            <td>
-                                                                @if (session('USER_ID') == $topv->user_info[0]['user_id'])
-                                                                    <i
-                                                                        class="bi bi-person-check-fill text-primary"></i>
-                                                                    {{ $topv->user_info[0]['username'] }}
-                                                                @else
-                                                                    {{ $topv->user_info[0]['username'] }}
-                                                                @endif
-
-                                                            </td>
-                                                        </tr>
-
-                                                        @php
-                                                            $count++;
-                                                        @endphp
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        Note Top Visits of the
+                        @if ($weekly)
+                            Week!
+                        @elseif ($monthly)
+                            Month!
+                        @elseif ($yearly)
+                            Year!
                         @else
-                            <div
-                                class="fw-bold mb-3 p-3 bg-semi-dark rounded-3 d-flex justify-content-center align-items-center">
-                                <i class="bi bi-bar-chart-line"></i>&nbsp;&nbsp; No Data
-                            </div>
+                            Unknown!
                         @endif
 
+                    </span>
+                </div>
 
+                @if (!$isnotevisitempty)
+
+                    <div class="row">
+                        @php
+                            $count = 1;
+                        @endphp
+                        @foreach ($note_topvisits as $topv)
+                            <div class="col-6">
+                                <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-primary">
+
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <div class="icon">
+                                                @if (is_null($topv->user_info[0]['user_photo']) || empty($topv->user_info[0]['user_photo']))
+                                                    <img width="40px" class="rounded-5"
+                                                        src="{{ asset('img/avatars/default_dp.jpg') }}" alt="">
+                                            </div>
+                                        @else
+                                            <img width="40px" class="rounded-5"
+                                                src="data:image/png;base64,{{ $topv->user_info[0]['user_photo'] }}"
+                                                alt="">
+                                        </div>
+                        @endif
+
+                        <div class="ms-2 c-details">
+
+                            @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
+                                <i class="bi bi-check-lg"></i>
+                                <h6 class="mb-0"><strong>{{ ucfirst($topv->user_info[0]['username']) }}</strong></h6>
+                            @else
+                                <strong>{{ ucfirst($topv->user_info[0]['username']) }}</strong>
+                            @endif
+                            <br>
+
+                            <span>{{ date_format($topv->updated_at, 'm/d h:i A') }}</span>
+
+                        </div>
+                    </div>
+                    <span class="fs-3 fw-bold text-primary rounded-2 px-2 d-flex align-items-center">
+                        @if ($count == 1)
+                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                        @elseif($count == 2)
+                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                        @elseif($count == 3)
+                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                        @else
+                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                        @endif
+                    </span>
+            </div>
+
+            <div class="mt-5">
+                <h3 class="heading p-0 text-dark"><strong>{{ $topv->note_title }}</strong> </h3>
+                <p>{{ str_word_count($topv->note_content) }} Words</p>
+                <div class="mt-5">
+
+                    <div class="d-flex fw-4">
+                        <div class=" w-100">
+
+                            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+                            <span class="mx-1"><strong>{{ $topv->visit_count }}</strong> Visits</span>
+                        </div>
+                        <div class="bg-semi-dark d-flex w-100 rounded-4">
+
+                        </div>
                     </div>
 
                 </div>
             </div>
 
-        </div>
+            <a href="/subjects/{{ $topv->subject_id }}/{{ $topv->note_id }}" class="stretched-link"></a>
+
+            </div>
+            </div>
+
+            @php
+                $count++;
+            @endphp
+            @endforeach
+            </div>
+            @else
+            <div class="fw-bold mb-3 p-3 bg-semi-dark rounded-3 d-flex justify-content-center align-items-center">
+                <i class="bi bi-bar-chart-line"></i>&nbsp;&nbsp; No Data
+            </div>
+            @endif
 
 
-</div>
-</main>
+            </div>
 
-</div>
+            </div>
+            </div>
+
+            </div>
+
+
+            </div>
+            </main>
+
+            </div>

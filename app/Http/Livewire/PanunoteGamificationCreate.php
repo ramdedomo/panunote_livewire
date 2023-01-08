@@ -8,10 +8,12 @@ use App\Models\PanunoteQuizzes;
 use App\Models\PanunoteGamificationRoom;
 use App\Models\PanunoteGamificationInroom;
 use App\Models\PanunoteQuestions;
+use App\Models\PanunoteUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Events\RoomCreate;
 use App\Events\AdminLeaved;
 use App\Events\PlayerAdminize;
+use Illuminate\Support\Facades\Auth;
 
 class PanunoteGamificationCreate extends Component
 {
@@ -39,9 +41,20 @@ class PanunoteGamificationCreate extends Component
     public $joinmanualid;
     public $joinmanualpassword;
 
+    public $user;
+
+    protected $listeners = ['getscreentime' => 'getscreentime'];
+
+    public function getscreentime($screentime){
+        PanunoteUsers::where('user_id', Auth::user()->user_id)->update([
+            'screentime_game' => $this->user->screentime_game += $screentime
+        ]);
+    }
+
+
     public function mount(){
 
-        $leave = PanunoteGamificationInroom::where('panunote_gamification_inroom.user_id', session('USER_ID'))
+        $leave = PanunoteGamificationInroom::where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
         ->join('panunote_gamification_room', 'panunote_gamification_inroom.game_id', '=', 'panunote_gamification_room.game_id')
         ->where('panunote_gamification_room.status', "<", 3);
 
@@ -73,8 +86,10 @@ class PanunoteGamificationCreate extends Component
             }
         }
 
+        $this->user = PanunoteUsers::where('user_id',  Auth::user()->user_id)->first();
+
         
-        // $a = PanunoteGamificationInroom::where('panunote_gamification_inroom.user_id', session('USER_ID'))
+        // $a = PanunoteGamificationInroom::where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
         // ->join('panunote_gamification_room', 'panunote_gamification_inroom.game_id', '=', 'panunote_gamification_room.game_id')
         // ->where('panunote_gamification_room.status', "<", 3);
         
@@ -86,7 +101,7 @@ class PanunoteGamificationCreate extends Component
         // //check if user is already joined
         // $this->isjoined = DB::table('panunote_gamification_room')
         // ->join('panunote_gamification_inroom', 'panunote_gamification_room.game_id', '=', 'panunote_gamification_inroom.game_id')
-        // ->where('panunote_gamification_inroom.user_id', session('USER_ID'))
+        // ->where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
         // ->where(function($q) {
         //     $q->where('panunote_gamification_room.status', 0)
         //       ->orWhere('panunote_gamification_room.status', 1)
@@ -98,7 +113,7 @@ class PanunoteGamificationCreate extends Component
         // if($this->isjoined){
         //     $getexist = DB::table('panunote_gamification_room')
         //     ->join('panunote_gamification_inroom', 'panunote_gamification_room.game_id', '=', 'panunote_gamification_inroom.game_id')
-        //     ->where('panunote_gamification_inroom.user_id', session('USER_ID'))
+        //     ->where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
         //     ->where(function($q) {
         //         $q->where('panunote_gamification_room.status', 0)
         //           ->orWhere('panunote_gamification_room.status', 1)
@@ -154,7 +169,7 @@ class PanunoteGamificationCreate extends Component
 
         
         PanunoteGamificationInroom::create([
-            'user_id' => session('USER_ID'),
+            'user_id' => Auth::user()->user_id,
             'game_id' => $createdroom,
             'role' => 1,
         ]);
@@ -178,7 +193,7 @@ class PanunoteGamificationCreate extends Component
         
         //get all quizzess
         $this->quiz_list = DB::table('panunote_quizzes')
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->get()
         ->toArray();
 

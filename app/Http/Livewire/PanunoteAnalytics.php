@@ -14,9 +14,10 @@ use App\Models\PanunoteQuizTakes;
 use App\Models\PanunoteSubjects;
 use App\Models\PanunoteNotes;
 use App\Models\PanunoteQuizzes;
+use App\Models\PanunoteUsers;
 use Carbon\Carbon;
 use Livewire\WithPagination;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteAnalytics extends Component
 {
     use WithPagination;
@@ -53,10 +54,15 @@ class PanunoteAnalytics extends Component
 
     public $start_date;
     public $end_date;
+    
+
+    public $user_screentime;
 
     public function mount(){
         $this->start_date = Carbon::now()->format('Y-m-d');
         $this->end_date = Carbon::now()->addDay(31)->format('Y-m-d');
+
+        $this->user_screentime = PanunoteUsers::where('user_id', Auth::user()->user_id)->first();
     }
 
     public function find(){
@@ -73,7 +79,7 @@ class PanunoteAnalytics extends Component
         $this->pquiz_takes = [];
 
           //subjects 
-          $psubject_visits_all = PanunoteSubjectVisits::where('user_id', session('USER_ID'))
+          $psubject_visits_all = PanunoteSubjectVisits::where('user_id', Auth::user()->user_id)
           ->whereBetween('created_at', [$this->startDate, $this->endDate])
           ->limit(3)->get();
           $ids = [];
@@ -84,7 +90,7 @@ class PanunoteAnalytics extends Component
   
           foreach($ids as $id){
               $this->psubject_visits[$id]['subject_count'] = PanunoteSubjectVisits::where('subject_id', $id)
-              ->where('user_id', session('USER_ID'))
+              ->where('user_id', Auth::user()->user_id)
               ->whereBetween('created_at', [$this->startDate, $this->endDate])
               ->count();
 
@@ -97,7 +103,7 @@ class PanunoteAnalytics extends Component
   
           //notes
   
-          $pnote_visits_all = PanunoteNoteVisits::where('user_id', session('USER_ID'))
+          $pnote_visits_all = PanunoteNoteVisits::where('user_id', Auth::user()->user_id)
           ->whereBetween('created_at', [$this->startDate, $this->endDate])
           ->limit(3)->get();
           $ids = [];
@@ -109,7 +115,7 @@ class PanunoteAnalytics extends Component
           foreach($ids as $id){
               $this->pnote_visits[$id]['note_count'] = PanunoteNoteVisits::where('note_id', $id)
               ->whereBetween('created_at', [$this->startDate, $this->endDate])
-              ->where('user_id', session('USER_ID'))
+              ->where('user_id', Auth::user()->user_id)
               ->count();
 
               $this->pnote_visits[$id]['note_title'] = PanunoteNotes::select('note_id', 'note_title')->where('note_id', $id)->first()->note_title;
@@ -121,7 +127,7 @@ class PanunoteAnalytics extends Component
           
           //quizzes
   
-          $pquiz_visits_all = PanunoteQuizVisits::where('user_id', session('USER_ID'))
+          $pquiz_visits_all = PanunoteQuizVisits::where('user_id', Auth::user()->user_id)
           ->whereBetween('created_at', [$this->startDate, $this->endDate])
           ->limit(3)->get();
 
@@ -134,7 +140,7 @@ class PanunoteAnalytics extends Component
           foreach($ids as $id){
               $this->pquiz_visits[$id]['quiz_count'] = PanunoteQuizVisits::where('quiz_id', $id)
               ->whereBetween('created_at', [$this->startDate, $this->endDate])
-              ->where('user_id', session('USER_ID'))
+              ->where('user_id', Auth::user()->user_id)
               ->count();
 
               $this->pquiz_visits[$id]['quiz_title'] = PanunoteQuizzes::select('quiz_title')->where('quiz_id', $id)->first()->quiz_title;
@@ -148,7 +154,7 @@ class PanunoteAnalytics extends Component
   
           //quizzes takes
   
-          $pquiz_takes_all = PanunoteQuizTakes::where('user_id', session('USER_ID'))
+          $pquiz_takes_all = PanunoteQuizTakes::where('user_id', Auth::user()->user_id)
           ->whereBetween('created_at', [$this->startDate, $this->endDate])
           ->limit(3)->get();
 
@@ -162,7 +168,7 @@ class PanunoteAnalytics extends Component
               $this->pquiz_takes[$id]['quiz_title'] = PanunoteQuizzes::select('quiz_title')->where('quiz_id', $id)->first()->quiz_title;
               $this->pquiz_takes[$id]['quiz_average'] = PanunoteQuizTakes::where('quiz_id', $id)
               ->whereBetween('created_at', [$this->startDate, $this->endDate])
-              ->where('user_id', session('USER_ID'))
+              ->where('user_id', Auth::user()->user_id)
               ->avg('user_average');
           }
   
@@ -184,7 +190,7 @@ class PanunoteAnalytics extends Component
           // $posts = PanunoteSubjectVisits::whereBetween('created_at', [$startDate, $endDate])->count();
           
           $this->subjects = PanunoteSubjects::select('subject_id', 'subject_name')
-          ->where('user_id', session('USER_ID'))->get();
+          ->where('user_id', Auth::user()->user_id)->get();
   
           $count = 0;
           foreach($this->subjects as $subject){
@@ -213,7 +219,7 @@ class PanunoteAnalytics extends Component
           });
         
           $this->notes = PanunoteNotes::select('note_id', 'note_title')
-          ->where('user_id', session('USER_ID'))
+          ->where('user_id', Auth::user()->user_id)
           ->get();
   
           $count = 0;
@@ -244,7 +250,7 @@ class PanunoteAnalytics extends Component
           });
   
           $this->quizzes = PanunoteQuizzes::select('quiz_id', 'quiz_title')
-          ->where('user_id', session('USER_ID'))
+          ->where('user_id', Auth::user()->user_id)
           ->get();
 
 
@@ -351,7 +357,7 @@ class PanunoteAnalytics extends Component
         $this->pquiz_takes = [];
 
         //subjects 
-        $psubject_visits_all = PanunoteSubjectVisits::where('user_id', session('USER_ID'))->limit(3)->get();
+        $psubject_visits_all = PanunoteSubjectVisits::where('user_id', Auth::user()->user_id)->limit(3)->get();
         $ids = [];
 
         foreach($psubject_visits_all as $psubject_visit){
@@ -359,7 +365,7 @@ class PanunoteAnalytics extends Component
         }
 
         foreach($ids as $id){
-            $this->psubject_visits[$id]['subject_count'] = PanunoteSubjectVisits::where('subject_id', $id)->where('user_id', session('USER_ID'))->count();
+            $this->psubject_visits[$id]['subject_count'] = PanunoteSubjectVisits::where('subject_id', $id)->where('user_id', Auth::user()->user_id)->count();
             $this->psubject_visits[$id]['subject_name'] = PanunoteSubjects::select('subject_id', 'subject_name')->where('subject_id', $id)->first()->subject_name;
         }
 
@@ -369,7 +375,7 @@ class PanunoteAnalytics extends Component
 
         //notes
 
-        $pnote_visits_all = PanunoteNoteVisits::where('user_id', session('USER_ID'))->limit(3)->get();
+        $pnote_visits_all = PanunoteNoteVisits::where('user_id', Auth::user()->user_id)->limit(3)->get();
         $ids = [];
 
         foreach($pnote_visits_all as $pnote_visit){
@@ -377,7 +383,7 @@ class PanunoteAnalytics extends Component
         }
 
         foreach($ids as $id){
-            $this->pnote_visits[$id]['note_count'] = PanunoteNoteVisits::where('note_id', $id)->where('user_id', session('USER_ID'))->count();
+            $this->pnote_visits[$id]['note_count'] = PanunoteNoteVisits::where('note_id', $id)->where('user_id', Auth::user()->user_id)->count();
             $this->pnote_visits[$id]['note_title'] = PanunoteNotes::select('note_id', 'note_title')->where('note_id', $id)->first()->note_title;
         }
 
@@ -387,7 +393,7 @@ class PanunoteAnalytics extends Component
         
         //quizzes
 
-        $pquiz_visits_all = PanunoteQuizVisits::where('user_id', session('USER_ID'))->limit(3)->get();
+        $pquiz_visits_all = PanunoteQuizVisits::where('user_id', Auth::user()->user_id)->limit(3)->get();
         $ids = [];
 
         foreach($pquiz_visits_all as $pquiz_visit){
@@ -395,7 +401,7 @@ class PanunoteAnalytics extends Component
         }
 
         foreach($ids as $id){
-            $this->pquiz_visits[$id]['quiz_count'] = PanunoteQuizVisits::where('quiz_id', $id)->where('user_id', session('USER_ID'))->count();
+            $this->pquiz_visits[$id]['quiz_count'] = PanunoteQuizVisits::where('quiz_id', $id)->where('user_id', Auth::user()->user_id)->count();
             $this->pquiz_visits[$id]['quiz_title'] = PanunoteQuizzes::select('quiz_title')->where('quiz_id', $id)->first()->quiz_title;
         }
 
@@ -407,7 +413,7 @@ class PanunoteAnalytics extends Component
 
         //quizzes takes
 
-        $pquiz_takes_all = PanunoteQuizTakes::where('user_id', session('USER_ID'))->limit(3)->get();
+        $pquiz_takes_all = PanunoteQuizTakes::where('user_id', Auth::user()->user_id)->limit(3)->get();
         $ids = [];
 
         foreach($pquiz_takes_all as $pquiz_take){
@@ -416,7 +422,7 @@ class PanunoteAnalytics extends Component
 
         foreach($ids as $id){
             $this->pquiz_takes[$id]['quiz_title'] = PanunoteQuizzes::select('quiz_title')->where('quiz_id', $id)->first()->quiz_title;
-            $this->pquiz_takes[$id]['quiz_average'] = PanunoteQuizTakes::where('quiz_id', $id)->where('user_id', session('USER_ID'))->avg('user_average');
+            $this->pquiz_takes[$id]['quiz_average'] = PanunoteQuizTakes::where('quiz_id', $id)->where('user_id', Auth::user()->user_id)->avg('user_average');
         }
 
         usort($this->pquiz_takes, function ($item1, $item2) {
@@ -438,7 +444,7 @@ class PanunoteAnalytics extends Component
         // $posts = PanunoteSubjectVisits::whereBetween('created_at', [$startDate, $endDate])->count();
         
         $this->subjects = PanunoteSubjects::select('subject_id', 'subject_name')
-        ->where('user_id', session('USER_ID'))->get();
+        ->where('user_id', Auth::user()->user_id)->get();
 
         $count = 0;
         foreach($this->subjects as $subject){
@@ -463,7 +469,7 @@ class PanunoteAnalytics extends Component
         });
       
         $this->notes = PanunoteNotes::select('note_id', 'note_title')
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->get();
 
         $count = 0;
@@ -489,7 +495,7 @@ class PanunoteAnalytics extends Component
         });
 
         $this->quizzes = PanunoteQuizzes::select('quiz_id', 'quiz_title')
-        ->where('user_id', session('USER_ID'))
+        ->where('user_id', Auth::user()->user_id)
         ->get();
 
         $count = 0;

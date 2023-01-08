@@ -11,7 +11,7 @@ use App\Models\PanunoteQuizVisits;
 use App\Models\PanunoteSubjects;
 use App\Models\PanunoteQuizzes;
 use App\Models\PanunoteNotes;
-
+use Illuminate\Support\Facades\Auth;
 class PanunoteBrowseQuizzes extends Component
 {
     public $startDate;

@@ -27,42 +27,44 @@ class FirebaseController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|unique:panunote_users',
+            'email' => 'required|email|exists:panunote_users,email,isverified,0',
             'password' => 'required|confirmed|min:6',
+        ],[
+            'email.exists' => 'This :attribute is already Registered and Verified.'
         ]);
 
-        $newuser = PanunoteUsers::create([
-            'email' => $request->email,
-            'user_lname' => $request->lastname,
-            'user_fname' => $request->firstname,
-            'username' =>  $request->lastname.$request->firstname,
-            'password' => Hash::make($request->password),
-        ])->user_id;
+            $user = PanunoteUsers::create([
+                'email' => $request->email,
+                'user_lname' => $request->lastname,
+                'user_fname' => $request->firstname,
+                'username' =>  $request->lastname.$request->firstname,
+                'password' => Hash::make($request->password),
+            ]);
 
-        Session::put('USER_ID', $newuser);
-        return to_route('subjects');
+            Auth::login($user);
+            $request->session()->put('user_email', $request->email);
+            return to_route('subjects');
     }
 
     public function signIn(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
 
-        $user = PanunoteUsers::where('email', $request->email)->first();
-        if ($user === null || !Hash::check($request->password, $user->password)) {
-            return redirect()->back()->withErrors(['msg' => 'Incorrect Password.']);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $request->session()->put('user_email', $request->email);
+            return to_route('subjects');
         }
 
-        Session::put('USER_ID', $user->user_id);
-
-        return to_route('subjects');
+        return back()->withErrors(['error' => ['Wrong Email or Password.']]);
     }
 
     public function signOut()
     {
-        Session::flush();
+        Auth::logout();
         return to_route('/');
     }
 
