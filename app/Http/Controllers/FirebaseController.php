@@ -66,8 +66,10 @@ class FirebaseController extends Controller
         return back()->withErrors(['error' => ['Wrong Email or Password.']]);
     }
 
-    public function signOut()
+    public function signOut(Request $request)
     {
+        Auth::logout();
+        $request->session()->invalidate();
         Session::flush();
         return to_route('/');
     }
