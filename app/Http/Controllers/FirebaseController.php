@@ -68,7 +68,7 @@ class FirebaseController extends Controller
 
     public function signOut()
     {
-        Auth::logout();
+        Auth::guard('user')->logout();
         Session::flush();
         return to_route('/');
     }
