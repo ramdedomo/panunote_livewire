@@ -65,6 +65,21 @@
                 </a>
             </li>
 
+            {{-- <li class="sidebar-header">
+                Analytics
+            </li> --}}
+
+
+           <div class="sidebar-cta">
+                <div class="card sidebar-cta-content">
+                    <strong class="d-inline-block mb-2">Analytics</strong>
+                    <div class="text-sm">
+                        Check out your Popular <strong>Subject, Notes and Quizzes!</strong>
+                    </div>
+                    <a href="{{route('analytics')}}" class="stretched-link"></a>
+                </div>
+        </div>
+
             {{-- <li class="sidebar-item {{request()->is('browse/quizzes') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{route('browse_quizzes')}}">
                     <i class="bi bi-question-square"></i> <span class="align-middle">Find Quizzes</span>
@@ -73,15 +88,7 @@
             
         </ul>
 
-        <div class="sidebar-cta">
-                <div class="card sidebar-cta-content">
-                    <strong class="d-inline-block mb-2">Analytics</strong>
-                    <div class="text-sm">
-                        Check out your popular <strong>Notes and Quizzes!</strong>
-                    </div>
-                    <a href="{{route('analytics')}}" class="stretched-link"></a>
-                </div>
-        </div>
+
 
     </div>
 </nav>
