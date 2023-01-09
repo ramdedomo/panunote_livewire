@@ -209,7 +209,7 @@
           </div>
 
           
-          
+    
            
 
         <div class="row">
@@ -298,7 +298,7 @@
            
                 @if (!$islikeempty)
                 <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
-                    <div class="row">
+                    <div class="row g-2">
                             @php
                             $count = 1;
                             @endphp
@@ -306,43 +306,45 @@
                                 <div class="col-6">
                                 <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-primary">
                                     <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                        @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                        <div class="d-flex flex-row align-items-center">
+                                            @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                                src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                                alt="">
+                                            </div>
+                                            @else
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                            src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
                                             alt="">
+                                            </div>
+                                            @endif
+
+                                            <div class="ms-2 c-details">
+                                            @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
+                                            <strong class="text-primary">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                            @else
+                                            <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                            @endif
+                                            <br>
+                                            <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
+                                            </div>
                                         </div>
-                                        @else
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                        src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
-                                        alt="">
-                                        @endif
+
+                                        <span class="fs-3 fw-bold text-primary rounded-2 px-2 d-flex align-items-center">
+                                            @if ($count == 1)
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @elseif($count == 2)
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @elseif($count == 3)
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @else
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @endif
+                                        </span>
                                     </div>
-                                
-                                    <div class="ms-2 c-details">
-                                        @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
-                                        <strong class="text-primary">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                        @else
-                                        <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                        @endif
-                                        <br>
-                                        <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
-                                    </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-primary rounded-2 px-2 d-flex align-items-center">
-                                    @if ($count == 1)
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @elseif($count == 2)
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @elseif($count == 3)
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @else
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @endif
-                                    </span>
-                                </div>
+                                  
                                 <div class="mt-3">
                                     <h3 class="heading p-0 text-dark"><strong>{{ $topl->subject_name }}</strong> </h3>
                                     {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
@@ -382,7 +384,7 @@
                 <div class="p-2 bg-semi-dark rounded-3 d-block d-md-block d-lg-none text-center fw-bold text-primary"><i class="bi bi-bar-chart-fill"></i>  TOP SUBJECT VISITS</div>
                 @if (!$isvisitempty)
                 <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
-                    <div class="row">
+                    <div class="row g-2">
                             @php
                             $count = 1;
                             @endphp
@@ -390,43 +392,45 @@
                                 <div class="col-6">
                                 <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-primary">
                                     <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                        @if (is_null($topv->user_info[0]['user_photo']) || empty($topv->user_info[0]['user_photo']))
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                        <div class="d-flex flex-row align-items-center">
+                                            @if (is_null($topv->user_info[0]['user_photo']) || empty($topv->user_info[0]['user_photo']))
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                                src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                                alt="">
+                                            </div>
+                                            @else
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                            src="data:image/png;base64,{{ $topv->user_info[0]['user_photo'] }}"
                                             alt="">
+                                            </div>
+                                            @endif
+                                            <div class="ms-2 c-details">
+                                                @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
+                                                <strong class="text-primary">{{ ucfirst($topv->user_info[0]['username']) }}</strong>
+                                                @else
+                                                <strong>{{ ucfirst($topv->user_info[0]['username']) }}</strong>
+                                                @endif
+                                                <br>
+                                                <span>{{ date_format($topv->updated_at, 'm/d h:i A') }}</span>
+                                            </div>
                                         </div>
-                                        @else
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                        src="data:image/png;base64,{{ $topv->user_info[0]['user_photo'] }}"
-                                        alt="">
-                                        @endif
+                                    
+                                        <span class="fs-3 fw-bold text-primary rounded-2 px-2 d-flex align-items-center">
+                                            @if ($count == 1)
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @elseif($count == 2)
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @elseif($count == 3)
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @else
+                                            <span class="badge text-bg-primary">#{{ $count }}</span>
+                                            @endif
+                                            </span>
                                     </div>
-                                
-                                    <div class="ms-2 c-details">
-                                        @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
-                                        <strong class="text-primary">{{ ucfirst($topv->user_info[0]['username']) }}</strong>
-                                        @else
-                                        <strong>{{ ucfirst($topv->user_info[0]['username']) }}</strong>
-                                        @endif
-                                        <br>
-                                        <span>{{ date_format($topv->updated_at, 'm/d h:i A') }}</span>
-                                    </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-primary rounded-2 px-2 d-flex align-items-center">
-                                    @if ($count == 1)
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @elseif($count == 2)
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @elseif($count == 3)
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @else
-                                    <span class="badge text-bg-primary">#{{ $count }}</span>
-                                    @endif
-                                    </span>
-                                </div>
+  
+                             
                                 <div class="mt-3">
                                     <h3 class="heading p-0 text-dark"><strong>{{ $topv->subject_name }}</strong> </h3>
                                     {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
@@ -478,14 +482,12 @@
 
         <div class="row">
             <div class="col-md-12 col-lg-6 rounded-3">
-          
-
            
                 @if (!$isnotelikeempty)
                 <div class="p-2 bg-semi-dark rounded-3 d-block d-md-block d-lg-none text-center fw-bold text-primary"><i class="bi bi-heart-fill"></i> TOP NOTE LIKES</div>
 
                 <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
-                    <div class="row">
+                    <div class="row g-2">
                             @php
                             $count = 1;
                             @endphp
@@ -493,43 +495,47 @@
                                 <div class="col-6">
                                 <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-warning">
                                     <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                        @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                        <div class="d-flex flex-row align-items-center">
+                                            @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                                src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                                alt="">
+                                            </div>
+                                            @else
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                            src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
                                             alt="">
+                                            </div>
+                                            @endif
+
+                                            <div class="ms-2 c-details">
+                                                @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
+                                                <strong class="text-warning">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @else
+                                                <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @endif
+                                                <br>
+                                                <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
+                                            </div>
                                         </div>
-                                        @else
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                        src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
-                                        alt="">
-                                        @endif
+                                    
+                                        <span class="fs-3 fw-bold text-warning rounded-2 px-2 d-flex align-items-center">
+                                            @if ($count == 1)
+                                            <span class="badge text-light bg-warning">#{{ $count }}</span>
+                                            @elseif($count == 2)
+                                            <span class="badge text-light bg-warning">#{{ $count }}</span>
+                                            @elseif($count == 3)
+                                            <span class="badge text-light bg-warning">#{{ $count }}</span>
+                                            @else
+                                            <span class="badge text-light bg-warning">#{{ $count }}</span>
+                                            @endif
+                                            </span>
                                     </div>
-                                
-                                    <div class="ms-2 c-details">
-                                        @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
-                                        <strong class="text-warning">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                        @else
-                                        <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                        @endif
-                                        <br>
-                                        <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
-                                    </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-warning rounded-2 px-2 d-flex align-items-center">
-                                    @if ($count == 1)
-                                    <span class="badge text-light bg-warning">#{{ $count }}</span>
-                                    @elseif($count == 2)
-                                    <span class="badge text-light bg-warning">#{{ $count }}</span>
-                                    @elseif($count == 3)
-                                    <span class="badge text-light bg-warning">#{{ $count }}</span>
-                                    @else
-                                    <span class="badge text-light bg-warning">#{{ $count }}</span>
-                                    @endif
-                                    </span>
-                                </div>
+
+                             
+
                                 <div class="mt-3">
                                     <h3 class="heading p-0 text-dark"><strong>{{ $topl->note_title }}</strong> </h3>
                                     <p>{{ str_word_count($topl->note_content) }} Words</p>
@@ -570,7 +576,7 @@
            
                 @if (!$isnotevisitempty)
                 <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
-                    <div class="row">
+                    <div class="row g-2">
                             @php
                             $count = 1;
                             @endphp
@@ -578,32 +584,33 @@
                                 <div class="col-6">
                                 <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-warning">
                                     <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                        @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                        <div class="d-flex flex-row align-items-center">
+                                            @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                                src="{{ asset('img/avatars/default_dp.jpg') }}"
+                                                alt="">
+                                            </div>
+                                            @else
+                                            <div class="icon">
+                                            <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
+                                            src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
                                             alt="">
+                                            </div>
+                                            @endif
+
+                                            <div class="ms-2 c-details">
+                                                @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
+                                                <strong class="text-warning">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @else
+                                                <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @endif
+                                                <br>
+                                                <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
+                                            </div>
                                         </div>
-                                        @else
-                                        <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                        src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
-                                        alt="">
-                                        @endif
-                                    </div>
-                                
-                                    <div class="ms-2 c-details">
-                                        @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
-                                        <strong class="text-warning">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                        @else
-                                        <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                        @endif
-                                        <br>
-                                        <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
-                                    </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-warning rounded-2 px-2 d-flex align-items-center">
+                                    
+                             <span class="fs-3 fw-bold text-warning rounded-2 px-2 d-flex align-items-center">
                                     @if ($count == 1)
                                     <span class="badge text-light bg-warning">#{{ $count }}</span>
                                     @elseif($count == 2)
@@ -614,7 +621,8 @@
                                     <span class="badge text-light bg-warning">#{{ $count }}</span>
                                     @endif
                                     </span>
-                                </div>
+                                    </div>
+                                  
                                 <div class="mt-3">
                                     <h3 class="heading p-0 text-dark"><strong>{{ $topl->note_title }}</strong> </h3>
                                     <p>{{ str_word_count($topl->note_content) }} Words</p>
@@ -670,7 +678,7 @@
 
                     @if (!$isquizlikeempty)
                     <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
-                        <div class="row">
+                        <div class="row g-2">
                                 @php
                                 $count = 1;
                                 @endphp
@@ -690,31 +698,35 @@
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
                                             src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
                                             alt="">
+                                            </div>
                                             @endif
+
+                                              
+                                            <div class="ms-2 c-details">
+                                                @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
+                                                <strong class="text-info">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @else
+                                                <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @endif
+                                                <br>
+                                                <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
+                                            </div>
                                         </div>
+
+                                            <span class="fs-3 fw-bold text-info rounded-2 px-2 d-flex align-items-center">
+                                                @if ($count == 1)
+                                                <span class="badge text-light bg-info">#{{ $count }}</span>
+                                                @elseif($count == 2)
+                                                <span class="badge text-light bg-info">#{{ $count }}</span>
+                                                @elseif($count == 3)
+                                                <span class="badge text-light bg-info">#{{ $count }}</span>
+                                                @else
+                                                <span class="badge text-light bg-info">#{{ $count }}</span>
+                                                @endif
+                                            </span>
+                                        </div>
+                            
                                     
-                                        <div class="ms-2 c-details">
-                                            @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
-                                            <strong class="text-info">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                            @else
-                                            <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
-                                            @endif
-                                            <br>
-                                            <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
-                                        </div>
-                                        </div>
-                                        <span class="fs-3 fw-bold text-info rounded-2 px-2 d-flex align-items-center">
-                                        @if ($count == 1)
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @elseif($count == 2)
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @elseif($count == 3)
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @else
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @endif
-                                        </span>
-                                    </div>
                                     <div class="mt-3">
                                         <h3 class="heading p-0 text-dark"><strong>{{ $topl->quiz_title }}</strong> </h3>
                                         {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
@@ -756,7 +768,7 @@
             
                     @if (!$isquizvisitempty)
                     <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
-                        <div class="row">
+                        <div class="row g-2">
                                 @php
                                 $count = 1;
                                 @endphp
@@ -776,9 +788,10 @@
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
                                             src="data:image/png;base64,{{ $topv->user_info[0]['user_photo'] }}"
                                             alt="">
+                                            </div>
                                             @endif
-                                        </div>
-                                    
+
+                                            
                                         <div class="ms-2 c-details">
                                             @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
                                             <strong class="text-info">{{ ucfirst($topv->user_info[0]['username']) }}</strong>
@@ -790,17 +803,18 @@
                                         </div>
                                         </div>
                                         <span class="fs-3 fw-bold text-info rounded-2 px-2 d-flex align-items-center">
-                                        @if ($count == 1)
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @elseif($count == 2)
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @elseif($count == 3)
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @else
-                                        <span class="badge text-light bg-info">#{{ $count }}</span>
-                                        @endif
-                                        </span>
-                                    </div>
+                                            @if ($count == 1)
+                                            <span class="badge text-light bg-info">#{{ $count }}</span>
+                                            @elseif($count == 2)
+                                            <span class="badge text-light bg-info">#{{ $count }}</span>
+                                            @elseif($count == 3)
+                                            <span class="badge text-light bg-info">#{{ $count }}</span>
+                                            @else
+                                            <span class="badge text-light bg-info">#{{ $count }}</span>
+                                            @endif
+                                            </span>
+                                        </div>
+                         
                                     <div class="mt-3">
                                         <h3 class="heading p-0 text-dark"><strong>{{ $topv->quiz_title }}</strong> </h3>
                                         {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
