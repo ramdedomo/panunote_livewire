@@ -363,6 +363,9 @@
                     }
 
                     .imgprofile {
+                        width: 300px;
+                        height: 300px;
+                        object-fit: cover;
                         opacity: 1;
                         display: block;
                         transition: .5s ease;
@@ -416,7 +419,7 @@
                         <div
                             class="imgcontainer bg-semi-dark rounded-3 d-flex aligns-items-center justify-content-center">
 
-                            <img style="width: 300px"
+                            <img
                                 @if (is_null($user_info->user_photo) || empty($user_info->user_photo)) src="{{ asset('img/avatars/default_dp.jpg') }}"
                             @else
                                 src="data:image/png;base64,{{ $user_info->user_photo }}" @endif

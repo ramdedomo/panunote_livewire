@@ -4,7 +4,7 @@
     <a class="sidebar-toggle js-sidebar-toggle"><i class="hamburger align-self-center rounded-5"></i></a>
 
     <a class="navbar-brand p-0 m-0 align-self-center text-dark fw-bold fs-3" href="{{route('/')}}">
-        <img style="width: 120px;" src="{{ asset('img/logos/panunote_logo.png') }}" alt="">
+        <img  style="width: 120px;" src="{{ asset('img/logos/panunote_logo.png') }}" alt="">
     </a>
 
     <div class="navbar-collapse collapse">
@@ -163,7 +163,7 @@
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block " href="#" data-bs-toggle="dropdown">
                     
 
-                    <img 
+                    <img style="object-fit: cover;"
                     @if(is_null($image) || empty($image))
                     src="{{ asset('img/avatars/default_dp.jpg') }}"
                     @else

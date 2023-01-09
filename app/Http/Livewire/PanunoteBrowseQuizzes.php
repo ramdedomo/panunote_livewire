@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-
 use App\Models\PanunoteUsers;
 use Livewire\Component;
 use Carbon\Carbon;

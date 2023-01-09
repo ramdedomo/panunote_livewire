@@ -53,23 +53,23 @@
             </li>
 
              
-            <li class="sidebar-item {{request()->is('browse/subjects') ? 'active' : '' }}">
+            {{-- <li class="sidebar-item {{request()->is('browse/subjects') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{route('browse_subjects')}}">
                     <i class="bi bi-journals"></i> <span class="align-middle">Find Subjects</span>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="sidebar-item {{request()->is('browse/notes') ? 'active' : '' }}">
-                <a class="sidebar-link" href="{{route('browse_notes')}}">
-                    <i class="bi bi-journal-text"></i> <span class="align-middle">Find Notes</span>
+            <li class="sidebar-item {{request()->is('/community') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{route('community')}}">
+                    <i class="bi bi-journal-text"></i> <span class="align-middle">Community</span>
                 </a>
             </li>
 
-            <li class="sidebar-item {{request()->is('browse/quizzes') ? 'active' : '' }}">
+            {{-- <li class="sidebar-item {{request()->is('browse/quizzes') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{route('browse_quizzes')}}">
                     <i class="bi bi-question-square"></i> <span class="align-middle">Find Quizzes</span>
                 </a>
-            </li>
+            </li> --}}
             
         </ul>
 

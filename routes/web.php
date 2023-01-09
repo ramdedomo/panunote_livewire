@@ -55,9 +55,9 @@ Route::get('/{user_name}/quizzes/{quiz_id}', App\Http\Livewire\PanunoteQuizPubli
 
 Route::get('/settings', App\Http\Livewire\PanunoteSettings::class)->name('settings')->middleware('islogin');
 
-Route::get('/browse/subjects', App\Http\Livewire\PanunoteBrowseSubject::class)->name('browse_subjects')->middleware('islogin');
-Route::get('/browse/notes', App\Http\Livewire\PanunoteBrowseNotes::class)->name('browse_notes')->middleware('islogin');
-Route::get('/browse/quizzes', App\Http\Livewire\PanunoteBrowseQuizzes::class)->name('browse_quizzes')->middleware('islogin');
+//Route::get('/browse/subjects', App\Http\Livewire\PanunoteBrowseSubject::class)->name('browse_subjects')->middleware('islogin');
+Route::get('/community', App\Http\Livewire\PanunoteBrowseNotes::class)->name('community')->middleware('islogin');
+//Route::get('/browse/quizzes', App\Http\Livewire\PanunoteBrowseQuizzes::class)->name('browse_quizzes')->middleware('islogin');
 
 Route::get('/favorites', App\Http\Livewire\PanunoteFavorites::class)->name('favorites')->middleware('islogin');
 Route::get('/shared', App\Http\Livewire\PanunoteShared::class)->name('shared')->middleware('islogin');
