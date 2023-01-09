@@ -346,7 +346,7 @@
                                     </div>
                                   
                                 <div class="mt-3">
-                                    <h3 class="heading p-0 text-dark"><strong>{{ $topl->subject_name }}</strong> </h3>
+                                    <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topl->subject_name, 0, 35) }}</strong> </h3>
                                     {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
                                     <div class="mt-3">
                                     <div class="d-flex fw-4">
@@ -432,7 +432,7 @@
   
                              
                                 <div class="mt-3">
-                                    <h3 class="heading p-0 text-dark"><strong>{{ $topv->subject_name }}</strong> </h3>
+                                    <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topv->subject_name, 0, 35) }}</strong> </h3>
                                     {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
                                     <div class="mt-3">
                                     <div class="d-flex fw-4">
@@ -537,7 +537,7 @@
                              
 
                                 <div class="mt-3">
-                                    <h3 class="heading p-0 text-dark"><strong>{{ $topl->note_title }}</strong> </h3>
+                                    <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topl->note_title, 0, 35) }}</strong> </h3>
                                     <p>{{ str_word_count($topl->note_content) }} Words</p>
                                     <div class="mt-3">
                                     <div class="d-flex fw-4">
@@ -580,12 +580,12 @@
                             @php
                             $count = 1;
                             @endphp
-                            @foreach ($note_topvisits as $topl)
+                            @foreach ($note_topvisits as $topv)
                                 <div class="col-6">
                                 <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-warning">
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex flex-row align-items-center">
-                                            @if (is_null($topl->user_info[0]['user_photo']) || empty($topl->user_info[0]['user_photo']))
+                                            @if (is_null($topv->user_info[0]['user_photo']) || empty($topv->user_info[0]['user_photo']))
                                             <div class="icon">
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
                                                 src="{{ asset('img/avatars/default_dp.jpg') }}"
@@ -594,19 +594,19 @@
                                             @else
                                             <div class="icon">
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="data:image/png;base64,{{ $topl->user_info[0]['user_photo'] }}"
+                                            src="data:image/png;base64,{{ $topv->user_info[0]['user_photo'] }}"
                                             alt="">
                                             </div>
                                             @endif
 
                                             <div class="ms-2 c-details">
-                                                @if (Auth::user()->user_id == $topl->user_info[0]['user_id'])
-                                                <strong class="text-warning">{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
+                                                <strong class="text-warning">{{ ucfirst($topv->user_info[0]['username']) }}</strong>
                                                 @else
-                                                <strong>{{ ucfirst($topl->user_info[0]['username']) }}</strong>
+                                                <strong>{{ ucfirst($topv->user_info[0]['username']) }}</strong>
                                                 @endif
                                                 <br>
-                                                <span>{{ date_format($topl->updated_at, 'm/d h:i A') }}</span>
+                                                <span>{{ date_format($topv->updated_at, 'm/d h:i A') }}</span>
                                             </div>
                                         </div>
                                     
@@ -624,21 +624,21 @@
                                     </div>
                                   
                                 <div class="mt-3">
-                                    <h3 class="heading p-0 text-dark"><strong>{{ $topl->note_title }}</strong> </h3>
-                                    <p>{{ str_word_count($topl->note_content) }} Words</p>
+                                    <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topv->note_title, 0, 35) }}</strong> </h3>
+                                    <p>{{ str_word_count($topv->note_content) }} Words</p>
                                     <div class="mt-3">
                                     <div class="d-flex fw-4">
                                         <div class=" w-100">
                                          
                                         <i class="bi bi-bar-chart-fill text-warning"></i>
-                                        <span class="mx-1"><strong>{{ $topl->visit_count }}</strong> Visits</span>
+                                        <span class="mx-1"><strong>{{ $topv->visit_count }}</strong> Visits</span>
                                         </div>
                                         <div class="bg-semi-dark d-flex w-100 rounded-4">
                                         </div>
                                     </div>
                                     </div>
                                 </div>
-                                <a href="/subjects/{{ $topl->subject_id }}/{{ $topl->note_id }}" class="stretched-link"></a>
+                                <a href="/subjects/{{ $topv->subject_id }}/{{ $topv->note_id }}" class="stretched-link"></a>
                                 </div>
                             </div>
                           @php
@@ -728,7 +728,7 @@
                             
                                     
                                     <div class="mt-3">
-                                        <h3 class="heading p-0 text-dark"><strong>{{ $topl->quiz_title }}</strong> </h3>
+                                        <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topl->quiz_title, 0, 35) }}</strong> </h3>
                                         {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
                                         <div class="mt-3">
                                         <div class="d-flex fw-4">
@@ -816,7 +816,7 @@
                                         </div>
                          
                                     <div class="mt-3">
-                                        <h3 class="heading p-0 text-dark"><strong>{{ $topv->quiz_title }}</strong> </h3>
+                                        <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topv->quiz_title, 0, 35) }}</strong> </h3>
                                         {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
                                         <div class="mt-3">
                                         <div class="d-flex fw-4">
