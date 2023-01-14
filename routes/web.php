@@ -54,6 +54,7 @@ Route::get('/{user_name}/subjects/{subject_id}/{note_id}', App\Http\Livewire\Pan
 Route::get('/{user_name}/quizzes/{quiz_id}', App\Http\Livewire\PanunoteQuizPublic::class)->name('quizz_public')->middleware('islogin');
 
 Route::get('/settings', App\Http\Livewire\PanunoteSettings::class)->name('settings')->middleware('islogin');
+Route::get('/logs', App\Http\Livewire\PanunoteLogs::class)->name('logs')->middleware('islogin');
 
 //Route::get('/browse/subjects', App\Http\Livewire\PanunoteBrowseSubject::class)->name('browse_subjects')->middleware('islogin');
 Route::get('/community', App\Http\Livewire\PanunoteBrowseNotes::class)->name('community')->middleware('islogin');

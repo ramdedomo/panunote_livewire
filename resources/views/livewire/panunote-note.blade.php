@@ -264,6 +264,220 @@
             <div class="sticky-top bg-white p-0 m-0 border-bottom border-2 border-primary">
                 <div class="sizebox"></div>
 
+                <div style="margin-top: 60px;" class="pt-1 offcanvas offcanvas-end" tabindex="-2" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header bg-primary d-flex align-items-center">
+
+                    <div id="offcanvasRightLabel">
+                        <span class="fw-bold fs-3 text-light">Dictionary</span></div>
+                    <button type="button" class="btn-close  btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body" id="dictionary_body">
+
+                    @if(!$notfound)
+                    <div>
+                        <div>
+                            <div disabled type="text" class="form-control fs-1 mb-2 p-0 px-2">
+                                @if (isset($definition['word'])) {{ucfirst($definition['word'])}} @endif
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <p class="fs-4">
+                                @if (isset($definition['phonetic']))
+                                {{$definition['phonetic']}}
+                                    @if($hasphonetic) 
+                                        <button type="button" class="phonetics btn btn-outline-primary rounded-5 px-1 py-0"><i class="fs-4 bi bi-volume-up"></i></button> 
+                                    @else 
+                                        <button type="button" class="disabled btn btn-outline-secondary rounded-5 px-1 py-0"><i class="fs-4 bi bi-volume-up"></i></button> 
+                                    @endif
+                                @else
+                                    <button type="button" class="disabled btn btn-outline-secondary rounded-5 px-1 py-0"><i class="fs-4 bi bi-volume-up"></i></button> 
+                                @endif </p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4">
+
+                        <div class="d-flex">
+                            <span class="border-start border-5 border-info fw-bold bg-semi-dark w-100 py-1 px-2 rounded">Meanings</span>
+                        </div>
+
+
+                        <div class="accordion mt-3" id="accordionPanelsStayOpenExample">
+
+                            @php
+                                $count = 0;
+                                $headerid = "panelsStayOpen-heading";
+                                $contentid = "panelsStayOpen-collapse";
+                            @endphp
+
+                       
+                            @foreach ($definition['meanings'] as $define)
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="{{$headerid.$count}}">
+                                  <button class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#{{$contentid.$count}}" aria-expanded="true" aria-controls="{{$contentid.$count}}">
+                                    {{ucfirst($define['partOfSpeech'])}}
+                                  </button>
+                                </h2>
+                                <div id="{{$contentid.$count}}" class="accordion-collapse collapse show" aria-labelledby="{{$headerid.$count}}">
+                                  <div class="accordion-body p-3">
+                                    <strong>Definitions:</strong> 
+                                    <ul>
+
+                                        @foreach ($define['definitions'] as $definition)
+                                            <li>{{$definition['definition']}}</li>
+
+                                            @if(isset($definition['example']))
+                                                <ul>
+                                                    <li>{{$definition['example']}}</li>
+                                                </ul>
+                                            @endif
+
+                                        @endforeach
+                                        
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+
+                              @php
+                                  $count++;
+                              @endphp
+
+                            @endforeach
+
+                          </div>
+
+                          
+                        <div class="d-flex mt-3">
+                            <span class="border-start border-5 border-info fw-bold bg-semi-dark w-100 py-1 px-2 rounded">Antonyms</span>
+                        </div>
+
+
+                        <div class="accordion mt-3" id="accordionPanelsStayOpenExample">
+
+                            @php
+                                $count = 0;
+                                $headerid = "ant_panelsStayOpen-heading";
+                                $contentid = "ant_panelsStayOpen-collapse";
+                            @endphp
+
+                            @if($antonyms['antonyms_count'] == 0)
+                            <div class="d-flex mt-3">
+                                <span class="text-center w-100 p-3 bg-semi-dark fw-bold"> NO ANTONYMS FOUND</span>
+                            </div>
+                              
+                            @endif
+                       
+                            @foreach ($antonyms as $words)
+
+                            @if(!empty($words['word']))
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="{{$headerid.$count}}">
+                                  <button class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#{{$contentid.$count}}" aria-expanded="true" aria-controls="{{$contentid.$count}}">
+                                    {{ucfirst($words['pof'])}}
+                                  </button>
+                                </h2>
+                                <div id="{{$contentid.$count}}" class="accordion-collapse collapse show" aria-labelledby="{{$headerid.$count}}">
+                                  <div class="accordion-body p-3">
+                                    @foreach ($words['word'] as $word)
+                                    <span wire:click="findword('{{$word}}')" class="btn badge text-bg-info">{{$word}}</span>
+                                    @endforeach
+                                  </div>
+                                </div>
+                            </div>
+
+                            @endif
+
+                              @php
+                                  $count++;
+                              @endphp
+
+                            @endforeach
+
+                        </div>
+
+
+
+
+
+                        <div class="d-flex mt-3">
+                            <span class="border-start border-5 border-info fw-bold bg-semi-dark w-100 py-1 px-2 rounded">Synonyms</span>
+                        </div>
+
+                        <div class="accordion mt-3" id="accordionPanelsStayOpenExample">
+
+                            @php
+                                $count = 0;
+                                $headerid = "syn_panelsStayOpen-heading";
+                                $contentid = "syn_panelsStayOpen-collapse";
+                            @endphp
+
+                            @if($synonyms['synonyms_count'] == 0)
+                            <div class="d-flex mt-3">
+                                <span class="text-center w-100 p-3 bg-semi-dark fw-bold"> NO SYNONYMS FOUND</span>
+                            </div> 
+                            @endif
+
+                            @foreach ($synonyms as $words)
+
+                            @if(!empty($words['word']))
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="{{$headerid.$count}}">
+                                  <button class="accordion-button p-3" type="button" data-bs-toggle="collapse" data-bs-target="#{{$contentid.$count}}" aria-expanded="true" aria-controls="{{$contentid.$count}}">
+                                    {{ucfirst($words['pof'])}}
+                                  </button>
+                                </h2>
+                                <div id="{{$contentid.$count}}" class="accordion-collapse collapse show" aria-labelledby="{{$headerid.$count}}">
+                                  <div class="accordion-body p-3">
+                                    @foreach ($words['word'] as $word)
+                                        <span wire:click="findword('{{$word}}')" class="btn badge text-bg-info">{{$word}}</span>
+                                    @endforeach
+                                  </div>
+                                </div>
+                            </div>
+
+                            @endif
+
+                              @php
+                                  $count++;
+                              @endphp
+
+                            @endforeach
+
+                        </div>
+
+
+                        <div class="d-flex mt-3">
+                            <span class="border-start border-5 border-info fw-bold bg-semi-dark w-100 py-1 px-2 rounded">Soundlike</span>
+                        </div>
+
+                        <div class="p-3 bg-semi-dark rounded mt-3">
+                        @foreach ($soundlike as $sl)
+                        <span wire:click="findword('{{$sl['word']}}')" class="btn badge text-bg-info"> {{$sl['word']}}</span>
+                           
+                        @endforeach
+                        </div>
+
+
+                    </div>
+                    @else
+                    <div class="bg-semi-dark d-flex justify-content-center align-items-center p-2 mt-3">
+                        No Definition Available - Find on &nbsp; <a target="_blank" class="fw-bold" href="https://www.google.com/search?q={{$word}}+definition">Google</a> 
+                    </div>
+
+                    @endif
+
+                </div>
+                </div>
+
+
+
                 <div class="p-3 m-0">
                     <div class="d-flex justify-content-between">
                         <div>
@@ -290,6 +504,10 @@
                                 </div>
                             </span>
 
+
+                            @if(!empty($word))
+                            <button class="btn btn-primary py-1 px-2 mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-book"></i></button>
+                            @endif
 
                             @if($isgenerated)
                             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop_generated" class="btn py-1 px-2 mx-1 bg-primary"><i class="text-light bi bi-card-checklist"></i></button>
@@ -366,7 +584,20 @@
                 <textarea wire:model.defer="notecontent" id="noteareaID"></textarea>
             </div>
 
+            <audio id="audio" src="{{$audio}}"></audio>
+
             <script>
+
+                window.addEventListener('wordresult', event => {
+                    $('#dictionary_body').animate({ //animate element that has scroll
+                scrollTop: 0  //for scrolling
+            }, 500);
+
+                    $('.phonetics').click(function(){
+                        var audio = document.getElementById("audio");
+                        audio.play();
+                    });
+                })
 
                 document.addEventListener('livewire:load', function () {
                     $( "#replace" ).click(function() {
@@ -387,11 +618,15 @@
 
                     }
                 }, false);
+
+
+                
+
             </script>
     
             <script src="{{ asset('js/tinymce.js') }}"></script>
 
-
+            
 
                 
         </div>

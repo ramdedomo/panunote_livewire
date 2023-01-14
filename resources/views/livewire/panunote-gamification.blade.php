@@ -22,11 +22,10 @@
                             </a>
 
                             @if($isjoined)
-                            <div class="text-center mt-2 bg-semi-dark rounded-3 p-2" style="font-size: 12px">
-                               <strong>Warning:</strong> You currently on a Lobby, Clicking<br>
-                                any button above will leave you on the Joined Lobby.
-                            </div>
-                        
+                                <div class="text-center mt-2 bg-semi-dark rounded-3 p-2" style="font-size: 12px">
+                                <strong>Warning:</strong> You currently on a Lobby, Clicking<br>
+                                    any button above will leave you on the Joined Lobby.
+                                </div>
                             @endif
 
                         </div>
@@ -42,13 +41,13 @@
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample"
                         aria-labelledby="offcanvasExampleLabel">
                         <div
-                            class="offcanvas-header border-bottom border-1 border-primary d-flex justify-content-between">
+                            class="offcanvas-header bg-primary d-flex justify-content-between">
 
                             <div class="py-1 text-primary rounded fs-3">
-                                <span class="fw-bold">My Game History</span>
+                                <span class="fw-bold text-light">My Game History</span>
                             </div>
 
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas"
                                 aria-label="Close"></button>
 
                         </div>
@@ -79,8 +78,6 @@
 
 
 
-
-
                         </div>
 
                         <div class="offcanvas-footer bg-semi-dark">
@@ -97,5 +94,10 @@
             </div>
         </div>
     </main>
+    <script>
+        
+
+
+    </script>
 
 </div>

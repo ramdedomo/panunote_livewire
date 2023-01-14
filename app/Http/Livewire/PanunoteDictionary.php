@@ -127,8 +127,46 @@ class PanunoteDictionary extends Component
                 //dd($this->antonyms);
                 
 
+                // foreach($res as $this->definition){
+
+                //     $phoneticcount = 0;
+                //     foreach($this->definition['phonetics'] as $phonetic){
+                //         if(empty($phonetic['audio']) || empty($phonetic['text'])){
+                //             unset($this->definition['phonetics'][$phoneticcount]);
+                //         }
+                //         $phoneticcount++;
+                //     }
+
+                //     $meaningcount = 0;
+                //     $duplicates = [];
+                //     foreach($this->definition['meanings'] as $mean){
+
+                //         if(in_array($mean['partOfSpeech'], $duplicates)){
+                //             foreach($mean['definitions'] as $define){
+                //                 $this->definition['meanings'][array_keys($duplicates, $mean['partOfSpeech'])[0]]['definitions'][] = $define;
+                //             }
+                //             unset($this->definition['meanings'][$meaningcount]);
+                //         }else{
+                //             $duplicates[$meaningcount] = $mean['partOfSpeech'];
+                //         }
+
+                //         $meaningcount++;
+                //     }
+
+                // }
+
                 foreach($res as $this->definition){
 
+                    $meaningcount1 = 0;
+                    foreach($this->definition['meanings'] as $meaning){
+                        $test[] = $meaning;
+                        unset($this->definition['meanings'][$meaningcount1]);
+        
+                        $meaningcount1++;
+                    }
+        
+                    $this->definition['meanings'] = $test;
+        
                     $phoneticcount = 0;
                     foreach($this->definition['phonetics'] as $phonetic){
                         if(empty($phonetic['audio']) || empty($phonetic['text'])){
@@ -136,11 +174,11 @@ class PanunoteDictionary extends Component
                         }
                         $phoneticcount++;
                     }
-
+        
                     $meaningcount = 0;
                     $duplicates = [];
                     foreach($this->definition['meanings'] as $mean){
-
+        
                         if(in_array($mean['partOfSpeech'], $duplicates)){
                             foreach($mean['definitions'] as $define){
                                 $this->definition['meanings'][array_keys($duplicates, $mean['partOfSpeech'])[0]]['definitions'][] = $define;
@@ -149,10 +187,10 @@ class PanunoteDictionary extends Component
                         }else{
                             $duplicates[$meaningcount] = $mean['partOfSpeech'];
                         }
-
+        
                         $meaningcount++;
                     }
-
+        
                 }
 
                 if(!empty($this->definition['phonetics'])){

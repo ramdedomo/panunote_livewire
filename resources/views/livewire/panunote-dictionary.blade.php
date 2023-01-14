@@ -307,7 +307,7 @@
                 scrollTop: 0  //for scrolling
             }, 500);
 
-            
+
             $('.phonetics').click(function(){
                 var audio = document.getElementById("audio");
                 audio.play();

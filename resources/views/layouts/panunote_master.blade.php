@@ -1,5 +1,7 @@
-@if(Auth::user()->isverified == 0)
-    <script>window.location = "/verify";</script>
+@if (Auth::user()->isverified == 0)
+    <script>
+        window.location = "/verify";
+    </script>
 @endif
 
 
@@ -65,7 +67,8 @@
     <div class="wrapper">
         <x-panunote_sidebar />
         <div class="main">
-            <x-panunote_topbar image="{{ $name->user_photo }}" username="{{ $name->user_fname . ' ' . $name->user_lname }}" />
+            <x-panunote_topbar image="{{ $name->user_photo }}"
+                username="{{ $name->user_fname . ' ' . $name->user_lname }}" />
             {{-- @yield('content') use this if you don't use livewire --}}
             {{ $slot }}
             {{-- <x-panunote_footer/> --}}
@@ -98,17 +101,16 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="{{ asset('js/timeme.js') }}"></script>
     <script>
-
         TimeMe.initialize({
             currentPageName: "main", // current page
             idleTimeoutInSeconds: 5 // seconds
         });
 
-        window.onload = function(){
-		setInterval(function(){
+        window.onload = function() {
+            setInterval(function() {
                 var timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
             }, 25);
-	    }
+        }
 
         window.addEventListener('selectednotes', event => {
             $(".content-toast").text('No selected Notes. Please Select and Try Again');
@@ -116,10 +118,21 @@
             toast.show();
         });
 
+        window.addEventListener('wordresult', event => {
+            var offcanvas_el = document.getElementById("offcanvasRight")
+            var offcanvas = new bootstrap.Offcanvas(offcanvas_el, {
+    
+            })
+            offcanvas.show()
+        });
+
+
+
 
 
         window.addEventListener('emptyanswer', event => {
-            $(".content-toast").text('No Answers Found. To Generate Question highlight possible answer in the note below.');
+            $(".content-toast").text(
+                'No Answers Found. To Generate Question highlight possible answer in the note below.');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
@@ -129,14 +142,15 @@
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
-        
+
 
         window.addEventListener('limiterror', event => {
-            $(".content-toast").text('You can only Generate 5 Questions (for now), Reduce your highlighted answers');
+            $(".content-toast").text(
+                'You can only Generate 5 Questions (for now), Reduce your highlighted answers');
             const toast = new bootstrap.Toast($('#liveToast'));
             toast.show();
         });
-        
+
 
         window.addEventListener('modified', event => {
             $(".content-toast").text('Personal Info Updated!');
@@ -265,7 +279,7 @@
 
 
         // window.addEventListener('contentChanged', event => {
-            
+
         //     $(".owl-carousel").owlCarousel({
         //         loop: false,
         //         margin: 10,
@@ -273,7 +287,7 @@
         //         dots: false,
         //         margin: 10,
         //         pagination: false,
-    
+
         //         responsive: {
         //             0: {
         //                 items: 1
@@ -287,7 +301,7 @@
         //         }
         //     });
         // });
-            
+
         $(".owl-carousel").owlCarousel({
             loop: false,
             margin: 10,
@@ -308,8 +322,6 @@
                 }
             }
         });
-
-   
     </script>
 
 </body>

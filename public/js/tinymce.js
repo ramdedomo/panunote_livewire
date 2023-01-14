@@ -5,7 +5,7 @@ tinymce.init({
     selector: "#noteareaID",
     resize: true,
     plugins: "searchreplace codesample image link lists",
-    contextmenu: 'paraphrase',
+    contextmenu: 'paraphrase dictionary',
     toolbar: "searchreplace insertUsername | customInsertButton | styles | fontfamily fontsize | bold italic underline strikethrough forecolor backcolor | removeformat | | undo redo | alignleft aligncenter alignright |  image link unlink codesample | bullist numlist ",
     mobile: {
         resize: true,
@@ -21,6 +21,14 @@ tinymce.init({
             context: 'tools',
             onAction: function () {
                 window.livewire.emit('set:paraphrasetext', ed.selection.getContent({format: 'text'}));
+            }
+        });
+
+        ed.ui.registry.addMenuItem('dictionary', {
+            text: 'Find on Dictionary',
+            context: 'tools',
+            onAction: function () {
+                window.livewire.emit('set:findword', ed.selection.getContent({format: 'text'}));
             }
         });
 
