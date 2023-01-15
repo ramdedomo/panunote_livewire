@@ -27,7 +27,8 @@ class PanunoteSettings extends Component
     public $username;
 
     public $oldpassword;
-    public $newpassword;
+    public $password;
+    public $password_confirmation;
 
     public $removephoto = false;
 
@@ -72,6 +73,13 @@ class PanunoteSettings extends Component
             }
         }
 
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Change Photo",
+            'created_at' => Carbon::now()
+        ]);
+
+
   
 
     }
@@ -112,6 +120,13 @@ class PanunoteSettings extends Component
             ]);
 
             Session::put('user_email', $this->email);
+
+            
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Email Change to ".$this->email.".",
+                'created_at' => Carbon::now()
+            ]);
 
             $this->email = $this->email;
             Session::flash('success', "New Email Verified!");
@@ -164,7 +179,7 @@ class PanunoteSettings extends Component
 
         $validatedData = $this->validate([
             'oldpassword' => 'required',
-            'newpassword' => 'required',
+            'password' => 'required|confirmed|min:6',
         ]);
 
     
@@ -177,6 +192,12 @@ class PanunoteSettings extends Component
             ]);
     
             if($a){
+                DB::table('panunote_activity_logs')->insert([
+                    'user_id' => Auth::user()->user_id,
+                    'description' => "Password Change",
+                    'created_at' => Carbon::now()
+                ]);
+
                 Session::flash('success', "Password Updated!");
             }
            
@@ -208,6 +229,11 @@ class PanunoteSettings extends Component
         ]);
 
         if($a){
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Personal Info Update",
+                'created_at' => Carbon::now()
+            ]);
             Session::flash('successinfo', "Personal Info Updated!");
         }else{
             Session::flash('errorinfo', "Nice, No Changes");

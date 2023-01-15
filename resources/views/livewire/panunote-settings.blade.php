@@ -31,7 +31,7 @@
 
 
                         @if ($errors->any() || Session::has('errorinfo'))
-                            <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark"
+                            <div class="p-3 mb-3 bg-danger rounded-3 bg-opacity-25 border border-danger"
                                 role="alert">
                                 {{ Session::get('errorinfo') }}
                                 @foreach ($errors->all() as $error)
@@ -77,6 +77,13 @@
                                 <input wire:model.defer="username" type="text" class="form-control" id=""
                                     placeholder="">
                             </div>
+
+                            
+                            <div class="mb-3 col-sm-6 col-md-6">
+                                <label for="" class="form-label">&nbsp;</label>
+                                <input disabled type="text" class="form-control" id="" placeholder="">
+                            </div>
+
                         </div>
 
 
@@ -113,7 +120,7 @@
 
 
                     @if (Session::has('errorphoto'))
-                        <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                        <div class="p-3 mb-3 bg-danger rounded-3 bg-opacity-25 border border-danger" role="alert">
                             {{ Session::get('errorphoto') }}
                         </div>
                     @endif
@@ -136,7 +143,7 @@
 
                     
                     @error('display_picture')
-                        <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                        <div class="p-3 mb-3 bg-danger rounded-3 bg-opacity-25 border border-danger" role="alert">
                             {{ $message }}
                         </div>
                     @enderror
@@ -199,7 +206,7 @@
                 <div class="modal-body" x-data="{ remove: false }">
 
                     @if ($errors->any() || Session::has('error'))
-                        <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                        <div class="p-3 mb-3 bg-danger rounded-3 bg-opacity-25 border border-danger" role="alert">
                             {{ Session::get('error') }}
                             @foreach ($errors->all() as $error)
                                 <span>{{ $error }}</span>
@@ -220,12 +227,12 @@
                     @endif --}}
 
                     <div class="row g-2">
-                        <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="col-12 mb-2">
                             <span class="input-group-text mb-2" id="basic-addon1">Old Password</span>
                             <input wire:model='oldpassword' type="password" class="form-control">
                         </div>
 
-                        <div class="col-sm-12 col-md-6 mb-3" x-data="{ show: false }">
+                        <div class="col-sm-12 col-lg-6 mb-3" x-data="{ show: false }">
                             <div class="d-flex">
                                 <span class="w-100 input-group-text mb-2" id="basic-addon1">New Password</span>
                                 <span class="mx-1"></span>
@@ -234,8 +241,21 @@
                                     </i></button>
                             </div>
 
-                            <input wire:model='newpassword' :type="show ? 'text' : 'password'" class="form-control">
+                            <input wire:model='password' :type="show ? 'text' : 'password'" class="form-control">
                         </div>
+
+                        <div class="col-sm-12 col-lg-6 mb-3" x-data="{ show: false }">
+                            <div class="d-flex">
+                                <span class="w-100 input-group-text mb-2" id="basic-addon1">Confirm Password</span>
+                                <span class="mx-1"></span>
+                                <button @click="show = ! show" class="btn btn-primary mb-2 px-2">
+                                    <i :class="show ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'">
+                                    </i></button>
+                            </div>
+
+                            <input wire:model='password_confirmation' :type="show ? 'text' : 'password'" class="form-control">
+                        </div>
+
                     </div>
 
 
@@ -267,7 +287,7 @@
             <div class="modal-body">
 
                 @if ($errors->any() || Session::has('error'))
-                <div class="p-3 mb-3 bg-secondary rounded-3 bg-opacity-25 border border-dark" role="alert">
+                <div class="p-3 mb-3 bg-danger rounded-3 bg-opacity-25 border border-danger" role="alert">
                     <span>{{ Session::get('error') }}</span>
                     @foreach ($errors->all() as $error)
                         <span>{{ $error }}</span>
