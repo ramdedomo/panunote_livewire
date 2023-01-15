@@ -148,7 +148,6 @@
                                 <span class="tooltip">
                                     Requires All Field
                                 </span>
-                            
                             </button>
                     </div>
 

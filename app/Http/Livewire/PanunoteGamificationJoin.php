@@ -14,6 +14,8 @@ use App\Events\PlayerJoin;
 use App\Events\PlayerKick;
 use App\Events\PlayerAdminize;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 class PanunoteGamificationJoin extends Component
 {
     use WithPagination;
@@ -253,6 +255,13 @@ class PanunoteGamificationJoin extends Component
         //dd($id);
         if(PanunoteGamificationRoom::where('game_id', $id)->exists()){
             if(!PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)->where('game_id', $id)->exists()){
+
+                DB::table('panunote_activity_logs')->insert([
+                    'user_id' => Auth::user()->user_id,
+                    'description' => "Panugame Join Room ('roomid:".$id."')",
+                    'created_at' => Carbon::now()
+                ]);
+
                 PanunoteGamificationInroom::create([
                     'user_id' => Auth::user()->user_id,
                     'game_id' => $id,
@@ -287,6 +296,13 @@ class PanunoteGamificationJoin extends Component
         if(PanunoteGamificationRoom::where('game_id', $id)->exists()){
             if(!PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)->where('game_id', $id)->exists()){
                 if(Hash::check($this->joinprivatepassword, $password->password)){
+
+                    DB::table('panunote_activity_logs')->insert([
+                        'user_id' => Auth::user()->user_id,
+                        'description' => "Panugame Join Room ('roomid:".$id."')",
+                        'created_at' => Carbon::now()
+                    ]);
+
                     PanunoteGamificationInroom::create([
                         'user_id' => Auth::user()->user_id,
                         'game_id' => $id,
@@ -321,6 +337,12 @@ class PanunoteGamificationJoin extends Component
             if(!PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)->where('game_id', $id)->exists()){
                 $password = PanunoteGamificationRoom::where('game_id', $this->joinmanualid)->first();
                 if(Hash::check($this->joinmanualpassword, $password->password)){
+
+                    DB::table('panunote_activity_logs')->insert([
+                        'user_id' => Auth::user()->user_id,
+                        'description' => "Panugame Join Room ('roomid:".$id."')",
+                        'created_at' => Carbon::now()
+                    ]);
                     
                     PanunoteGamificationInroom::create([
                         'user_id' => Auth::user()->user_id,

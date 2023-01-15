@@ -18,6 +18,8 @@ use App\Models\PanunoteNoteVisits;
 use Carbon\Carbon;
 use URL;
 use Illuminate\Support\Facades\Auth;
+use DB;
+
 class PanunoteNotePublic extends Component
 {
     public $notecontent;
@@ -123,12 +125,24 @@ class PanunoteNotePublic extends Component
             ->where('user_id', Auth::user()->user_id)
             ->update(['note_like' => ($this->isfavorite) ? 1 : 0]);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Note Like ('id:".$this->note_id."')" : "Note Unlike ('id:".$this->note_id."')",
+                'created_at' => Carbon::now()
+            ]);
+
         }else{
             //create
             PanunoteNoteLikes::create([
                 'note_id' => $this->note_id,
                 'user_id' => Auth::user()->user_id,
                 'note_like' => ($this->isfavorite) ? 1 : 0
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Note Like ('id:".$this->note_id."')" : "Note Unlike ('id:".$this->note_id."')",
+                'created_at' => Carbon::now()
             ]);
         }
     }

@@ -16,6 +16,8 @@ use App\Models\PanunoteSubjectVisits;
 use Carbon\Carbon;
 use URL;
 use Illuminate\Support\Facades\Auth;
+use DB;
+
 class PanunoteSubjectPublic extends Component
 {
     public $subject_id;
@@ -102,12 +104,24 @@ class PanunoteSubjectPublic extends Component
             ->where('user_id', Auth::user()->user_id)
             ->update(['subject_like' => ($this->isfavorite) ? 1 : 0]);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Subject Like ('id:".$this->subject_id."')" : "Subject Unlike ('id:".$this->subject_id."')",
+                'created_at' => Carbon::now()
+            ]);
+
         }else{
             //create
             PanunoteSubjectLikes::create([
                 'subject_id' => $this->subject_id,
                 'user_id' => Auth::user()->user_id,
                 'subject_like' => ($this->isfavorite) ? 1 : 0
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Subject Like ('id:".$this->subject_id."')" : "Subject Unlike ('id:".$this->subject_id."')",
+                'created_at' => Carbon::now()
             ]);
         }
     }

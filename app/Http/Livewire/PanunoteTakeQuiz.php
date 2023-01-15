@@ -18,6 +18,8 @@ use App\Models\PanunoteQuizTakes;
 use Carbon\Carbon;
 use URL;
 use DB;
+
+
 use Illuminate\Support\Facades\Auth;
 class PanunoteTakeQuiz extends Component
 {
@@ -168,6 +170,12 @@ class PanunoteTakeQuiz extends Component
     }
 
     public function mount($quiz_id=null){
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Take Quiz ('id:".$this->quiz_id."')",
+            'created_at' => Carbon::now()
+        ]);
 
         $this->user = PanunoteUsers::where('user_id', Auth::user()->user_id)->first();
 

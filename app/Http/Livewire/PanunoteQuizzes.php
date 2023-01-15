@@ -11,6 +11,7 @@ use App\Models\PanunoteAnswers;
 use DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 class PanunoteQuizzes extends Component
 {
 
@@ -56,6 +57,12 @@ class PanunoteQuizzes extends Component
                 'user_id' => Auth::user()->user_id,
                 'quiz_sharing' => ($this->quizcreate_sharing) ? 1 : 0,
                 'quiz_title' => $this->quizcreate_title
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Create Empty Quiz ('".$this->quizcreate_title."')",
+                'created_at' => Carbon::now()
             ]);
           
             $this->dispatchBrowserEvent('createdquiz');
@@ -263,6 +270,12 @@ class PanunoteQuizzes extends Component
                         $counter++;
                     }
                 }
+
+                DB::table('panunote_activity_logs')->insert([
+                    'user_id' => Auth::user()->user_id,
+                    'description' => "Create Random Quiz ('".$this->quizcreate_title."')",
+                    'created_at' => Carbon::now()
+                ]);
                 
                 $this->dispatchBrowserEvent('createdquiz');
                 

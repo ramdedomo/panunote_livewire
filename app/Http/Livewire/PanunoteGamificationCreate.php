@@ -14,6 +14,7 @@ use App\Events\RoomCreate;
 use App\Events\AdminLeaved;
 use App\Events\PlayerAdminize;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PanunoteGamificationCreate extends Component
 {
@@ -174,6 +175,11 @@ class PanunoteGamificationCreate extends Component
             'role' => 1,
         ]);
 
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Panugame Create Room ('roomid:".$createdroom."')",
+            'created_at' => Carbon::now()
+        ]);
 
         event(new RoomCreate());
         return redirect('lobby/'.$createdroom);
@@ -189,7 +195,6 @@ class PanunoteGamificationCreate extends Component
 
     public function render()
     {
-
         
         //get all quizzess
         $this->quiz_list = DB::table('panunote_quizzes')

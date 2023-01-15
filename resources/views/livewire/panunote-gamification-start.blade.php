@@ -146,7 +146,7 @@
                                         @elseif($players['user_status'] == 0 && $players['refreshToken'] == 1)
                                             <span class="badge text-bg-info text-light">Answering</span>
                                         @elseif($players['refreshToken'] > 1 && $players['user_status'] == 2)
-                                            <span class="badge text-bg-danger text-light">Leave</span>
+                                            <span class="badge text-bg-danger text-light">Leave or No Player Left</span>
                                         @else
                                             <span class="badge text-bg-success text-light">Ended</span>
                                         @endif
@@ -155,9 +155,13 @@
                             @endif
                         @endforeach
 
-                        @if ($count == 1)
+                        @if ($count == 1 && $yourrole == 1)
                             <tr>
                                 <td colspan="4" class="text-center">No Player Left :(, You may leave the game</td>
+                            </tr>
+                        @elseif($count == 1 && $yourrole == 0)
+                            <tr>
+                                <td colspan="4" class="text-center">You left the game :(</td>
                             </tr>
                         @endif
 
@@ -376,6 +380,10 @@
         </div>
 
 
+        <div class="d-flex justify-content-end mt-2">
+            <button wire:click="leave" class="btn bg-danger text-light"><i class="bi bi-escape"></i> Leave</button>
+        </div>
+
     </div>
 
 
@@ -459,6 +467,11 @@
                 .listen('QuestionNext', (e) => {
                     window.Livewire.emit('questionnexted', e.room_id);
                 });
+
+                Echo.channel('playeradminized')
+                .listen('PlayerAdminize', (e) => {
+                    window.Livewire.emit('playeradminized', e.user_id);
+            });
 
             Echo.channel('useranswered')
                 .listen('UserAnswer', (e) => {

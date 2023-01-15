@@ -13,6 +13,8 @@ use App\Events\QuestionNext;
 use App\Events\UserAnswer;
 use App\Models\PanunoteUsers;
 use App\Events\AdminLeaved;
+use App\Events\PlayerAdminize;
+
 use Session;
 use Illuminate\Support\Facades\Auth;
 class PanunoteGamificationStart extends Component
@@ -45,13 +47,65 @@ class PanunoteGamificationStart extends Component
         'useranswered' => 'list_useranswered',
         'reloaded' => 'list_reloaded',
         'adminleaves' => 'list_adminleaves',
-        'getscreentime' => 'getscreentime'
+        'getscreentime' => 'getscreentime',
+        'playeradminized' => 'list_playeradminized'
     ];
 
     public function getscreentime($screentime){
         PanunoteUsers::where('user_id', Auth::user()->user_id)->update([
             'screentime_game' => $this->user->screentime_game += $screentime
         ]);
+    }
+
+    public function list_playeradminized($user_id){
+        if($user_id == Auth::user()->user_id){
+            $this->dispatchBrowserEvent('notify');
+            $this->isadmin = true;
+        }
+
+        //get role
+        $this->yourrole = DB::table('panunote_gamification_room')
+        ->join('panunote_gamification_inroom', 'panunote_gamification_room.game_id', '=', 'panunote_gamification_inroom.game_id')
+        ->where('panunote_gamification_room.game_id', $this->game_id)
+        ->where('panunote_gamification_inroom.user_id', Auth::user()->user_id)
+        ->first()->role;
+    }
+
+
+    public function leave(){
+
+        PanunoteGamificationRoom::find($this->game_id)->decrement('player_count');
+
+        $b = PanunoteGamificationInroom::where('role', '!=', 1)
+        ->where('game_id', $this->game_id)
+        ->oldest('created_at')
+        ->first();
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Panugame Leave Game ('roomid:".$this->game_id."')",
+            'created_at' => Carbon::now()
+        ]);
+
+        if(!is_null($b)){
+            PanunoteGamificationInroom::where('game_id', $this->game_id)
+            ->where('user_id', $b->user_id)
+            ->update(['role'=> 1]);
+
+            PanunoteGamificationInroom::where('user_id', Auth::user()->user_id)->where('game_id', $this->game_id)->delete();
+            event(new PlayerAdminize($b->user_id));
+
+            return redirect('/panugame/join');
+        }else{
+            if(PanunoteGamificationInroom::where('game_id', $this->game_id)->count()){
+                PanunoteGamificationInroom::where('game_id', $this->game_id)->delete();
+                PanunoteGamificationRoom::where('game_id', $this->game_id)->delete();
+            }
+        }
+
+ 
+
+        return redirect()->to('/panugame');
     }
 
 

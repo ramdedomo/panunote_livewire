@@ -477,7 +477,7 @@
                                 selector: "#questionarea{{ $question['question_id'] }}",
                                 resize: true,
                                 plugins: "image",
-                                toolbar: "image | alignleft aligncenter alignright",
+                                toolbar: "image | alignleft aligncenter alignright | fontsize",
                                 //toolbar: "image",
                                 setup: function(ed) {
                                     ed.on('Change', function(e) {

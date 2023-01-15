@@ -21,6 +21,8 @@ use App\Models\PanunoteQuizTakes;
 use URL;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 class PanunoteQuizz extends Component
 {
     protected $listeners = [
@@ -81,6 +83,12 @@ class PanunoteQuizz extends Component
 
         $a = PanunoteGamificationRoom::where('quiz_id', $this->quiz_id)->get();
 
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Delete Quiz ('quizid:".$this->quiz_id."')",
+            'created_at' => Carbon::now()
+        ]);
+
         foreach($a as $del){
             PanunoteGamificationInroom::where('game_id',  $del->game_id)->delete();
         }
@@ -99,12 +107,14 @@ class PanunoteQuizz extends Component
         PanunoteAnswers::whereIn('question_id', $delete_questions)->delete();
         PanunoteQuestions::where('quiz_id', $this->quiz_id)->delete();
         PanunoteQuizzes::where('quiz_id', $this->quiz_id)->delete();
+        
 
         return redirect('quizzes');
     }
 
     public function create(){
 
+ 
         //dd($this->multiplerightanswer);
        // dd($this->questiontype);
 
@@ -338,12 +348,24 @@ class PanunoteQuizz extends Component
             ->where('user_id', Auth::user()->user_id)
             ->update(['quiz_like' => ($this->isfavorite) ? 1 : 0]);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Quiz Like ('id:".$this->quiz_id."')" : "Quiz Unlike ('id:".$this->quiz_id."')",
+                'created_at' => Carbon::now()
+            ]);
+
         }else{
             //create
             PanunoteQuizLikes::create([
                 'quiz_id' => $this->quiz_id,
                 'user_id' => Auth::user()->user_id,
                 'quiz_like' => ($this->isfavorite) ? 1 : 0
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Quiz Like ('id:".$this->quiz_id."')" : "Quiz Unlike ('id:".$this->quiz_id."')",
+                'created_at' => Carbon::now()
             ]);
         }
 
@@ -489,6 +511,12 @@ class PanunoteQuizz extends Component
     public function savechanges(){
 
         $this->dispatchBrowserEvent('quizsaved');
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Quiz Content Update ('id:".$this->quiz_id."')",
+            'created_at' => Carbon::now()
+        ]);
 
         PanunoteQuizzes::where('quiz_id', $this->quiz_id)
         ->update([

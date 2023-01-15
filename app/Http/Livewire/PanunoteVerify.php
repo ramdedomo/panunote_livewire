@@ -49,6 +49,12 @@ class PanunoteVerify extends Component
                 'status' => 1
             ]);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Account Verified",
+                'created_at' => Carbon::now()
+            ]);
+
             Session::put('user_email', $this->email);
 
             return redirect('subjects');

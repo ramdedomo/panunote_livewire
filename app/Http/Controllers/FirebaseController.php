@@ -11,6 +11,7 @@ use Sessions;
 Use \Carbon\Carbon;
 use App\Models\PanunoteUsers;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class FirebaseController extends Controller
 {
@@ -43,6 +44,14 @@ class FirebaseController extends Controller
 
             Auth::login($user);
             $request->session()->put('user_email', $request->email);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Account Created",
+                'created_at' => Carbon::now()
+            ]);
+
+
             return to_route('subjects');
     }
 
@@ -60,6 +69,12 @@ class FirebaseController extends Controller
             $request->session()->put('user_email',  Auth::user()->email);
             $request->session()->put('user_id',  Auth::user()->user_id);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Logged In",
+                'created_at' => Carbon::now()
+            ]);
+
             return to_route('subjects');
         }
 
@@ -68,9 +83,16 @@ class FirebaseController extends Controller
 
     public function signOut(Request $request)
     {
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Logged Out",
+            'created_at' => Carbon::now()
+        ]);
+
         Auth::logout();
         $request->session()->invalidate();
         Session::flush();
+
         return to_route('/');
     }
 

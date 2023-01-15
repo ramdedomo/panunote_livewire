@@ -6,6 +6,9 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use DB;
+use Carbon\Carbon;
+
 class PanunoteDictionary extends Component
 {
     protected $listeners = [
@@ -202,6 +205,12 @@ class PanunoteDictionary extends Component
                 }else{
                     $this->hasphonetic = false;
                 }
+
+                DB::table('panunote_activity_logs')->insert([
+                    'user_id' => Auth::user()->user_id,
+                    'description' => "Dictionary Find Word ('word:".$this->word."')",
+                    'created_at' => Carbon::now()
+                ]);
 
 
         }

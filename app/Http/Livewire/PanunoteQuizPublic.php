@@ -179,12 +179,24 @@ class PanunoteQuizPublic extends Component
             ->where('user_id', Auth::user()->user_id)
             ->update(['quiz_like' => ($this->isfavorite) ? 1 : 0]);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Quiz Like ('id:".$this->quiz_id."')" : "Quiz Unlike ('id:".$this->quiz_id."')",
+                'created_at' => Carbon::now()
+            ]);
+
         }else{
             //create
             PanunoteQuizLikes::create([
                 'quiz_id' => $this->quiz_id,
                 'user_id' => Auth::user()->user_id,
                 'quiz_like' => ($this->isfavorite) ? 1 : 0
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Quiz Like ('id:".$this->quiz_id."')" : "Quiz Unlike ('id:".$this->quiz_id."')",
+                'created_at' => Carbon::now()
             ]);
         }
 

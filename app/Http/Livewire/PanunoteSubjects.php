@@ -7,6 +7,9 @@ use App\Models\PanunoteSubjects as PanunoteSubject;
 use App\Models\PanunoteNotes;
 use Session;
 use Illuminate\Support\Facades\Auth;
+use DB;
+use Carbon\Carbon;
+
 class PanunoteSubjects extends Component
 {
     public $subjecttitle;
@@ -33,6 +36,12 @@ class PanunoteSubjects extends Component
             'subject_name' => $this->subjecttitle,
             'subject_sharing' => $sharing,
             'user_id' => Auth::user()->user_id
+        ]);
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Subject Creation ('".$this->subjecttitle."')",
+            'created_at' => Carbon::now()
         ]);
 
         $this->dispatchBrowserEvent('createdsubject');

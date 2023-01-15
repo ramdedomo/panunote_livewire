@@ -16,6 +16,8 @@ use App\Models\PanunoteUsers;
 use URL;
 use GuzzleHttp\Promise;
 use Illuminate\Support\Facades\Auth;
+use DB;
+use Carbon\Carbon;
 
 class PanunoteNote extends Component
 {
@@ -220,6 +222,11 @@ class PanunoteNote extends Component
                 }
 
 
+                DB::table('panunote_activity_logs')->insert([
+                    'user_id' => Auth::user()->user_id,
+                    'description' => "Dictionary Find Word ('word:".$this->word."')",
+                    'created_at' => Carbon::now()
+                ]);
         }
 
         //dd($this->res, $this->definition);
@@ -262,6 +269,12 @@ class PanunoteNote extends Component
             PanunoteNoteLikes::where('note_id', $this->note_id)->delete();
             PanunoteNoteVisits::where('note_id', $this->note_id)->delete();
             PanunoteNotes::where('note_id', $this->note_id)->delete();
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Delete Note ('id:".$this->note_id."')",
+                'created_at' => Carbon::now()
+            ]);
     
             return redirect('/subjects/'.$this->subject_id);
         }
@@ -304,6 +317,12 @@ class PanunoteNote extends Component
             $count++;
         }
 
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Create Quiz (Generated) ('".$this->quiztitle."')",
+            'created_at' => Carbon::now()
+        ]);
+
 
         $this->dispatchBrowserEvent('savedNote');
         //dd($this->finalquestions, $this->finalanswers);
@@ -338,6 +357,12 @@ class PanunoteNote extends Component
             $this->defaulttext = $paraphrasetext;
             $this->paraphrasedtext = str_replace('paraphrasedoutput: ', '', json_decode($response->getBody()->getContents())->data);
             //dd(json_decode($response->getBody()->getContents())->data);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Paraphrase Sentence ('noteid:".$this->note_id."')",
+                'created_at' => Carbon::now()
+            ]);
     
             $this->dispatchBrowserEvent('paraphrased');
         }
@@ -415,6 +440,8 @@ class PanunoteNote extends Component
 
     public function updateTag(){
         $this->note_details->note_tags = $this->notetags;
+        
+   
     }
 
     public function draft(){
@@ -464,12 +491,24 @@ class PanunoteNote extends Component
             ->where('user_id', Auth::user()->user_id)
             ->update(['note_like' => ($this->isfavorite) ? 1 : 0]);
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Note Like ('id:".$this->note_id."')" : "Note Unlike ('id:".$this->note_id."')",
+                'created_at' => Carbon::now()
+            ]);
+
         }else{
             //create
             PanunoteNoteLikes::create([
                 'note_id' => $this->note_id,
                 'user_id' => Auth::user()->user_id,
                 'note_like' => ($this->isfavorite) ? 1 : 0
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Note Like ('id:".$this->note_id."')" : "Note Unlike ('id:".$this->note_id."')",
+                'created_at' => Carbon::now()
             ]);
         }
     }
@@ -508,6 +547,12 @@ class PanunoteNote extends Component
             if(empty($matches)){
                 $this->dispatchBrowserEvent('emptyanswer');
              }else{
+
+                DB::table('panunote_activity_logs')->insert([
+                    'user_id' => Auth::user()->user_id,
+                    'description' => "Generate Question ('noteid:".$this->note_id."')",
+                    'created_at' => Carbon::now()
+                ]);
                 // Print the entire match result
                 //dd($matches[0]);
     
@@ -686,6 +731,12 @@ class PanunoteNote extends Component
              'note_title' => $this->notetitle,
              'note_content' => $notefinalvalue
          ]);
+
+         DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Note Content Update ('id:".$this->note_id."')",
+            'created_at' => Carbon::now()
+        ]);
 
 
         $this->updateTag();

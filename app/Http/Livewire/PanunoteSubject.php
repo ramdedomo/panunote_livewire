@@ -14,6 +14,9 @@ use App\Models\PanunoteSubjectVisits;
 use App\Models\PanunoteUsers;
 use URL;
 use Illuminate\Support\Facades\Auth;
+use DB;
+use Carbon\Carbon;
+
 class PanunoteSubject extends Component
 {
     public $notetitle;
@@ -61,6 +64,12 @@ class PanunoteSubject extends Component
             $note->subject_id = $this->selectsubject;
             $note->save();
             $this->dispatchBrowserEvent('notemodifydone');
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Move Note ('noteid:".$this->singleSelectid."') to ('subjectid:".$this->selectsubject."')",
+                'created_at' => Carbon::now()
+            ]);
         }
     }
 
@@ -71,6 +80,12 @@ class PanunoteSubject extends Component
             $newNote->subject_id = $this->selectsubject;
             $newNote->save();
             $this->dispatchBrowserEvent('notemodifydone');
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Copy Note ('noteid:".$this->singleSelectid."') to ('subjectid:".$this->selectsubject."')",
+                'created_at' => Carbon::now()
+            ]);
         }
     }
 
@@ -80,12 +95,24 @@ class PanunoteSubject extends Component
         $newNote = $note->replicate();
         $newNote->save();
         $this->dispatchBrowserEvent('notemodifydone');
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Duplicate Note ('noteid:".$noteid."')",
+            'created_at' => Carbon::now()
+        ]);
     }
 
     
     public function delete_single($noteid){
         PanunoteNotes::find($noteid)->delete();
         $this->dispatchBrowserEvent('notemodifydone');
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Delete Note ('noteid:".$noteid."')",
+            'created_at' => Carbon::now()
+        ]);
     }
 
 
@@ -97,6 +124,12 @@ class PanunoteSubject extends Component
             foreach($this->itemsCard as $item){
                 $note = PanunoteNotes::find(explode (",",  $item)[0])->delete();
             }
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Delete Note ('noteid:".$item."')",
+                'created_at' => Carbon::now()
+            ]);
 
             $this->dispatchBrowserEvent('notemodifydone');
         }
@@ -113,6 +146,12 @@ class PanunoteSubject extends Component
                 $note->save();
             }
             
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Move Note ('noteid:".$item."')",
+                'created_at' => Carbon::now()
+            ]);
+            
             $this->dispatchBrowserEvent('notemodifydone');
         }
     }
@@ -128,6 +167,12 @@ class PanunoteSubject extends Component
                 $newNote->save();
             }
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Copy Note ('noteid:".$item."')",
+                'created_at' => Carbon::now()
+            ]);
+
             $this->dispatchBrowserEvent('notemodifydone');
         }
     }
@@ -142,6 +187,12 @@ class PanunoteSubject extends Component
                 $newNote->save();
             }
 
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => "Duplicate Note ('noteid:".$item."')",
+                'created_at' => Carbon::now()
+            ]);
+
             $this->dispatchBrowserEvent('notemodifydone');
         }
     }
@@ -149,6 +200,12 @@ class PanunoteSubject extends Component
     public function delete(){
 
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Delete Subject ('id:".$this->subject_id."')",
+            'created_at' => Carbon::now()
+        ]);
 
         if(Auth::user()->user_id == $subject->user_id){
 
@@ -306,6 +363,12 @@ class PanunoteSubject extends Component
     public function save(){
         PanunoteSubjects::where('subject_id', $this->subject_id)
         ->update(['subject_name' => $this->subjectname]);
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Change Subject Name ('id:".$this->subject_id."')",
+            'created_at' => Carbon::now()
+        ]);
     }
 
     public function sharingsetting(){
@@ -334,6 +397,12 @@ class PanunoteSubject extends Component
             PanunoteSubjectLikes::where('subject_id', $this->subject_id)
             ->where('user_id', Auth::user()->user_id)
             ->update(['subject_like' => ($this->isfavorite) ? 1 : 0]);
+            
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Subject Like ('id:".$this->subject_id."')" : "Subject Unlike ('id:".$this->subject_id."')",
+                'created_at' => Carbon::now()
+            ]);
 
         }else{
             //create
@@ -341,6 +410,12 @@ class PanunoteSubject extends Component
                 'subject_id' => $this->subject_id,
                 'user_id' => Auth::user()->user_id,
                 'subject_like' => ($this->isfavorite) ? 1 : 0
+            ]);
+
+            DB::table('panunote_activity_logs')->insert([
+                'user_id' => Auth::user()->user_id,
+                'description' => ($this->isfavorite) ? "Subject Like ('id:".$this->subject_id."')" : "Subject Unlike ('id:".$this->subject_id."')",
+                'created_at' => Carbon::now()
             ]);
         }
 
@@ -367,6 +442,12 @@ class PanunoteSubject extends Component
             'note_title' => $this->notetitle,
             'subject_id' => $this->subject_id,
             'user_id' => Auth::user()->user_id
+        ]);
+
+        DB::table('panunote_activity_logs')->insert([
+            'user_id' => Auth::user()->user_id,
+            'description' => "Note Creation ('".$this->notetitle."')",
+            'created_at' => Carbon::now()
         ]);
 
         $this->dispatchBrowserEvent('creatednote');
@@ -399,8 +480,6 @@ class PanunoteSubject extends Component
         ->get();
 
   
-
-
         return view('livewire.panunote-subject', ['notes' => $this->note_list, 'subject_details' => $subject]);
     }
 }
