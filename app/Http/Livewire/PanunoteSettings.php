@@ -188,7 +188,7 @@ class PanunoteSettings extends Component
 
             $a = PanunoteUsers::where('user_id', Auth::user()->user_id)
             ->update([
-                'password' =>  Hash::make($this->newpassword),
+                'password' =>  Hash::make($this->password),
             ]);
     
             if($a){
