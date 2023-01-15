@@ -380,10 +380,12 @@
         </div>
 
 
+        @if(!$finished)
         <div class="d-flex justify-content-end mt-2">
             <button wire:click="leave" class="btn bg-danger text-light"><i class="bi bi-escape"></i> Leave</button>
         </div>
-
+        @endif
+        
     </div>
 
 
