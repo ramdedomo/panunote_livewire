@@ -619,7 +619,7 @@ class PanunoteNote extends Component
                             $difficulty = str_replace('?', '', $difficulty);
                         }
 
-                        $this->finaldifficulty[$count] = "remembering (easy)";
+                        $this->finaldifficulty[$count] = 1;
         
                         foreach(explode(' ', $difficulty) as $diff){
                               // Check if the word is a verb
