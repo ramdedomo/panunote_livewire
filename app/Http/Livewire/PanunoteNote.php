@@ -282,6 +282,7 @@ class PanunoteNote extends Component
     }
 
     public function savegenerated(){
+        
 
         $this->validate();
         

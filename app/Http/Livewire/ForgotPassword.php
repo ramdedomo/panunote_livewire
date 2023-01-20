@@ -9,6 +9,7 @@ use Session;
 use App\Models\PanunoteUsers;
 use Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ForgotPassword extends Component
 {
@@ -41,8 +42,10 @@ class ForgotPassword extends Component
             ->where('token', $this->token)
             ->update(['status' => 1]);
 
+            
+
             DB::table('panunote_activity_logs')->insert([
-                'user_id' => Auth::user()->user_id,
+                'user_id' => PanunoteUsers::where("email", $this->email)->first()->user_id,
                 'description' => "Password Reset",
                 'created_at' => Carbon::now()
             ]);
