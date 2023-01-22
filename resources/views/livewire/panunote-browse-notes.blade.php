@@ -777,7 +777,7 @@
                                     <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-info">
                                         <div class="d-flex justify-content-between">
                                         <div class="d-flex flex-row align-items-center">
-                                            @if (is_null($topv->user_info->user_photo) || empty($topv->user_info->user_photo))
+                                            @if (is_null($topv->user_info->user_photo))
                                             <div class="icon">
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
                                                 src="{{ asset('img/avatars/default_dp.jpg') }}"
