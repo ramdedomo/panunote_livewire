@@ -777,7 +777,7 @@
                                     <div class="browse-picker card p-3 mb-2 border-bottom border-5 border-info">
                                         <div class="d-flex justify-content-between">
                                         <div class="d-flex flex-row align-items-center">
-                                            @if (is_null($topv->user_info[0]['user_photo']) || empty($topv->user_info[0]['user_photo']))
+                                            @if (is_null($topv->user_info->user_photo) || empty($topv->user_info->user_photo))
                                             <div class="icon">
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
                                                 src="{{ asset('img/avatars/default_dp.jpg') }}"
@@ -786,17 +786,17 @@
                                             @else
                                             <div class="icon">
                                             <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="data:image/png;base64,{{ $topv->user_info[0]['user_photo'] }}"
+                                            src="data:image/png;base64,{{ $topv->user_info->user_photo }}"
                                             alt="">
                                             </div>
                                             @endif
 
                                             
                                         <div class="ms-2 c-details">
-                                            @if (Auth::user()->user_id == $topv->user_info[0]['user_id'])
-                                            <strong class="text-info">{{ ucfirst($topv->user_info[0]['username']) }}</strong>
+                                            @if (Auth::user()->user_id == $topv->user_info->user_id)
+                                            <strong class="text-info">{{ ucfirst($topv->user_info->username) }}</strong>
                                             @else
-                                            <strong>{{ ucfirst($topv->user_info[0]['username']) }}</strong>
+                                            <strong>{{ ucfirst($topv->user_info->username) }}</strong>
                                             @endif
                                             <br>
                                             <span>{{ date_format($topv->updated_at, 'm/d h:i A') }}</span>
