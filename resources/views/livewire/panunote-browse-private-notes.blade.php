@@ -11,7 +11,7 @@
             <hr class="text-primary">
             <span>
               <div class="d-flex align-items-center bg-light text-primary fs-4">
-                Community&nbsp;&nbsp;&nbsp;
+                Private Community&nbsp;&nbsp;&nbsp;
               </div>
             </span>
           </div>
@@ -296,7 +296,7 @@
             <div class="col-md-12 col-lg-6 rounded-3">
             
                 <div class="p-2 bg-semi-dark rounded-3 d-block d-md-block d-lg-none text-center fw-bold text-primary"><i class="bi bi-heart-fill"></i> TOP SUBJECT LIKES</div>
-              
+           
                 @if (!$islikeempty)
                 <div class="col-12 my-2 bg-semi-dark p-2 rounded-3">
                     <div class="row g-2">
@@ -355,15 +355,8 @@
                                         <i class="bi bi-heart-fill text-primary text-primary"></i>
                                         <span class="mx-1"><strong>{{ $topl->like_count }}</strong> Likes</span>
                                         </div>
-                                        @if($topl->subject_sharing == 1)
-                                        <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Public
+                                        <div class="bg-semi-dark d-flex w-100 rounded-4">
                                         </div>
-                                        @else
-                                        <div class="fw-bold text-primary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Private
-                                        </div>
-                                        @endif
                                     </div>
                                     </div>
                                 </div>
@@ -374,42 +367,6 @@
                           $count++;
                           @endphp
                           @endforeach
-
-                          @for ($i = count($toplikes); $i < 6; $i++)
-                          <div class="col-6">
-                            <div class="bg-light bg-opacity-50 card p-3 mb-2 border-bottom border-5 border-secondary">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                      <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/placeholder_profile.png') }}"
-                                            alt="">
-                                        </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-secondary rounded-2 px-2 d-flex align-items-center">
-                                      <span class="badge text-bg-secondary">#</span>
-                                    </span>
-                                </div>
-                              
-                            <div class="mt-3">
-                                <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>...</strong> </h3>
-                                {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
-                                <div class="mt-3">
-                                <div class="d-flex fw-4">
-                                    <div class=" w-100">
-                                    <i class="bi bi-heart-fill text-secondary text-secondary"></i>
-                                    <span class="mx-1"></span>
-                                    </div>
-                                    <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                     
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                          </div>
-                          @endfor
-          
                     </div>
                 </div>
                 @else
@@ -418,8 +375,8 @@
                         <i class="bi bi-bar-chart-line"></i>&nbsp;&nbsp; No Data
                     </div>
                 @endif
-
             
+  
 
             </div>
 
@@ -484,15 +441,8 @@
                                         <i class="bi bi-bar-chart-fill text-primary text-primary"></i>
                                         <span class="mx-1"><strong>{{ $topv->visit_count }}</strong> Visits</span>
                                         </div>
-                                        @if($topv->subject_sharing == 1)
-                                        <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Public
+                                        <div class="bg-semi-dark d-flex w-100 rounded-4">
                                         </div>
-                                        @else
-                                        <div class="fw-bold text-primary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Private
-                                        </div>
-                                        @endif
                                     </div>
                                     </div>
                                 </div>
@@ -503,44 +453,6 @@
                           $count++;
                           @endphp
                           @endforeach
-
-
-                          
-                          @for ($i = count($topvisits); $i < 6; $i++)
-                          <div class="col-6">
-                            <div class="bg-light bg-opacity-50 card p-3 mb-2 border-bottom border-5 border-secondary">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                      <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/placeholder_profile.png') }}"
-                                            alt="">
-                                        </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-secondary rounded-2 px-2 d-flex align-items-center">
-                                      <span class="badge text-bg-secondary">#</span>
-                                    </span>
-                                </div>
-                              
-                            <div class="mt-3">
-                                <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>...</strong> </h3>
-                                {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
-                                <div class="mt-3">
-                                  
-                                <div class="d-flex fw-4">
-                                    <div class=" w-100">
-                                    <i class="bi bi-bar-chart-fill  text-secondary text-secondary"></i>
-                                    <span class="mx-1"></span>
-                                    </div>
-                                    <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                     
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                          </div>
-                          @endfor
                     </div>
                 </div>
                 @else
@@ -627,22 +539,15 @@
 
                                 <div class="mt-3">
                                     <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topl->note_title, 0, 35) }}</strong> </h3>
-                                    {{-- <p>{{ str_word_count($topl->note_content) }} Words</p> --}}
+                                    <p>{{ str_word_count($topl->note_content) }} Words</p>
                                     <div class="mt-3">
                                     <div class="d-flex fw-4">
                                         <div class=" w-100">
                                         <i class="bi bi-heart-fill text-warning"></i>
                                         <span class="mx-1"><strong>{{ $topl->like_count }}</strong> Likes</span>
                                         </div>
-                                        @if($topl->note_sharing == 1)
-                                        <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Public
+                                        <div class="bg-semi-dark d-flex w-100 rounded-4">
                                         </div>
-                                        @else
-                                        <div class="fw-bold text-primary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Private
-                                        </div>
-                                        @endif
                                     </div>
                                     </div>
                                 </div>
@@ -653,41 +558,6 @@
                           $count++;
                           @endphp
                           @endforeach
-
-                          @for ($i = count($note_toplikes); $i < 6; $i++)
-                          <div class="col-6">
-                            <div class="bg-light bg-opacity-50 card p-3 mb-2 border-bottom border-5 border-secondary">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                      <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/placeholder_profile.png') }}"
-                                            alt="">
-                                        </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-secondary rounded-2 px-2 d-flex align-items-center">
-                                      <span class="badge text-bg-secondary">#</span>
-                                    </span>
-                                </div>
-                              
-                            <div class="mt-3">
-                                <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>...</strong> </h3>
-                                {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
-                                <div class="mt-3">
-                                <div class="d-flex fw-4">
-                                    <div class=" w-100">
-                                    <i class="bi bi-heart-fill text-secondary text-secondary"></i>
-                                    <span class="mx-1"></span>
-                                    </div>
-                                    <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                     
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                          </div>
-                          @endfor
                     </div>
                 </div>
                 @else
@@ -756,7 +626,7 @@
                                   
                                 <div class="mt-3">
                                     <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>{{ substr($topv->note_title, 0, 35) }}</strong> </h3>
-                                    {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
+                                    <p>{{ str_word_count($topv->note_content) }} Words</p>
                                     <div class="mt-3">
                                     <div class="d-flex fw-4">
                                         <div class=" w-100">
@@ -764,15 +634,8 @@
                                         <i class="bi bi-bar-chart-fill text-warning"></i>
                                         <span class="mx-1"><strong>{{ $topv->visit_count }}</strong> Visits</span>
                                         </div>
-                                        @if($topv->note_sharing == 1)
-                                        <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Public
+                                        <div class="bg-semi-dark d-flex w-100 rounded-4">
                                         </div>
-                                        @else
-                                        <div class="fw-bold text-primary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                          Private
-                                        </div>
-                                        @endif
                                     </div>
                                     </div>
                                 </div>
@@ -783,42 +646,6 @@
                           $count++;
                           @endphp
                           @endforeach
-
-
-                          @for ($i = count($note_topvisits); $i < 6; $i++)
-                          <div class="col-6">
-                            <div class="bg-light bg-opacity-50 card p-3 mb-2 border-bottom border-5 border-secondary">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                      <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/placeholder_profile.png') }}"
-                                            alt="">
-                                        </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-secondary rounded-2 px-2 d-flex align-items-center">
-                                      <span class="badge text-bg-secondary">#</span>
-                                    </span>
-                                </div>
-                              
-                            <div class="mt-3">
-                                <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>...</strong> </h3>
-                                {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
-                                <div class="mt-3">
-                                <div class="d-flex fw-4">
-                                    <div class=" w-100">
-                                    <i class="bi bi-bar-chart-fill  text-secondary text-secondary"></i>
-                                    <span class="mx-1"></span>
-                                    </div>
-                                    <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                     
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                          </div>
-                          @endfor
                     </div>
                 </div>
                 @else
@@ -910,15 +737,8 @@
                                             <i class="bi bi-heart-fill text-info"></i>
                                             <span class="mx-1"><strong>{{ $topl->like_count }}</strong> Likes</span>
                                             </div>
-                                            @if($topl->quiz_sharing == 1)
-                                            <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                              Public
+                                            <div class="bg-semi-dark d-flex w-100 rounded-4">
                                             </div>
-                                            @else
-                                            <div class="fw-bold text-primary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                              Private
-                                            </div>
-                                            @endif
                                         </div>
                                         </div>
                                     </div>
@@ -929,42 +749,6 @@
                             $count++;
                             @endphp
                             @endforeach
-
-                            @for ($i = count($quiz_toplikes); $i < 6; $i++)
-                            <div class="col-6">
-                              <div class="bg-light bg-opacity-50 card p-3 mb-2 border-bottom border-5 border-secondary">
-                                  <div class="d-flex justify-content-between">
-                                      <div class="d-flex flex-row align-items-center">
-                                        <div class="icon">
-                                          <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                              src="{{ asset('img/avatars/placeholder_profile.png') }}"
-                                              alt="">
-                                          </div>
-                                      </div>
-                                      <span class="fs-3 fw-bold text-secondary rounded-2 px-2 d-flex align-items-center">
-                                        <span class="badge text-bg-secondary">#</span>
-                                      </span>
-                                  </div>
-                                
-                              <div class="mt-3">
-                                  <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>...</strong> </h3>
-                                  {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
-                                  <div class="mt-3">
-                                    
-                                  <div class="d-flex fw-4">
-                                      <div class=" w-100">
-                                      <i class="bi bi-heart-fill text-secondary text-secondary"></i>
-                                      <span class="mx-1"></span>
-                                      </div>
-                                      <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                       
-                                      </div>
-                                  </div>
-                                  </div>
-                              </div>
-                              </div>
-                            </div>
-                            @endfor
                         </div>
                     </div>
                     @else
@@ -1041,16 +825,8 @@
                                             <i class="bi bi-bar-chart-fill text-info"></i>
                                             <span class="mx-1"><strong>{{ $topv->visit_count }}</strong> Visits</span>
                                             </div>
-                                            
-                                            @if($topv->quiz_sharing == 1)
-                                            <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                              Public
+                                            <div class="bg-semi-dark d-flex w-100 rounded-4">
                                             </div>
-                                            @else
-                                            <div class="fw-bold text-primary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                              Private
-                                            </div>
-                                            @endif
                                         </div>
                                         </div>
                                     </div>
@@ -1061,43 +837,6 @@
                             $count++;
                             @endphp
                             @endforeach
-
-                                     
-                          @for ($i = count($quiz_topvisits); $i < 6; $i++)
-                          <div class="col-6">
-                            <div class="bg-light bg-opacity-50 card p-3 mb-2 border-bottom border-5 border-secondary">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row align-items-center">
-                                      <div class="icon">
-                                        <img style="object-fit: cover;" width="40px" height="40px" class="rounded-5"
-                                            src="{{ asset('img/avatars/placeholder_profile.png') }}"
-                                            alt="">
-                                        </div>
-                                    </div>
-                                    <span class="fs-3 fw-bold text-secondary rounded-2 px-2 d-flex align-items-center">
-                                      <span class="badge text-bg-secondary">#</span>
-                                    </span>
-                                </div>
-                              
-                            <div class="mt-3">
-                                <h3 class="d-flex heading p-0 text-dark align-items-center justify-content-center text-center" style="height: 80px"><strong>...</strong> </h3>
-                                {{-- <p>{{ str_word_count($topv->note_content) }} Words</p> --}}
-                                <div class="mt-3">
-                                  
-                                <div class="d-flex fw-4">
-                                    <div class=" w-100">
-                                    <i class="bi bi-bar-chart-fill text-secondary text-secondary"></i>
-                                    <span class="mx-1"></span>
-                                    </div>
-                                    <div class="fw-bold text-secondary bg-semi-dark bg-opacity-50 justify-content-center d-flex w-100 rounded-4">
-                                     
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                          </div>
-                          @endfor
                         </div>
                     </div>
                     @else

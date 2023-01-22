@@ -159,6 +159,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider::class,
         Kreait\Laravel\Firebase\ServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,

@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use URL;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Models\NoteAccess;
 
 class PanunoteNotePublic extends Component
 {
@@ -30,25 +31,38 @@ class PanunoteNotePublic extends Component
     
     public function mount($user_name=null,$subject_id=null, $note_id=null)
 	{
+
+        if(PanunoteNotes::find($note_id)->note_sharing == 0){
+            $exist = NoteAccess::where('note_id',$note_id)
+            ->where('user_id', Auth::user()->user_id)
+            ->where('has_access', 1)->exists();
+    
+            if(!$exist){
+                return redirect()->to('request/note/'.$note_id.'');
+            }
+        }
+
 		$this->subject_id = $subject_id;
         $this->note_id = $note_id;
 
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
         $note_details = PanunoteNotes::where('note_id', $this->note_id)->first();
 
-        if(!is_null($note_details) && !is_null($subject)){
-            if(Auth::user()->user_id != $note_details->user_id){
-                if($note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
+        // if(!is_null($note_details) && !is_null($subject)){
+        //     if(Auth::user()->user_id != $note_details->user_id){
+        //         if($note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
                     
-                }elseif($note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
-                    dd("Private");
-                }else{
-                    abort(404);
-                }
-            }
-        }else{
-            abort(404);
-        }
+        //         }elseif($note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
+
+        //             dd("Private");
+
+        //         }else{
+        //             abort(404);
+        //         }
+        //     }
+        // }else{
+        //     abort(404);
+        // }
 
 
         //visits count

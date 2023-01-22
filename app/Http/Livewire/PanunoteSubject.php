@@ -8,6 +8,7 @@ use App\Models\PanunoteNotes;
 use App\Models\PanunoteNoteLikes;
 use App\Models\PanunoteNoteVisits;
 use App\Models\PanunoteQuizzes;
+use App\Models\SubjectAccess;
 use App\Models\PanunoteSubjects;
 use App\Models\PanunoteSubjectLikes;
 use App\Models\PanunoteSubjectVisits;
@@ -310,10 +311,21 @@ class PanunoteSubject extends Component
     
                     $a = PanunoteUsers::where('user_id', $subject->user_id)->first('username');
                     return redirect()->to('/'.$a->username.'/subjects/'.$this->subject_id);
-                    
-    
+
                 }elseif($subject->subject_sharing == 0 && !empty(Auth::user()->user_id)){
-                    return dd('Private');
+
+                    $access = SubjectAccess::where('user_id', Auth::user()->user_id)
+                    ->where('subject_id', $this->subject_id)
+                    ->where('has_access', 1)->exists();
+
+                    if($access || ($subject->user_id == Auth::user()->user_id)){
+                        $a = PanunoteUsers::where('user_id', $subject->user_id)->first('username');
+                        return redirect()->to('/'.$a->username.'/subjects/'.$this->subject_id);
+                    }else{
+                        $a = PanunoteUsers::where('user_id', $subject->user_id)->first('username');
+                        return redirect()->to('request/subject/'.$this->subject_id.'');
+                    }
+                    
                 }else{
                     abort(404);
                 }

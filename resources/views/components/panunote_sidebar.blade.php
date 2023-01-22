@@ -61,9 +61,11 @@
 
             <li class="sidebar-item {{request()->is('/community') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{route('community')}}">
-                    <i class="bi bi-journal-text"></i> <span class="align-middle">Community</span>
+                    <i class="bi bi-people"></i> <span class="align-middle">Community</span>
                 </a>
             </li>
+
+
 
             {{-- <li class="sidebar-header">
                 Analytics

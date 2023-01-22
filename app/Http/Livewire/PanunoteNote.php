@@ -14,6 +14,8 @@ use App\Models\PanunoteNoteLikes;
 use App\Models\PanunoteNoteVisits;
 use App\Models\PanunoteUsers;
 use URL;
+use App\Models\NoteAccess;
+
 use GuzzleHttp\Promise;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -395,13 +397,25 @@ class PanunoteNote extends Component
 
         if(!is_null($this->note_details) && !is_null($subject)){
             if(Auth::user()->user_id != $this->note_details->user_id){
-                if($this->note_details->note_sharing == 1 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
+                if($this->note_details->note_sharing == 1 && !empty(Auth::user()->user_id)){
     
                     $a = PanunoteUsers::where('user_id', $subject->user_id)->first('username');
                     return redirect()->to('/'.$a->username.'/subjects/'.$this->subject_id.'/'.$this->note_id);
     
-                }elseif($this->note_details->note_sharing == 0 && $subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
-                    dd("Private");
+                }elseif($this->note_details->note_sharing == 0 && !empty(Auth::user()->user_id)){
+                   
+                    $access = NoteAccess::where('user_id', Auth::user()->user_id)
+                    ->where('note_id', $this->note_id)
+                    ->where('has_access', 1)->exists();
+
+                    if($access || ($this->note_details->user_id == Auth::user()->user_id)){
+                        $a = PanunoteUsers::where('user_id',   $this->note_details->user_id)->first('username');
+                        return redirect()->to('/'.$a->username.'/subjects/'.$this->subject_id.'/'.$this->note_id);
+                    }else{
+                        $a = PanunoteUsers::where('user_id',   $this->note_details->user_id)->first('username');
+                        return redirect()->to('request/note/'.$this->note_id.'');
+                    }
+           
                 }else{
                     abort(404);
                 }

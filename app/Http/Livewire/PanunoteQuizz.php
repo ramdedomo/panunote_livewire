@@ -18,6 +18,7 @@ use App\Models\PanunoteUsers;
 use App\Models\PanunoteNotes;
 use App\Models\PanunoteQuizVisits;
 use App\Models\PanunoteQuizTakes;
+use App\Models\QuizAccess;
 use URL;
 use DB;
 use Illuminate\Support\Facades\Auth;
@@ -187,7 +188,18 @@ class PanunoteQuizz extends Component
                     return redirect()->to('/'.$a->username.'/quizzes/'.$this->quiz_id);
     
                 }elseif($quiz->quiz_sharing == "0" && !empty(Auth::user()->user_id)){
-                    dd("Private");
+
+                    $access = QuizAccess::where('user_id', Auth::user()->user_id)
+                    ->where('quiz_id', $this->quiz_id)
+                    ->where('has_access', 1)->exists();
+
+                    if($access || ($quiz->user_id == Auth::user()->user_id)){
+                        $a = PanunoteUsers::where('user_id', $quiz->user_id)->first('username');
+                        return redirect()->to('/'.$a->username.'/quizzes/'.$this->quiz_id);
+                    }else{
+                        return redirect()->to('request/quiz/'.$this->quiz_id.'');
+                    }
+
                 }else{
                     abort(404);
                 }

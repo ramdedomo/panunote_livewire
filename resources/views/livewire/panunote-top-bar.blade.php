@@ -75,6 +75,7 @@
 
         </div>
     </div>
+    
 
     <script>
         document.addEventListener('livewire:load', function() {

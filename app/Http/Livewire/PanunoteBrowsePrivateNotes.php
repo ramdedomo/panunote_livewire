@@ -15,7 +15,7 @@ use App\Models\PanunoteSubjectLikes;
 use App\Models\PanunoteQuizLikes;
 use App\Models\PanunoteQuizVisits;
 use Illuminate\Support\Facades\Auth;
-class PanunoteBrowseNotes extends Component
+class PanunoteBrowsePrivateNotes extends Component
 {
     public $startDate;
     public $endDate;
@@ -158,14 +158,14 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->subject_visits_count as $visit_sub_key => $visit_sub_count){
-                if($count < 6){
+                if($count < 4){
                     $subject_visit_info = PanunoteSubjects::where('subject_id', $visit_sub_key)->first();
-                    
+                    if($subject_visit_info->subject_sharing == 1){
                         $this->topvisits[$count] = $subject_visit_info;
                         $this->topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $subject_visit_info->user_id)->get();
                         $this->topvisits[$count]['visit_count'] = $visit_sub_count;
                         $count++;
-                    
+                    }
                 }
             }
 
@@ -194,14 +194,14 @@ class PanunoteBrowseNotes extends Component
 
             $count = 0;
             foreach($this->subject_likes_count as $like_sub_key => $like_sub_count){
-                if($count < 6){
+                if($count < 4){
                     $subject_like_info = PanunoteSubjects::where('subject_id', $like_sub_key)->first();
-                   
+                    if($subject_like_info->subject_sharing == 1){
                         $this->toplikes[$count] = $subject_like_info;
                         $this->toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $subject_like_info->user_id)->get();
                         $this->toplikes[$count]['like_count'] = $like_sub_count;
                         $count++;
-                    
+                    }
                 }
             }
 
@@ -237,17 +237,17 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->note_visits_count as $visit_note_key => $visit_note_count){
-                if($count < 6){
+                if($count < 4){
                     $note_visit_info = PanunoteNotes::join('panunote_subjects', 'panunote_notes.subject_id', '=', 'panunote_subjects.subject_id')
                     ->select('panunote_notes.note_content', 'panunote_notes.updated_at', 'panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
                     ->where('note_id', $visit_note_key)
                     ->first();
-                    // if($note_visit_info->note_sharing == 1 && $note_visit_info->subject_sharing == 1){
+                    if($note_visit_info->note_sharing == 1 && $note_visit_info->subject_sharing == 1){
                         $this->note_topvisits[$count] = $note_visit_info;
                         $this->note_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $note_visit_info->user_id)->get();
                         $this->note_topvisits[$count]['visit_count'] = $visit_note_count;
                         $count++;
-                    // }
+                    }
                 }
             }
 
@@ -278,18 +278,18 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->note_likes_count as $like_note_key => $like_note_count){
-                if($count < 6){
+                if($count < 4){
                     $note_like_info = PanunoteNotes::join('panunote_subjects', 'panunote_notes.subject_id', '=', 'panunote_subjects.subject_id')
                     ->select('panunote_notes.note_content', 'panunote_notes.updated_at', 'panunote_notes.note_id','panunote_notes.subject_id', 'panunote_notes.note_title', 'panunote_notes.user_id', 'panunote_notes.note_sharing', 'panunote_subjects.subject_sharing')
                     ->where('note_id', $like_note_key)
                     ->first();
                     
-                    // if($note_like_info->note_sharing == 1 && $note_like_info->subject_sharing == 1){
+                    if($note_like_info->note_sharing == 1 && $note_like_info->subject_sharing == 1){
                         $this->note_toplikes[$count] = $note_like_info;
                         $this->note_toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $note_like_info->user_id)->get();
                         $this->note_toplikes[$count]['like_count'] = $like_note_count;
                         $count++;
-                    // }
+                    }
                 }
             }
 
@@ -324,14 +324,14 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->quiz_visits_count as $visit_quiz_key => $visit_quiz_count){
-                if($count < 6){
+                if($count < 4){
                     $quiz_visit_info = PanunoteQuizzes::where('quiz_id', $visit_quiz_key)->first();
-                    // if($quiz_visit_info->quiz_sharing == 1){
+                    if($quiz_visit_info->quiz_sharing == 1){
                         $this->quiz_topvisits[$count] = $quiz_visit_info;
                         $this->quiz_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_visit_info->user_id)->get();
                         $this->quiz_topvisits[$count]['visit_count'] = $visit_quiz_count;
                         $count++;
-                    // }
+                    }
                 }
             }
 
@@ -364,14 +364,14 @@ class PanunoteBrowseNotes extends Component
             //get subjects sorted
             $count = 0;
             foreach($this->quiz_likes_count as $like_quiz_key => $like_quiz_count){
-                if($count < 6){
+                if($count < 4){
                     $quiz_like_info = PanunoteQuizzes::where('quiz_id', $like_quiz_key)->first();
-                    // if($quiz_like_info->quiz_sharing == 1){
+                    if($quiz_like_info->quiz_sharing == 1){
                         $this->quiz_toplikes[$count] = $quiz_like_info;
                         $this->quiz_toplikes[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_like_info->user_id)->get();
                         $this->quiz_toplikes[$count]['like_count'] = $like_quiz_count;
                         $count++;
-                    // }
+                    }
                 }
             }
 
@@ -417,6 +417,6 @@ class PanunoteBrowseNotes extends Component
         ->select('panunote_users.username', 'panunote_quizzes.quiz_title', 'panunote_quizzes.user_id', 'panunote_quizzes.quiz_tags', 'panunote_quizzes.quiz_id')
         ->get();
 
-        return view('livewire.panunote-browse-notes');
+        return view('livewire.panunote-browse-private-notes');
     }
 }

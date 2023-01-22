@@ -82,7 +82,8 @@ class PanunoteNotes extends Model
     public static function search($search)
     {
         return empty($search) ? static::query()
-            : static::query()->where('panunote_notes.note_sharing', 1)
+            : static::query()
+                //->where('panunote_notes.note_sharing', 1)
                 ->where('panunote_notes.note_title', 'like', '%'.$search.'%')
                 ->orWhere(function ($query) use ($search) {
                     $query->where('panunote_notes.user_id', 'like', '%'.$search.'%')

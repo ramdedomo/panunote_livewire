@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $note_access_id
+ * @property integer $note_id
+ * @property integer $user_id
+ * @property string $created_at
+ * @property string $updated_at
+ * @property integer $has_access
+ */
+class NoteAccess extends Model
+{
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'panunote_note_access';
+
+    /**
+     * The primary key for the model.
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'note_access_id';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['note_id', 'user_id', 'created_at', 'updated_at', 'has_access'];
+}

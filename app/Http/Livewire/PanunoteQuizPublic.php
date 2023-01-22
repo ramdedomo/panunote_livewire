@@ -15,6 +15,7 @@ use App\Models\PanunoteQuizLikes;
 use App\Models\PanunoteUsers;
 use App\Models\PanunoteNotes;
 use App\Models\PanunoteQuizVisits;
+use App\Models\QuizAccess;
 use Carbon\Carbon;
 use URL;
 use DB;
@@ -52,19 +53,29 @@ class PanunoteQuizPublic extends Component
         ->where('quiz_id', $this->quiz_id)
         ->first();
 
-        if(!is_null($quiz)){
-            if(Auth::user()->user_id != $quiz->user_id){
-                if($quiz->quiz_sharing == "1" && !empty(Auth::user()->user_id)){
+        if(Panunotequizzes::find($quiz_id)->quiz_sharing == 0){
+            $exist = QuizAccess::where('quiz_id',$quiz_id)
+            ->where('user_id', Auth::user()->user_id)
+            ->where('has_access', 1)->exists();
     
-                }elseif($quiz->quiz_sharing == "0" && !empty(Auth::user()->user_id)){
-                    dd("Private");
-                }else{
-                    abort(404);
-                }
+            if(!$exist){
+                return redirect()->to('request/quiz/'.$quiz_id.'');
             }
-        }else{
-            abort(404);
         }
+
+        // if(!is_null($quiz)){
+        //     if(Auth::user()->user_id != $quiz->user_id){
+        //         if($quiz->quiz_sharing == "1" && !empty(Auth::user()->user_id)){
+    
+        //         }elseif($quiz->quiz_sharing == "0" && !empty(Auth::user()->user_id)){
+        //             dd("Private");
+        //         }else{
+        //             abort(404);
+        //         }
+        //     }
+        // }else{
+        //     abort(404);
+        // }
 
         //visits count
         //check if exists

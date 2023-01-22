@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $quiz_access_id
+ * @property integer $quiz_id
+ * @property integer $user_id
+ * @property string $created_at
+ * @property string $updated_at
+ * @property integer $has_access
+ */
+class QuizAccess extends Model
+{
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'panunote_quiz_access';
+
+    /**
+     * The primary key for the model.
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'quiz_access_id';
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['quiz_id', 'user_id', 'created_at', 'updated_at', 'has_access'];
+}

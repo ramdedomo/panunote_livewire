@@ -14,6 +14,7 @@ use App\Models\PanunoteSubjectLikes;
 use App\Models\PanunoteUsers;
 use App\Models\PanunoteSubjectVisits;
 use Carbon\Carbon;
+use App\Models\SubjectAccess;
 use URL;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -29,19 +30,29 @@ class PanunoteSubjectPublic extends Component
 
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
 
-        if(!is_null($subject)){
-            if(Auth::user()->user_id != $subject->user_id){
-                if($subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
-
-                }elseif($subject->subject_sharing == 0 && !empty(Auth::user()->user_id)){
-                    return dd('Private');
-                }else{
-                    abort(404);
-                }
+        if(PanunoteSubjects::find($subject_id)->subject_sharing == 0){
+            $exist = SubjectAccess::where('subject_id',$subject_id)
+            ->where('user_id', Auth::user()->user_id)
+            ->where('has_access', 1)->exists();
+    
+            if(!$exist){
+                return redirect()->to('request/subject/'.$subject_id.'');
             }
-        }else{
-            abort(404);
         }
+
+        // if(!is_null($subject)){
+        //     if(Auth::user()->user_id != $subject->user_id){
+        //         if($subject->subject_sharing == 1 && !empty(Auth::user()->user_id)){
+
+        //         }elseif($subject->subject_sharing == 0 && !empty(Auth::user()->user_id)){
+        //             return dd('Private');
+        //         }else{
+        //             abort(404);
+        //         }
+        //     }
+        // }else{
+        //     abort(404);
+        // }
 
         //visits count
         //check if exists
@@ -130,9 +141,8 @@ class PanunoteSubjectPublic extends Component
     public function render()
     {
         $subject = PanunoteSubjects::where('subject_id', $this->subject_id)->first();
-
         $note_list = PanunoteNotes::where('subject_id', $this->subject_id)
-            ->where('note_sharing', 1)
+            // ->where('note_sharing', 1)
             ->get();
 
         return view('livewire.public.panunote-subject-public', ['notes' => $note_list, 'subject_details' => $subject]);
