@@ -328,7 +328,7 @@ class PanunoteBrowseNotes extends Component
                     $quiz_visit_info = PanunoteQuizzes::where('quiz_id', $visit_quiz_key)->first();
                     if($quiz_visit_info->quiz_sharing == 1){
                         $this->quiz_topvisits[$count] = $quiz_visit_info;
-                        $this->quiz_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_visit_info->user_id)->first();
+                        $this->quiz_topvisits[$count]['user_info'] = PanunoteUsers::where('user_id', $quiz_visit_info->user_id)->get();
                         $this->quiz_topvisits[$count]['visit_count'] = $visit_quiz_count;
                         $count++;
                     }
