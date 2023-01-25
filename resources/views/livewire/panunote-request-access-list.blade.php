@@ -59,7 +59,7 @@
                                         <tr> 
                                             <td>{{ $subject->subject_name }}</td>
                                             <td>{{ $subject->username }}</td>
-                                            <td>{{ date_format(Carbon\Carbon::parse($subject->created_at), 'm/d h:i A') }}
+                                            <td>{{ date_format(Carbon\Carbon::parse($subject->requested_date), 'm/d h:i A') }}
                                             </td>
                                             <td>
                                                 <div class="form-check form-switch">
@@ -109,7 +109,7 @@
                                         <tr>
                                             <td>{{ $note->note_title }}</td>
                                             <td>{{ $note->username }}</td>
-                                            <td>{{ date_format(Carbon\Carbon::parse($note->created_at), 'm/d h:i A') }}
+                                            <td>{{ date_format(Carbon\Carbon::parse($note->requested_date), 'm/d h:i A') }}
                                             </td>
                                             <td>
                                                 <div class="form-check form-switch">
@@ -160,7 +160,7 @@
                                         <tr>
                                             <td>{{ $quiz->quiz_title }}</td>
                                             <td>{{ $quiz->username }}</td>
-                                            <td>{{ date_format(Carbon\Carbon::parse($quiz->created_at), 'm/d h:i A') }}
+                                            <td>{{ date_format(Carbon\Carbon::parse($quiz->requested_date), 'm/d h:i A') }}
                                             </td>
                                             <td>
                                                 <div class="form-check form-switch">

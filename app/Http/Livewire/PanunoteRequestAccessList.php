@@ -66,9 +66,10 @@ class PanunoteRequestAccessList extends Component
         ->when(!empty($this->date), function ($query) {
             $query->whereBetween('panunote_subject_access.created_at', [Carbon::parse($this->date)->startOfDay(), Carbon::parse($this->date)->endOfDay()]);
         })
+        ->select('panunote_subjects.*','panunote_users.*','panunote_subject_access.*','panunote_subject_access.created_at AS requested_date')
         ->paginate(8, ['*'], 'subjects');
         
-
+        
         $note_access = NoteAccess::when(empty($this->search), function ($query) {
             $query->whereIn('panunote_note_access.note_id', $this->notes);
         })
@@ -81,6 +82,7 @@ class PanunoteRequestAccessList extends Component
         })
         ->join('panunote_users', 'panunote_note_access.user_id', 'panunote_users.user_id')
         ->join('panunote_notes', 'panunote_note_access.note_id', 'panunote_notes.note_id')
+        ->select('panunote_notes.*','panunote_users.*','panunote_note_access.*','panunote_note_access.created_at AS requested_date')
         ->paginate(8, ['*'], 'notes');
 
 
@@ -96,6 +98,7 @@ class PanunoteRequestAccessList extends Component
         })
         ->join('panunote_users', 'panunote_quiz_access.user_id', 'panunote_users.user_id')
         ->join('panunote_quizzes', 'panunote_quiz_access.quiz_id', 'panunote_quizzes.quiz_id')
+        ->select('panunote_quizzes.*','panunote_users.*','panunote_quiz_access.*','panunote_quiz_access.created_at AS requested_date')
         ->paginate(8, ['*'], 'quizzes');
 
 
