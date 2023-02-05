@@ -28,7 +28,7 @@ class FirebaseController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|exists:panunote_users,email',
+            'email' => 'required|email|unique:panunote_users,email',
             'password' => 'required|confirmed|min:6',
         ],[
             'email.exists' => 'This :attribute is already Registered and Verified.'
