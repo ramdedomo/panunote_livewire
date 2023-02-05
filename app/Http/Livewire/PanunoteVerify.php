@@ -68,7 +68,7 @@ class PanunoteVerify extends Component
     public function sendcode(){
 
         $this->validate([
-            'email' => 'required|email|exists:panunote_users,email,isverified,0',
+            'email' => 'required|email|unique:panunote_users,email',
         ],[
             'email.exists' => 'This :attribute is already Registered and Verified.'
         ]);
