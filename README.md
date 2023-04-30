@@ -1,64 +1,54 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<div align="center">
+  <div style="display: flex;  align-items: center;">
+        <img src="https://raw.githubusercontent.com/ramdedomo/panunote_livewire/master/public/img/logos/panunote_logo.png" width="400">
+        <img src="https://github.com/ramdedomo/panunote_livewire/blob/master/public/img/logos/panugame_logo.png" width="420">
+  </div>
+</div>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About Panunote
 
-## About Laravel
+PanuNote is useful for students, especially those 
+who frequently take notes in class and convert them into quizzes as it can help in 
+predicting the kind of questions that the instructors might ask during a test. The findings 
+indicate that the PanuNote can improve students' memory retention, particularly for those 
+students who regularly have tests.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Note-to-quiz generation. Using machine learning, the system would convert 
+notes into quizzes with the option for the user to select the quiz type (e.g., multiple choice 
+and other types of questions).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- OCR (Optical Character Recognition) where users could scan printed documents and convert them to 
+notes.
 
-## Learning Laravel
+- Quiz bank. The quiz bank would store fifty (50) quizzes created, making it 
+possible to use them repeatedly.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Gamification. This feature enables users to create or join a single room in which
+they could compete with other users through quizzes.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Subject Management. This allows users to add, edit and delete subjects in the
+application.
 
-## Laravel Sponsors
+- Add to Favorite. Users could use the ‘add to favorite’ feature to save their 
+favorite subjects, notes, and quizzes.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Share Resources. Allow users to publicly share their subjects, notes, and quizzes
+with other users.
 
-### Premium Partners
+- Dictionary. The application have a monolingual dictionary (English Dictionary) 
+available for quick access if the user comes across a word that is difficult to understand.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- Paraphraser. This feature allows users to clarify the message of their note.
 
-## Contributing
+- Panunote Community. Share your subjects, quizzes and notes to other learners.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+### Stack Used
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **[Bootstrap](https://getbootstrap.com/)**
+- **[AlpineJS](https://alpinejs.dev/)**
+- **[Laravel](https://laravel.com/)**
+- **[Livewire](https://laravel-livewire.com/)**
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
