@@ -1,11 +1,8 @@
 <div align="center">
-  <div style="display: flex;  align-items: center;">
-        <img src="https://raw.githubusercontent.com/ramdedomo/panunote_livewire/master/public/img/logos/panunote_logo.png" width="400">
-        <img src="https://github.com/ramdedomo/panunote_livewire/blob/master/public/img/logos/panugame_logo.png" width="420">
-  </div>
+       <img src="https://raw.githubusercontent.com/ramdedomo/panunote_livewire/master/public/img/logos/panunote_logo.png" width="400">
 </div>
 
-## About Panunote
+## Panunote
 
 PanuNote is useful for students, especially those 
 who frequently take notes in class and convert them into quizzes as it can help in 
